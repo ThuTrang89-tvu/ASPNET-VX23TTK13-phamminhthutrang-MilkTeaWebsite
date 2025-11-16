@@ -145,35 +145,49 @@ namespace MilkTeaWebsite.DAL.Migrations
                             Id = 1,
                             CategoryName = "Trà Sữa Truyền Thống",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Các loại trà sữa truyền thống",
+                            Description = "Trà sữa được pha chế theo công thức truyền thống",
                             DisplayOrder = 1,
+                            ImageUrl = "/images/categories/tra-sua-truyen-thong.jpg",
                             IsDeleted = false
                         },
                         new
                         {
                             Id = 2,
-                            CategoryName = "Trà Trái Cây",
+                            CategoryName = "Trà Sữa Trái Cây",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Trà kết hợp trái cây tươi",
+                            Description = "Trà sữa kết hợp với các loại trái cây tươi ngon",
                             DisplayOrder = 2,
+                            ImageUrl = "/images/categories/tra-sua-trai-cay.jpg",
                             IsDeleted = false
                         },
                         new
                         {
                             Id = 3,
-                            CategoryName = "Trà Sữa Đặc Biệt",
+                            CategoryName = "Trà Trái Cây",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Các món trà sữa đặc biệt",
+                            Description = "Trà thanh mát với trái cây tươi",
                             DisplayOrder = 3,
+                            ImageUrl = "/images/categories/tra-trai-cay.jpg",
                             IsDeleted = false
                         },
                         new
                         {
                             Id = 4,
-                            CategoryName = "Topping",
+                            CategoryName = "Coffee",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Các loại topping",
+                            Description = "Các loại cà phê đặc biệt",
                             DisplayOrder = 4,
+                            ImageUrl = "/images/categories/coffee.jpg",
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryName = "Đồ Ăn Vặt",
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Các món ăn vặt ngon miệng",
+                            DisplayOrder = 5,
+                            ImageUrl = "/images/categories/do-an-vat.jpg",
                             IsDeleted = false
                         });
                 });
@@ -274,6 +288,30 @@ namespace MilkTeaWebsite.DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Department = "Management",
+                            FullName = "Nguyễn Văn Admin",
+                            IsDeleted = false,
+                            Position = "Manager",
+                            Salary = 20000000m,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Department = "Sales",
+                            FullName = "Trần Thị Staff",
+                            IsDeleted = false,
+                            Position = "Staff",
+                            Salary = 12000000m,
+                            UserId = 2
+                        });
                 });
 
             modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.Order", b =>
@@ -502,6 +540,227 @@ namespace MilkTeaWebsite.DAL.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Trà sữa được pha chế theo công thức truyền thống, hương vị đậm đà",
+                            ImageUrl = "/images/products/tra-sua-truyen-thong.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 35000m,
+                            ProductName = "Trà Sữa Truyền Thống",
+                            Size = "M, L",
+                            StockQuantity = 100,
+                            Topping = "Trân châu, Thạch, Pudding"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Trà sữa pha với socola nguyên chất, béo ngậy",
+                            ImageUrl = "/images/products/tra-sua-socola.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 40000m,
+                            ProductName = "Trà Sữa Socola",
+                            Size = "M, L",
+                            StockQuantity = 80,
+                            Topping = "Trân châu, Thạch, Pudding"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 1,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Trà sữa matcha Nhật Bản thơm ngon, đậm vị trà xanh",
+                            ImageUrl = "/images/products/tra-sua-matcha.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 45000m,
+                            ProductName = "Trà Sữa Matcha",
+                            Size = "M, L",
+                            StockQuantity = 90,
+                            Topping = "Trân châu, Thạch, Pudding"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 2,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Trà sữa kết hợp với dâu tây tươi ngon",
+                            ImageUrl = "/images/products/tra-sua-dau-tay.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 42000m,
+                            ProductName = "Trà Sữa Dâu Tây",
+                            Size = "M, L",
+                            StockQuantity = 75,
+                            Topping = "Trân châu, Thạch dâu, Pudding"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 2,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Trà sữa xoài thơm ngon, vị ngọt dịu",
+                            ImageUrl = "/images/products/tra-sua-xoai.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 40000m,
+                            ProductName = "Trà Sữa Xoài",
+                            Size = "M, L",
+                            StockQuantity = 85,
+                            Topping = "Trân châu, Thạch xoài, Pudding"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 2,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Trà sữa đào ngọt thanh, tươi mát",
+                            ImageUrl = "/images/products/tra-sua-dao.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 42000m,
+                            ProductName = "Trà Sữa Đào",
+                            Size = "M, L",
+                            StockQuantity = 70,
+                            Topping = "Trân châu, Thạch đào, Pudding"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 3,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Trà đào cam sả thơm ngon, giải nhiệt",
+                            ImageUrl = "/images/products/tra-dao-cam-sa.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 38000m,
+                            ProductName = "Trà Đào Cam Sả",
+                            Size = "M, L",
+                            StockQuantity = 95,
+                            Topping = "Thạch, Trái cây"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 3,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Trà chanh leo chua ngọt, thanh mát",
+                            ImageUrl = "/images/products/tra-chanh-leo.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 35000m,
+                            ProductName = "Trà Chanh Leo",
+                            Size = "M, L",
+                            StockQuantity = 100,
+                            Topping = "Thạch, Trái cây"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 3,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Trà vải thơm ngon, ngọt dịu",
+                            ImageUrl = "/images/products/tra-vai.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 36000m,
+                            ProductName = "Trà Vải",
+                            Size = "M, L",
+                            StockQuantity = 88,
+                            Topping = "Thạch vải, Trái cây"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 4,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Cà phê sữa đá truyền thống Việt Nam",
+                            ImageUrl = "/images/products/ca-phe-sua-da.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 30000m,
+                            ProductName = "Cà Phê Sữa Đá",
+                            Size = "M, L",
+                            StockQuantity = 120,
+                            Topping = "Shot thêm"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryId = 4,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Cà phê sữa nhẹ nhàng, ngọt dịu",
+                            ImageUrl = "/images/products/bac-xiu.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 32000m,
+                            ProductName = "Bạc Xỉu",
+                            Size = "M, L",
+                            StockQuantity = 110,
+                            Topping = "Shot thêm"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CategoryId = 4,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Cà phê Cappuccino thơm ngon kiểu Ý",
+                            ImageUrl = "/images/products/cappuccino.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 45000m,
+                            ProductName = "Cappuccino",
+                            Size = "M, L",
+                            StockQuantity = 65,
+                            Topping = "Shot thêm"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CategoryId = 5,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Bánh flan mềm mịn, ngọt dịu",
+                            ImageUrl = "/images/products/banh-flan.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 15000m,
+                            ProductName = "Bánh Flan",
+                            StockQuantity = 50
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CategoryId = 5,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Bánh bông lan phô mai trứng muối thơm ngon",
+                            ImageUrl = "/images/products/banh-bong-lan.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 25000m,
+                            ProductName = "Bánh Bông Lan Trứng Muối",
+                            StockQuantity = 40
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CategoryId = 5,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Khoai lang kén giòn tan, thơm ngon",
+                            ImageUrl = "/images/products/khoai-lang-ken.jpg",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            Price = 20000m,
+                            ProductName = "Khoai Lang Kén",
+                            StockQuantity = 60
+                        });
                 });
 
             modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.Role", b =>
@@ -549,9 +808,9 @@ namespace MilkTeaWebsite.DAL.Migrations
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Employee",
+                            Description = "Staff member",
                             IsDeleted = false,
-                            RoleName = "Employee"
+                            RoleName = "Staff"
                         },
                         new
                         {
@@ -616,6 +875,30 @@ namespace MilkTeaWebsite.DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Email = "admin@milktea.com",
+                            IsDeleted = false,
+                            PasswordHash = "$2a$11$33KxIZkVa3ixVHvGUwluSOwDg73KWZwKebIemMP7NvXy2Pnzg92Yi",
+                            PhoneNumber = "0123456789",
+                            RoleId = 1,
+                            Username = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Email = "staff01@milktea.com",
+                            IsDeleted = false,
+                            PasswordHash = "$2a$11$3pJRfnggMMl4F5lBO6hPXOgSNcSxAqtbx51q7npi2dWnY5RLs1wma",
+                            PhoneNumber = "0987654321",
+                            RoleId = 2,
+                            Username = "staff01"
+                        });
                 });
 
             modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.Cart", b =>

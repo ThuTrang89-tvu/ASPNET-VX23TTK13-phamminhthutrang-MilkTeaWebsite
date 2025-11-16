@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MilkTeaWebsite.Entity.Entity;
+using MilkTeaWebsite.DAL.Seed;
 
 namespace MilkTeaWebsite.DAL.Context
 {
@@ -204,27 +205,7 @@ namespace MilkTeaWebsite.DAL.Context
             });
 
             // Seed initial data
-            SeedData(modelBuilder);
-        }
-
-        private void SeedData(ModelBuilder modelBuilder)
-        {
-            var seedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            
-            // Seed Roles
-            modelBuilder.Entity<Role>().HasData(
-                new Role { Id = 1, RoleName = "Admin", Description = "Administrator", CreatedAt = seedDate },
-                new Role { Id = 2, RoleName = "Employee", Description = "Employee", CreatedAt = seedDate },
-                new Role { Id = 3, RoleName = "Customer", Description = "Customer", CreatedAt = seedDate }
-            );
-
-            // Seed Categories
-            modelBuilder.Entity<Category>().HasData(
-                new Category { Id = 1, CategoryName = "Trà Sữa Truyền Thống", Description = "Các loại trà sữa truyền thống", DisplayOrder = 1, CreatedAt = seedDate },
-                new Category { Id = 2, CategoryName = "Trà Trái Cây", Description = "Trà kết hợp trái cây tươi", DisplayOrder = 2, CreatedAt = seedDate },
-                new Category { Id = 3, CategoryName = "Trà Sữa Đặc Biệt", Description = "Các món trà sữa đặc biệt", DisplayOrder = 3, CreatedAt = seedDate },
-                new Category { Id = 4, CategoryName = "Topping", Description = "Các loại topping", DisplayOrder = 4, CreatedAt = seedDate }
-            );
+            modelBuilder.SeedData();
         }
     }
 }

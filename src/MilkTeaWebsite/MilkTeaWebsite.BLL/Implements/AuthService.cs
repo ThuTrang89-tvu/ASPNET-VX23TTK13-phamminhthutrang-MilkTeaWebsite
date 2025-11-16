@@ -2,9 +2,8 @@ using MilkTeaWebsite.BLL.Interfaces;
 using MilkTeaWebsite.DAL.Interfaces;
 using MilkTeaWebsite.Entity.Entity;
 using System;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
+using BCrypt.Net;
 
 namespace MilkTeaWebsite.BLL.Implements
 {
@@ -91,14 +90,15 @@ namespace MilkTeaWebsite.BLL.Implements
 
         public string HashPassword(string password)
         {
-            using var sha256 = SHA256.Create();
-            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(bytes);
+            // Use BCrypt to hash passwords securely
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
         public bool VerifyPassword(string password, string passwordHash)
         {
-            return HashPassword(password) == passwordHash;
+            if (string.IsNullOrEmpty(passwordHash))
+                return false;
+            return BCrypt.Net.BCrypt.Verify(password, passwordHash);
         }
     }
 }
