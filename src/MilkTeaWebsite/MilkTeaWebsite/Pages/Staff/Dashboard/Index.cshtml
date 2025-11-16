@@ -1,0 +1,154 @@
+@page
+@model MilkTeaWebsite.Pages.Staff.Dashboard.IndexModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<h2 class="mb-4"><i class="fas fa-chart-line"></i> Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Đơn hàng mới</h6>
+                        <h3 class="mb-0">@Model.PendingOrdersCount</h3>
+                    </div>
+                    <i class="fas fa-shopping-cart fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Đang xử lý</h6>
+                        <h3 class="mb-0">@Model.ProcessingOrdersCount</h3>
+                    </div>
+                    <i class="fas fa-clock fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Hoàn thành hôm nay</h6>
+                        <h3 class="mb-0">@Model.CompletedTodayCount</h3>
+                    </div>
+                    <i class="fas fa-check-circle fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Doanh thu hôm nay</h6>
+                        <h3 class="mb-0">@Model.TodayRevenue.ToString("N0")</h3>
+                    </div>
+                    <i class="fas fa-dollar-sign fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-list"></i> Đơn hàng gần đây</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.RecentOrders != null && Model.RecentOrders.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn</th>
+                                    <th>Khách hàng</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var order in Model.RecentOrders)
+                                {
+                                    <tr>
+                                        <td>@order.OrderNumber</td>
+                                        <td>@order.Customer?.FullName</td>
+                                        <td>@order.TotalAmount.ToString("N0") đ</td>
+                                        <td>
+                                            @switch (order.OrderStatus)
+                                            {
+                                                case "Pending":
+                                                    <span class="badge bg-warning">Chờ xử lý</span>
+                                                    break;
+                                                case "Confirmed":
+                                                    <span class="badge bg-info">Đã xác nhận</span>
+                                                    break;
+                                                case "Preparing":
+                                                    <span class="badge bg-primary">Đang chuẩn bị</span>
+                                                    break;
+                                                default:
+                                                    <span class="badge bg-secondary">@order.OrderStatus</span>
+                                                    break;
+                                            }
+                                        </td>
+                                        <td>
+                                            <a asp-page="/Staff/Orders/Detail" asp-route-id="@order.Id" 
+                                               class="btn btn-sm btn-primary">
+                                                Chi tiết
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted text-center">Chưa có đơn hàng nào</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-exclamation-triangle"></i> Sản phẩm sắp hết</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.LowStockProducts != null && Model.LowStockProducts.Any())
+                {
+                    <ul class="list-group list-group-flush">
+                        @foreach (var product in Model.LowStockProducts)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                @product.ProductName
+                                <span class="badge bg-danger rounded-pill">@product.StockQuantity</span>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="text-muted text-center">Tất cả sản phẩm đều còn đủ</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

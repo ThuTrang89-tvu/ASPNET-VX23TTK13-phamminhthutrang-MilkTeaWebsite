@@ -1,0 +1,127 @@
+@page
+@model MilkTeaWebsite.Pages.Customer.Orders.CheckoutModel
+@{
+    ViewData["Title"] = "Thanh toán";
+    Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4"><i class="fas fa-credit-card"></i> Thanh toán đơn hàng</h2>
+
+    @if (Model.Cart?.CartItems != null && Model.Cart.CartItems.Any())
+    {
+        <form method="post">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5><i class="fas fa-user"></i> Thông tin người nhận</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Họ và tên *</label>
+                                <input asp-for="CustomerName" class="form-control" readonly />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Số điện thoại *</label>
+                                <input asp-for="PhoneNumber" class="form-control" readonly />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Địa chỉ giao hàng *</label>
+                                <textarea asp-for="ShippingAddress" class="form-control" rows="3" required></textarea>
+                                <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ghi chú</label>
+                                <textarea asp-for="Note" class="form-control" rows="2" 
+                                          placeholder="Ghi chú thêm về đơn hàng (tùy chọn)"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5><i class="fas fa-list"></i> Chi tiết đơn hàng</h5>
+                        </div>
+                        <div class="card-body">
+                            @foreach (var item in Model.Cart.CartItems)
+                            {
+                                <div class="d-flex justify-content-between mb-2">
+                                    <div>
+                                        <strong>@item.Product?.ProductName</strong>
+                                        <small class="text-muted d-block">
+                                            x@item.Quantity
+                                            @if (!string.IsNullOrEmpty(item.Size))
+                                            {
+                                                <span> - Size: @item.Size</span>
+                                            }
+                                        </small>
+                                    </div>
+                                    <span>@((item.UnitPrice * item.Quantity).ToString("N0")) đ</span>
+                                </div>
+                            }
+                            <hr>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Tạm tính:</span>
+                                <span>@Model.TotalAmount.ToString("N0") đ</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Phí vận chuyển:</span>
+                                <span>30,000 đ</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between mb-3">
+                                <strong>Tổng cộng:</strong>
+                                <strong class="text-primary fs-5">@((Model.TotalAmount + 30000).ToString("N0")) đ</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5><i class="fas fa-money-bill"></i> Phương thức thanh toán</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="paymentMethod" 
+                                       id="cod" value="COD" checked>
+                                <label class="form-check-label" for="cod">
+                                    <i class="fas fa-truck"></i> Thanh toán khi nhận hàng (COD)
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="paymentMethod" 
+                                       id="bank" value="Bank">
+                                <label class="form-check-label" for="bank">
+                                    <i class="fas fa-university"></i> Chuyển khoản ngân hàng
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-check"></i> Đặt hàng
+                        </button>
+                        <a asp-page="/Customer/Cart/Index" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Quay lại giỏ hàng
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i> Giỏ hàng của bạn đang trống
+        </div>
+        <a asp-page="/Customer/Products/Index" class="btn btn-primary">Quay lại mua hàng</a>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

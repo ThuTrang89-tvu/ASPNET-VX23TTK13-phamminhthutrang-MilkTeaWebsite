@@ -1,0 +1,129 @@
+@page
+@model MilkTeaWebsite.Pages.Staff.Orders.IndexModel
+@{
+    ViewData["Title"] = "Quản lý đơn hàng";
+    Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<h2 class="mb-4"><i class="fas fa-receipt"></i> Quản lý đơn hàng</h2>
+
+<!-- Status Filter -->
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="btn-group" role="group">
+            <a asp-page="/Staff/Orders/Index" class="btn btn-outline-primary @(string.IsNullOrEmpty(Model.StatusFilter) ? "active" : "")">
+                Tất cả
+            </a>
+            <a asp-page="/Staff/Orders/Index" asp-route-status="Pending" 
+               class="btn btn-outline-warning @(Model.StatusFilter == "Pending" ? "active" : "")">
+                Chờ xác nhận
+            </a>
+            <a asp-page="/Staff/Orders/Index" asp-route-status="Confirmed" 
+               class="btn btn-outline-info @(Model.StatusFilter == "Confirmed" ? "active" : "")">
+                Đã xác nhận
+            </a>
+            <a asp-page="/Staff/Orders/Index" asp-route-status="Preparing" 
+               class="btn btn-outline-primary @(Model.StatusFilter == "Preparing" ? "active" : "")">
+                Đang chuẩn bị
+            </a>
+            <a asp-page="/Staff/Orders/Index" asp-route-status="Shipping" 
+               class="btn btn-outline-primary @(Model.StatusFilter == "Shipping" ? "active" : "")">
+                Đang giao
+            </a>
+            <a asp-page="/Staff/Orders/Index" asp-route-status="Completed" 
+               class="btn btn-outline-success @(Model.StatusFilter == "Completed" ? "active" : "")">
+                Hoàn thành
+            </a>
+            <a asp-page="/Staff/Orders/Index" asp-route-status="Cancelled" 
+               class="btn btn-outline-danger @(Model.StatusFilter == "Cancelled" ? "active" : "")">
+                Đã hủy
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Orders Table -->
+<div class="card">
+    <div class="card-body">
+        @if (Model.Orders != null && Model.Orders.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Mã đơn hàng</th>
+                            <th>Khách hàng</th>
+                            <th>Ngày đặt</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model.Orders)
+                        {
+                            <tr>
+                                <td><strong>@order.OrderNumber</strong></td>
+                                <td>
+                                    @order.Customer?.FullName<br>
+                                    <small class="text-muted">@order.Customer?.User?.PhoneNumber</small>
+                                </td>
+                                <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td class="fw-bold text-primary">@order.TotalAmount.ToString("N0") đ</td>
+                                <td>
+                                    @switch (order.OrderStatus)
+                                    {
+                                        case "Pending":
+                                            <span class="badge bg-warning">Chờ xác nhận</span>
+                                            break;
+                                        case "Confirmed":
+                                            <span class="badge bg-info">Đã xác nhận</span>
+                                            break;
+                                        case "Preparing":
+                                            <span class="badge bg-primary">Đang chuẩn bị</span>
+                                            break;
+                                        case "Shipping":
+                                            <span class="badge bg-primary">Đang giao</span>
+                                            break;
+                                        case "Completed":
+                                            <span class="badge bg-success">Hoàn thành</span>
+                                            break;
+                                        case "Cancelled":
+                                            <span class="badge bg-danger">Đã hủy</span>
+                                            break;
+                                        default:
+                                            <span class="badge bg-secondary">@order.OrderStatus</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-page="/Staff/Orders/Detail" asp-route-id="@order.Id" 
+                                       class="btn btn-sm btn-primary">
+                                        <i class="fas fa-eye"></i> Chi tiết
+                                    </a>
+                                    @if (order.OrderStatus == "Pending")
+                                    {
+                                        <form method="post" asp-page-handler="UpdateStatus" class="d-inline">
+                                            <input type="hidden" name="orderId" value="@order.Id" />
+                                            <input type="hidden" name="newStatus" value="Confirmed" />
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <i class="fas fa-check"></i> Xác nhận
+                                            </button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+                <p class="text-muted">Không có đơn hàng nào</p>
+            </div>
+        }
+    </div>
+</div>

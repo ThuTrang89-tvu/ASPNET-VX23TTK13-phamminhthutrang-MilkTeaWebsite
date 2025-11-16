@@ -1,0 +1,112 @@
+@page
+@model MilkTeaWebsite.Pages.Customer.Cart.IndexModel
+@{
+    ViewData["Title"] = "Giỏ hàng";
+    Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4"><i class="fas fa-shopping-cart"></i> Giỏ hàng của bạn</h2>
+
+    @if (Model.Cart?.CartItems != null && Model.Cart.CartItems.Any())
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        @foreach (var item in Model.Cart.CartItems)
+                        {
+                            <div class="row mb-3 pb-3 border-bottom">
+                                <div class="col-md-2">
+                                    <img src="@(string.IsNullOrEmpty(item.Product?.ImageUrl) ? "/images/no-image.jpg" : item.Product.ImageUrl)" 
+                                         class="img-fluid rounded" alt="@item.Product?.ProductName">
+                                </div>
+                                <div class="col-md-4">
+                                    <h6>@item.Product?.ProductName</h6>
+                                    <small class="text-muted">
+                                        @if (!string.IsNullOrEmpty(item.Size))
+                                        {
+                                            <span>Size: @item.Size</span><br>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.Topping))
+                                        {
+                                            <span>Topping: @item.Topping</span><br>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.Note))
+                                        {
+                                            <span>Ghi chú: @item.Note</span>
+                                        }
+                                    </small>
+                                </div>
+                                <div class="col-md-2">
+                                    <p class="fw-bold">@item.UnitPrice.ToString("N0") đ</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <form method="post" asp-page-handler="UpdateQuantity">
+                                        <input type="hidden" name="cartItemId" value="@item.Id" />
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" name="quantity" value="@item.Quantity" 
+                                                   min="1" class="form-control" onchange="this.form.submit()" />
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-2 text-end">
+                                    <p class="fw-bold text-primary">@((item.UnitPrice * item.Quantity).ToString("N0")) đ</p>
+                                    <form method="post" asp-page-handler="Remove">
+                                        <input type="hidden" name="cartItemId" value="@item.Id" />
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Tổng đơn hàng</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Tạm tính:</span>
+                            <span>@Model.TotalAmount.ToString("N0") đ</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Phí vận chuyển:</span>
+                            <span>30,000 đ</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-3">
+                            <strong>Tổng cộng:</strong>
+                            <strong class="text-primary">@((Model.TotalAmount + 30000).ToString("N0")) đ</strong>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <a asp-page="/Customer/Orders/Checkout" class="btn btn-primary btn-lg">
+                                <i class="fas fa-credit-card"></i> Thanh toán
+                            </a>
+                            <a asp-page="/Customer/Products/Index" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Tiếp tục mua hàng
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <i class="fas fa-shopping-cart fa-5x text-muted mb-3"></i>
+            <h4>Giỏ hàng trống</h4>
+            <p class="text-muted">Bạn chưa có sản phẩm nào trong giỏ hàng</p>
+            <a asp-page="/Customer/Products/Index" class="btn btn-primary">
+                <i class="fas fa-shopping-bag"></i> Mua sắm ngay
+            </a>
+        </div>
+    }
+</div>

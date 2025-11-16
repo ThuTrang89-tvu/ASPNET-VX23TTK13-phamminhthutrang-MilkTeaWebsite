@@ -1,0 +1,173 @@
+@page
+@model MilkTeaWebsite.Pages.Staff.Orders.DetailModel
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+    Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<h2 class="mb-4"><i class="fas fa-receipt"></i> Chi tiết đơn hàng</h2>
+
+@if (Model.Order != null)
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5>Thông tin đơn hàng</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-4"><strong>Mã đơn hàng:</strong></div>
+                        <div class="col-8">@Model.Order.OrderNumber</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4"><strong>Khách hàng:</strong></div>
+                        <div class="col-8">
+                            @Model.Order.Customer?.FullName<br>
+                            <small class="text-muted">SĐT: @Model.Order.Customer?.User?.PhoneNumber</small>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4"><strong>Ngày đặt:</strong></div>
+                        <div class="col-8">@Model.Order.OrderDate.ToString("dd/MM/yyyy HH:mm")</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4"><strong>Địa chỉ giao hàng:</strong></div>
+                        <div class="col-8">@Model.Order.ShippingAddress</div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Order.Note))
+                    {
+                        <div class="row mb-2">
+                            <div class="col-4"><strong>Ghi chú:</strong></div>
+                            <div class="col-8">@Model.Order.Note</div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5>Chi tiết sản phẩm</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Đơn giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Order.OrderDetails)
+                                {
+                                    <tr>
+                                        <td>
+                                            <strong>@item.Product?.ProductName</strong>
+                                            @if (!string.IsNullOrEmpty(item.Size))
+                                            {
+                                                <br><small class="text-muted">Size: @item.Size</small>
+                                            }
+                                            @if (!string.IsNullOrEmpty(item.Topping))
+                                            {
+                                                <br><small class="text-muted">Topping: @item.Topping</small>
+                                            }
+                                        </td>
+                                        <td>@item.UnitPrice.ToString("N0") đ</td>
+                                        <td>@item.Quantity</td>
+                                        <td class="fw-bold">@((item.UnitPrice * item.Quantity).ToString("N0")) đ</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-end"><strong>Tổng cộng:</strong></td>
+                                    <td class="fw-bold text-primary fs-5">@Model.Order.TotalAmount.ToString("N0") đ</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Cập nhật trạng thái</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Trạng thái hiện tại:</strong></p>
+                    <p class="mb-3">
+                        @switch (Model.Order.OrderStatus)
+                        {
+                            case "Pending":
+                                <span class="badge bg-warning">Chờ xác nhận</span>
+                                break;
+                            case "Confirmed":
+                                <span class="badge bg-info">Đã xác nhận</span>
+                                break;
+                            case "Preparing":
+                                <span class="badge bg-primary">Đang chuẩn bị</span>
+                                break;
+                            case "Shipping":
+                                <span class="badge bg-primary">Đang giao</span>
+                                break;
+                            case "Completed":
+                                <span class="badge bg-success">Hoàn thành</span>
+                                break;
+                            case "Cancelled":
+                                <span class="badge bg-danger">Đã hủy</span>
+                                break;
+                        }
+                    </p>
+
+                    @if (Model.Order.OrderStatus != "Completed" && Model.Order.OrderStatus != "Cancelled")
+                    {
+                        <form method="post" asp-page-handler="UpdateStatus">
+                            <input type="hidden" name="orderId" value="@Model.Order.Id" />
+                            <div class="mb-3">
+                                <label class="form-label">Chuyển sang trạng thái:</label>
+                                <select name="newStatus" class="form-select" required>
+                                    @if (Model.Order.OrderStatus == "Pending")
+                                    {
+                                        <option value="Confirmed">Xác nhận đơn</option>
+                                        <option value="Cancelled">Hủy đơn</option>
+                                    }
+                                    else if (Model.Order.OrderStatus == "Confirmed")
+                                    {
+                                        <option value="Preparing">Đang chuẩn bị</option>
+                                        <option value="Cancelled">Hủy đơn</option>
+                                    }
+                                    else if (Model.Order.OrderStatus == "Preparing")
+                                    {
+                                        <option value="Shipping">Giao hàng</option>
+                                    }
+                                    else if (Model.Order.OrderStatus == "Shipping")
+                                    {
+                                        <option value="Completed">Hoàn thành</option>
+                                    }
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-check"></i> Cập nhật
+                            </button>
+                        </form>
+                    }
+
+                    <a asp-page="/Staff/Orders/Index" class="btn btn-outline-secondary w-100 mt-2">
+                        <i class="fas fa-arrow-left"></i> Quay lại
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        Không tìm thấy đơn hàng
+    </div>
+}
