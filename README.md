@@ -13,11 +13,11 @@
 
 **Lớp:** VX23TTK13
 
-**Sinh viên thực hiện:** Phạm Minh Thư Trang
+**Sinh viên thực hiện:** Phạm Minh Thu Trang
 
-**MSSV:** [Mã số sinh viên]
+**MSSV:** 470123172
 
-**Giảng viên hướng dẫn:** [Tên giảng viên]
+**Giảng viên hướng dẫn:** TS. Đoàn Phước Miền
 
 **Năm học:** 2024-2025
 
