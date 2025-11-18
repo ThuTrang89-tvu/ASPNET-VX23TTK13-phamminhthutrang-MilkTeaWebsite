@@ -28,9 +28,9 @@
                                         {
                                             <span>Size: @item.Size</span><br>
                                         }
-                                        @if (!string.IsNullOrEmpty(item.Topping))
+                                        @if (!string.IsNullOrEmpty(item.SelectedToppings))
                                         {
-                                            <span>Topping: @item.Topping</span><br>
+                                            <span>Topping: @item.SelectedToppings</span><br>
                                         }
                                         @if (!string.IsNullOrEmpty(item.Note))
                                         {
@@ -39,7 +39,7 @@
                                     </small>
                                 </div>
                                 <div class="col-md-2">
-                                    <p class="fw-bold">@item.UnitPrice.ToString("N0") đ</p>
+                                    <p class="fw-bold">@((item.BasePrice + item.ToppingPrice).ToString("N0")) đ</p>
                                 </div>
                                 <div class="col-md-2">
                                     <form method="post" asp-page-handler="UpdateQuantity">
@@ -51,7 +51,7 @@
                                     </form>
                                 </div>
                                 <div class="col-md-2 text-end">
-                                    <p class="fw-bold text-primary">@((item.UnitPrice * item.Quantity).ToString("N0")) đ</p>
+                                    <p class="fw-bold text-primary">@item.TotalPrice.ToString("N0") đ</p>
                                     <form method="post" asp-page-handler="Remove">
                                         <input type="hidden" name="cartItemId" value="@item.Id" />
                                         <button type="submit" class="btn btn-sm btn-danger">

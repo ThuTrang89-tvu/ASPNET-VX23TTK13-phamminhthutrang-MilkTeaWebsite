@@ -95,14 +95,14 @@
                                                 {
                                                     <br><small class="text-muted">Size: @item.Size</small>
                                                 }
-                                                @if (!string.IsNullOrEmpty(item.Topping))
+                                                @if (!string.IsNullOrEmpty(item.SelectedToppings))
                                                 {
-                                                    <br><small class="text-muted">Topping: @item.Topping</small>
+                                                    <br><small class="text-muted">Topping: @item.SelectedToppings</small>
                                                 }
                                             </td>
                                             <td>@item.UnitPrice.ToString("N0") đ</td>
                                             <td>@item.Quantity</td>
-                                            <td class="fw-bold">@((item.UnitPrice * item.Quantity).ToString("N0")) đ</td>
+                                            <td class="fw-bold">@item.TotalPrice.ToString("N0") đ</td>
                                         </tr>
                                     }
                                 </tbody>
