@@ -13,27 +13,27 @@
         <form method="post">
             <div class="row">
                 <div class="col-md-7">
-                    <div class="card mb-3">
-                        <div class="card-header">
+                    <div class="checkout-card mb-3">
+                        <div class="checkout-card-header">
                             <h5><i class="fas fa-user"></i> Thông tin người nhận</h5>
                         </div>
-                        <div class="card-body">
+                        <div class="checkout-card-body">
                             <div class="mb-3">
-                                <label class="form-label">Họ và tên *</label>
-                                <input asp-for="CustomerName" class="form-control" readonly />
+                                <label class="checkout-form-label">Họ và tên *</label>
+                                <input asp-for="CustomerName" class="checkout-form-control" readonly />
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Số điện thoại *</label>
-                                <input asp-for="PhoneNumber" class="form-control" readonly />
+                                <label class="checkout-form-label">Số điện thoại *</label>
+                                <input asp-for="PhoneNumber" class="checkout-form-control" readonly />
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Địa chỉ giao hàng *</label>
-                                <textarea asp-for="ShippingAddress" class="form-control" rows="3" required></textarea>
+                                <label class="checkout-form-label">Địa chỉ giao hàng *</label>
+                                <textarea asp-for="ShippingAddress" class="checkout-form-control" rows="3" required></textarea>
                                 <span asp-validation-for="ShippingAddress" class="text-danger"></span>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Ghi chú</label>
-                                <textarea asp-for="Note" class="form-control" rows="2" 
+                                <label class="checkout-form-label">Ghi chú</label>
+                                <textarea asp-for="Note" class="checkout-form-control" rows="2" 
                                           placeholder="Ghi chú thêm về đơn hàng (tùy chọn)"></textarea>
                             </div>
                         </div>
@@ -41,60 +41,59 @@
                 </div>
 
                 <div class="col-md-5">
-                    <div class="card mb-3">
-                        <div class="card-header">
+                    <div class="checkout-card mb-3">
+                        <div class="checkout-card-header">
                             <h5><i class="fas fa-list"></i> Chi tiết đơn hàng</h5>
                         </div>
-                        <div class="card-body">
+                        <div class="checkout-card-body">
                             @foreach (var item in Model.Cart.CartItems)
                             {
-                                <div class="d-flex justify-content-between mb-2">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
                                     <div>
-                                        <strong>@item.Product?.ProductName</strong>
-                                        <small class="text-muted d-block">
-                                            x@item.Quantity
+                                        <strong style="color: var(--customer-primary-dark);">@item.Product?.ProductName</strong>
+                                        <small class="cart-item-meta d-block">
+                                            <i class="fas fa-box"></i> Số lượng: <strong>@item.Quantity</strong>
                                             @if (!string.IsNullOrEmpty(item.Size))
                                             {
-                                                <span> - Size: @item.Size</span>
+                                                <span> | <i class="fas fa-ruler"></i> Size: <strong>@item.Size</strong></span>
                                             }
                                         </small>
                                     </div>
-                                    <span>@item.TotalPrice.ToString("N0") đ</span>
+                                    <span class="cart-item-price">@item.TotalPrice.ToString("N0") đ</span>
                                 </div>
                             }
-                            <hr>
-                            <div class="d-flex justify-content-between mb-2">
+                            <hr style="border-color: rgba(255, 153, 194, 0.3);">
+                            <div class="cart-summary-row">
                                 <span>Tạm tính:</span>
-                                <span>@Model.TotalAmount.ToString("N0") đ</span>
+                                <span class="fw-bold">@Model.TotalAmount.ToString("N0") đ</span>
                             </div>
-                            <div class="d-flex justify-content-between mb-2">
+                            <div class="cart-summary-row">
                                 <span>Phí vận chuyển:</span>
-                                <span>30,000 đ</span>
+                                <span class="fw-bold">30,000 đ</span>
                             </div>
-                            <hr>
-                            <div class="d-flex justify-content-between mb-3">
-                                <strong>Tổng cộng:</strong>
-                                <strong class="text-primary fs-5">@((Model.TotalAmount + 30000).ToString("N0")) đ</strong>
+                            <div class="cart-summary-row total mt-2">
+                                <span>Tổng cộng:</span>
+                                <span>@((Model.TotalAmount + 30000).ToString("N0")) đ</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="card mb-3">
-                        <div class="card-header">
+                    <div class="checkout-card mb-3">
+                        <div class="checkout-card-header">
                             <h5><i class="fas fa-money-bill"></i> Phương thức thanh toán</h5>
                         </div>
-                        <div class="card-body">
-                            <div class="form-check mb-2">
+                        <div class="checkout-card-body">
+                            <div class="payment-radio">
                                 <input class="form-check-input" type="radio" name="paymentMethod" 
                                        id="cod" value="COD" checked>
-                                <label class="form-check-label" for="cod">
+                                <label class="form-check-label ms-2" for="cod">
                                     <i class="fas fa-truck"></i> Thanh toán khi nhận hàng (COD)
                                 </label>
                             </div>
-                            <div class="form-check mb-2">
+                            <div class="payment-radio">
                                 <input class="form-check-input" type="radio" name="paymentMethod" 
                                        id="bank" value="Bank">
-                                <label class="form-check-label" for="bank">
+                                <label class="form-check-label ms-2" for="bank">
                                     <i class="fas fa-university"></i> Chuyển khoản ngân hàng
                                 </label>
                             </div>

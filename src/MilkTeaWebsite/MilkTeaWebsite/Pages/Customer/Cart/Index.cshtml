@@ -12,80 +12,82 @@
     {
         <div class="row">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        @foreach (var item in Model.Cart.CartItems)
-                        {
-                            <div class="row mb-3 pb-3 border-bottom">
-                                <div class="col-md-2">
+                @foreach (var item in Model.Cart.CartItems)
+                {
+                    <div class="cart-item-card">
+                        <div class="row align-items-center">
+                            <div class="col-md-2">
+                                <div class="cart-item-image">
                                     <img src="@(string.IsNullOrEmpty(item.Product?.ImageUrl) ? "/images/no-image.jpg" : item.Product.ImageUrl)" 
-                                         class="img-fluid rounded" alt="@item.Product?.ProductName">
+                                         class="img-fluid" alt="@item.Product?.ProductName">
                                 </div>
-                                <div class="col-md-4">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="cart-item-info">
                                     <h6>@item.Product?.ProductName</h6>
-                                    <small class="text-muted">
+                                    <div class="cart-item-meta">
                                         @if (!string.IsNullOrEmpty(item.Size))
                                         {
-                                            <span>Size: @item.Size</span><br>
+                                            <span><i class="fas fa-ruler"></i> Size: <strong>@item.Size</strong></span><br>
                                         }
                                         @if (!string.IsNullOrEmpty(item.SelectedToppings))
                                         {
-                                            <span>Topping: @item.SelectedToppings</span><br>
+                                            <span><i class="fas fa-plus-circle"></i> Topping: <strong>@item.SelectedToppings</strong></span><br>
                                         }
                                         @if (!string.IsNullOrEmpty(item.Note))
                                         {
-                                            <span>Ghi chú: @item.Note</span>
+                                            <span><i class="fas fa-sticky-note"></i> Ghi chú: <em>@item.Note</em></span>
                                         }
-                                    </small>
-                                </div>
-                                <div class="col-md-2">
-                                    <p class="fw-bold">@((item.BasePrice + item.ToppingPrice).ToString("N0")) đ</p>
-                                </div>
-                                <div class="col-md-2">
-                                    <form method="post" asp-page-handler="UpdateQuantity">
-                                        <input type="hidden" name="cartItemId" value="@item.Id" />
-                                        <div class="input-group input-group-sm">
-                                            <input type="number" name="quantity" value="@item.Quantity" 
-                                                   min="1" class="form-control" onchange="this.form.submit()" />
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-md-2 text-end">
-                                    <p class="fw-bold text-primary">@item.TotalPrice.ToString("N0") đ</p>
-                                    <form method="post" asp-page-handler="Remove">
-                                        <input type="hidden" name="cartItemId" value="@item.Id" />
-                                        <button type="submit" class="btn btn-sm btn-danger">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
-                        }
+                            <div class="col-md-2 text-center">
+                                <small class="text-muted">Đơn giá</small>
+                                <p class="cart-item-price mb-0">@((item.BasePrice + item.ToppingPrice).ToString("N0")) đ</p>
+                            </div>
+                            <div class="col-md-2">
+                                <form method="post" asp-page-handler="UpdateQuantity">
+                                    <input type="hidden" name="cartItemId" value="@item.Id" />
+                                    <label class="form-label text-center d-block mb-1"><small>Số lượng</small></label>
+                                    <input type="number" name="quantity" value="@item.Quantity" 
+                                           min="1" class="form-control cart-quantity-input" onchange="this.form.submit()" />
+                                </form>
+                            </div>
+                            <div class="col-md-2 text-end">
+                                <small class="text-muted">Tổng</small>
+                                <p class="cart-item-price mb-2">@item.TotalPrice.ToString("N0") đ</p>
+                                <form method="post" asp-page-handler="Remove" class="d-inline">
+                                    <input type="hidden" name="cartItemId" value="@item.Id" />
+                                    <button type="submit" class="cart-remove-btn">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
             
             <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">Tổng đơn hàng</h5>
+                <div class="cart-summary-card">
+                    <div class="cart-summary-header">
+                        <i class="fas fa-receipt"></i> Tổng đơn hàng
                     </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-2">
+                    <div class="cart-summary-body">
+                        <div class="cart-summary-row">
                             <span>Tạm tính:</span>
-                            <span>@Model.TotalAmount.ToString("N0") đ</span>
+                            <span class="fw-bold">@Model.TotalAmount.ToString("N0") đ</span>
                         </div>
-                        <div class="d-flex justify-content-between mb-2">
+                        <div class="cart-summary-row">
                             <span>Phí vận chuyển:</span>
-                            <span>30,000 đ</span>
+                            <span class="fw-bold">30,000 đ</span>
                         </div>
-                        <hr>
-                        <div class="d-flex justify-content-between mb-3">
-                            <strong>Tổng cộng:</strong>
-                            <strong class="text-primary">@((Model.TotalAmount + 30000).ToString("N0")) đ</strong>
+                        <div class="cart-summary-row total">
+                            <span>Tổng cộng:</span>
+                            <span>@((Model.TotalAmount + 30000).ToString("N0")) đ</span>
                         </div>
                         
-                        <div class="d-grid gap-2">
+                        <div class="d-grid gap-2 mt-3">
                             <a asp-page="/Customer/Orders/Checkout" class="btn btn-primary btn-lg">
                                 <i class="fas fa-credit-card"></i> Thanh toán
                             </a>
@@ -101,10 +103,10 @@
     else
     {
         <div class="text-center py-5">
-            <i class="fas fa-shopping-cart fa-5x text-muted mb-3"></i>
-            <h4>Giỏ hàng trống</h4>
-            <p class="text-muted">Bạn chưa có sản phẩm nào trong giỏ hàng</p>
-            <a asp-page="/Customer/Products/Index" class="btn btn-primary">
+            <i class="fas fa-shopping-cart fa-5x empty-cart-icon mb-4"></i>
+            <h4 class="mb-3" style="color: var(--customer-primary-dark);">Giỏ hàng trống</h4>
+            <p class="text-muted mb-4">Bạn chưa có sản phẩm nào trong giỏ hàng</p>
+            <a asp-page="/Customer/Products/Index" class="btn btn-primary btn-lg">
                 <i class="fas fa-shopping-bag"></i> Mua sắm ngay
             </a>
         </div>
