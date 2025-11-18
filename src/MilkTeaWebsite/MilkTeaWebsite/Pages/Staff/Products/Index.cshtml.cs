@@ -18,6 +18,9 @@ namespace MilkTeaWebsite.Pages.Staff.Products
 
         public IEnumerable<Product> Products { get; set; } = new List<Product>();
 
+        [TempData]
+        public string? SuccessMessage { get; set; }
+
         public async Task<IActionResult> OnGetAsync()
         {
             if (!User.Identity?.IsAuthenticated ?? true)

@@ -1,0 +1,124 @@
+@page
+@model MilkTeaWebsite.Pages.Staff.Products.EditModel
+@{
+    ViewData["Title"] = "Chỉnh sửa sản phẩm";
+    Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0"><i class="fas fa-edit"></i> Chỉnh sửa sản phẩm</h4>
+            </div>
+            <div class="card-body">
+                @if (Model.Product != null)
+                {
+                    <form method="post">
+                        <input type="hidden" asp-for="ProductId" />
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Input.ProductName" class="form-label">Tên sản phẩm *</label>
+                                <input asp-for="Input.ProductName" class="form-control" />
+                                <span asp-validation-for="Input.ProductName" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Input.CategoryId" class="form-label">Danh mục *</label>
+                                <select asp-for="Input.CategoryId" class="form-select">
+                                    <option value="">-- Chọn danh mục --</option>
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <option value="@category.Id" selected="@(category.Id == Model.Input.CategoryId)">
+                                            @category.CategoryName
+                                        </option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Input.CategoryId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Description" class="form-label">Mô tả</label>
+                            <textarea asp-for="Input.Description" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Input.Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Input.Price" class="form-label">Giá (VNĐ) *</label>
+                                <input asp-for="Input.Price" type="number" step="1000" class="form-control" />
+                                <span asp-validation-for="Input.Price" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Input.StockQuantity" class="form-label">Số lượng tồn kho *</label>
+                                <input asp-for="Input.StockQuantity" type="number" class="form-control" />
+                                <span asp-validation-for="Input.StockQuantity" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Input.IsAvailable" class="form-label">Trạng thái</label>
+                                <select asp-for="Input.IsAvailable" class="form-select">
+                                    <option value="true">Đang bán</option>
+                                    <option value="false">Ngừng bán</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.ImageUrl" class="form-label">URL hình ảnh</label>
+                            <input asp-for="Input.ImageUrl" class="form-control" />
+                            <span asp-validation-for="Input.ImageUrl" class="text-danger"></span>
+                            @if (!string.IsNullOrEmpty(Model.Input.ImageUrl))
+                            {
+                                <div class="mt-2">
+                                    <img src="@Model.Input.ImageUrl" alt="Preview" class="img-thumbnail" style="max-width: 200px;" />
+                                </div>
+                            }
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Input.Size" class="form-label">Size có sẵn</label>
+                                <input asp-for="Input.Size" class="form-control" placeholder="S, M, L" />
+                                <span asp-validation-for="Input.Size" class="text-danger"></span>
+                                <small class="text-muted">Nhập các size cách nhau bởi dấu phẩy</small>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Input.Topping" class="form-label">Topping có sẵn</label>
+                                <input asp-for="Input.Topping" class="form-control" placeholder="Trân châu, Thạch phô mai, Pudding" />
+                                <span asp-validation-for="Input.Topping" class="text-danger"></span>
+                                <small class="text-muted">Nhập các topping cách nhau bởi dấu phẩy</small>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a asp-page="/Staff/Products/Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Quay lại
+                            </a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-save"></i> Cập nhật
+                            </button>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle"></i> Không tìm thấy sản phẩm
+                    </div>
+                    <a asp-page="/Staff/Products/Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Quay lại
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
