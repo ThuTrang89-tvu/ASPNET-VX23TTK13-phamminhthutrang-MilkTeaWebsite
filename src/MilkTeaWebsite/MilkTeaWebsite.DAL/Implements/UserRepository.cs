@@ -16,6 +16,8 @@ namespace MilkTeaWebsite.DAL.Implements
         {
             return await _dbSet
                 .Include(u => u.Role)
+                .Include(u => u.Customer)
+                .Include(u => u.Employee)
                 .FirstOrDefaultAsync(u => u.Username == username && !u.IsDeleted);
         }
 
@@ -23,6 +25,8 @@ namespace MilkTeaWebsite.DAL.Implements
         {
             return await _dbSet
                 .Include(u => u.Role)
+                .Include(u => u.Customer)
+                .Include(u => u.Employee)
                 .FirstOrDefaultAsync(u => u.Email == email && !u.IsDeleted);
         }
 
@@ -30,6 +34,8 @@ namespace MilkTeaWebsite.DAL.Implements
         {
             return await _dbSet
                 .Include(u => u.Role)
+                .Include(u => u.Customer)
+                .Include(u => u.Employee)
                 .FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted);
         }
     }
