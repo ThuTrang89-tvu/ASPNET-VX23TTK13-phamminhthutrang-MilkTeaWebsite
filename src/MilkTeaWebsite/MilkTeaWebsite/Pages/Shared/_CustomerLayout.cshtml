@@ -3,104 +3,119 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Milk Tea Shop</title>
+    <title>@ViewData["Title"] · Milk Tea Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/customer.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/customer-pink.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoE6krJr59s7b1XGm7qD4Sz3+7+w3w7LF7Ykgw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="/Customer/Products">
-                    <i class="fas fa-mug-hot"></i> Milk Tea Shop
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Customer/Products/Index">
-                                <i class="fas fa-home"></i> Trang chủ
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Customer/Products/Index">
-                                <i class="fas fa-coffee"></i> Sản phẩm
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Customer/Cart/Index">
-                                <i class="fas fa-shopping-cart"></i> Giỏ hàng
-                                @if (ViewData["CartItemCount"] != null && ViewData["CartItemCount"] is int count && count > 0)
-                                {
-                                    <span class="badge bg-danger">@count</span>
-                                }
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Customer/Orders/Index">
-                                <i class="fas fa-receipt"></i> Đơn hàng
-                            </a>
-                        </li>
-                        @if (User.Identity?.IsAuthenticated == true)
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                    <i class="fas fa-user"></i> @User.Identity.Name
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" asp-page="/Account/Profile"><i class="fas fa-user-circle"></i> Thông tin</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-page="/Account/Logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
-                                </ul>
-                            </li>
-                        }
-                        else
-                        {
+<body class="customer-body">
+    <div class="customer-shell">
+        <header class="customer-header">
+            <nav class="navbar navbar-expand-lg navbar-light customer-navbar shadow-sm">
+                <div class="container-xl">
+                    <a class="navbar-brand d-flex align-items-center gap-3" href="/Customer/Products">
+                        <span class="brand-icon"><i class="fas fa-mug-hot"></i></span>
+                        <span class="brand-text">
+                            <span class="brand-title">Milk Tea Studio</span>
+                            <small class="brand-subtitle d-none d-md-block">Sweeten your daily ritual</small>
+                        </span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#customerNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="customerNav">
+                        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
                             <li class="nav-item">
-                                <a class="nav-link" asp-page="/Account/Login">
-                                    <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                                <a class="nav-link" asp-page="/Customer/Products/Index"><i class="fas fa-home"></i><span>Trang chủ</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Customer/Products/Index"><i class="fas fa-mug-hot"></i><span>Sản phẩm</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Customer/Orders/Index"><i class="fas fa-receipt"></i><span>Đơn hàng</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link position-relative" asp-page="/Customer/Cart/Index">
+                                    <i class="fas fa-shopping-bag"></i><span>Giỏ hàng</span>
+                                    @if (ViewData["CartItemCount"] is int cartCount && cartCount > 0)
+                                    {
+                                        <span class="cart-pill">@cartCount</span>
+                                    }
                                 </a>
                             </li>
-                        }
-                    </ul>
+                        </ul>
+                        <div class="customer-account d-flex align-items-center gap-2 ms-lg-4 mt-3 mt-lg-0">
+                            @if (User.Identity?.IsAuthenticated == true)
+                            {
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-primary rounded-pill px-3 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-circle-user me-2"></i>@User.Identity.Name
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                        <li><a class="dropdown-item" asp-page="/Account/Profile"><i class="fas fa-user-gear me-2"></i>Thông tin cá nhân</a></li>
+                                        <li><a class="dropdown-item" asp-page="/Customer/Orders/Index"><i class="fas fa-clock-rotate-left me-2"></i>Lịch sử đơn hàng</a></li>
+                                        <li><hr class="dropdown-divider" /></li>
+                                        <li><a class="dropdown-item text-danger" asp-page="/Account/Logout"><i class="fas fa-arrow-right-from-bracket me-2"></i>Đăng xuất</a></li>
+                                    </ul>
+                                </div>
+                            }
+                            else
+                            {
+                                <a class="btn btn-primary rounded-pill" asp-page="/Account/Login">
+                                    <i class="fas fa-right-to-bracket me-2"></i>Đăng nhập
+                                </a>
+                            }
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </header>
 
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
+        <main role="main" class="customer-main">
+            @RenderSection("PageHero", required: false)
+            <div class="customer-main__content">
+                @RenderBody()
+            </div>
+        </main>
 
-    <footer class="border-top footer text-muted bg-light">
-        <div class="container py-3">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5><i class="fas fa-mug-hot"></i> Milk Tea Shop</h5>
-                    <p>Trà sữa ngon, giá rẻ, phục vụ tận tâm</p>
+        <footer class="customer-footer">
+            <div class="container-xl">
+                <div class="row g-4 align-items-center">
+                    <div class="col-md-4">
+                        <div class="footer-brand">
+                                    <h5><i class="fas fa-mug-hot"></i> Milk Tea Studio</h5>
+                                    <p>Đắm mình trong vị trà sữa ngọt ngào, đặt món nhanh chóng và nhận ưu đãi hấp dẫn mỗi ngày.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>Kết nối</h6>
+                        <ul class="list-unstyled footer-list">
+                            <li><i class="fas fa-phone"></i> 0123 456 789</li>
+                            <li><i class="fas fa-envelope"></i> hello@milktea.vn</li>
+                            <li><i class="fas fa-location-dot"></i> 25 Nguyễn Huệ, TP. Hồ Chí Minh</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>Giờ mở cửa</h6>
+                        <p class="mb-2">Thứ 2 - Chủ nhật</p>
+                        <span class="badge rounded-pill bg-light text-dark px-3 py-2">08:00 - 22:00</span>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <h6>Liên hệ</h6>
-                    <p>
-                        <i class="fas fa-phone"></i> 0123-456-789<br>
-                        <i class="fas fa-envelope"></i> info@milktea.com<br>
-                        <i class="fas fa-map-marker-alt"></i> Hà Nội, Việt Nam
-                    </p>
-                </div>
-                <div class="col-md-4">
-                    <h6>Giờ mở cửa</h6>
-                    <p>Thứ 2 - Chủ nhật: 8:00 - 22:00</p>
+                <hr class="footer-divider" />
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+                    <span class="text-secondary small">© @DateTime.UtcNow.Year Milk Tea Studio. Crafted with ♥ for tea lovers.</span>
+                    <div class="footer-links">
+                        <a asp-page="/Privacy">Privacy</a>
+                        <span>•</span>
+                        <a href="mailto:hello@milktea.vn">Support</a>
+                    </div>
                 </div>
             </div>
-            <hr>
-            <div class="text-center">
-                &copy; 2025 - Milk Tea Shop - <a asp-page="/Privacy">Privacy</a>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
