@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MilkTeaWebsite.BLL.Interfaces;
+using MilkTeaWebsite.DAL.Interfaces;
 using MilkTeaWebsite.Entity.Entity;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,18 @@ namespace MilkTeaWebsite.Pages.Customer.Products
     {
         private readonly IProductService _productService;
         private readonly ICartService _cartService;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<DetailModel> _logger;
 
         public DetailModel(
             IProductService productService, 
             ICartService cartService,
+            IUnitOfWork unitOfWork,
             ILogger<DetailModel> logger)
         {
             _productService = productService;
             _cartService = cartService;
+            _unitOfWork = unitOfWork;
             _logger = logger;
         }
 
@@ -33,6 +37,9 @@ namespace MilkTeaWebsite.Pages.Customer.Products
         public int Quantity { get; set; } = 1;
 
         [BindProperty]
+        public string Size { get; set; } = "M";
+
+        [BindProperty]
         public List<string> SelectedToppings { get; set; } = new();
 
         [BindProperty]
@@ -41,7 +48,7 @@ namespace MilkTeaWebsite.Pages.Customer.Products
         [BindProperty]
         public string? Note { get; set; }
 
-        public IList<string> AvailableToppings { get; private set; } = new List<string>();
+        public IList<Topping> AvailableToppings { get; private set; } = new List<Topping>();
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
@@ -54,7 +61,8 @@ namespace MilkTeaWebsite.Pages.Customer.Products
                     return NotFound();
                 }
 
-                AvailableToppings = ParseToppingIds(Product.AvailableToppingIds);
+                // Load available toppings from database
+                await LoadAvailableToppingsAsync(Product.AvailableToppingIds);
 
                 return Page();
             }
@@ -103,7 +111,7 @@ namespace MilkTeaWebsite.Pages.Customer.Products
                     Quantity = 1;
                 }
 
-                AvailableToppings = ParseToppingIds(Product.AvailableToppingIds);
+                await LoadAvailableToppingsAsync(Product.AvailableToppingIds);
 
                 var selected = SelectedToppings
                     .Where(t => !string.IsNullOrWhiteSpace(t))
@@ -134,20 +142,27 @@ namespace MilkTeaWebsite.Pages.Customer.Products
             }
         }
 
-        private static List<string> ParseToppingIds(string? toppingIds)
+        private async Task LoadAvailableToppingsAsync(string? toppingIds)
         {
             if (string.IsNullOrWhiteSpace(toppingIds))
             {
-                return new List<string>();
+                AvailableToppings = new List<Topping>();
+                return;
             }
 
-            return toppingIds
+            var ids = toppingIds
                 .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
                 .Select(id => id.Trim())
-                .Where(id => !string.IsNullOrWhiteSpace(id))
-                .Distinct()
-                .OrderBy(id => id)
+                .Where(id => !string.IsNullOrWhiteSpace(id) && int.TryParse(id, out _))
+                .Select(id => int.Parse(id))
+                .ToList();
+
+            var allToppings = await _unitOfWork.Toppings.GetAllAsync();
+            AvailableToppings = allToppings
+                .Where(t => ids.Contains(t.Id) && t.IsAvailable)
+                .OrderBy(t => t.ToppingName)
                 .ToList();
         }
     }
 }
+

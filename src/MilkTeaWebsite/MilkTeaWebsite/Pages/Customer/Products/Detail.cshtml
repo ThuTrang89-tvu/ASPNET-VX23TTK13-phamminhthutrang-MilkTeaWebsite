@@ -115,6 +115,28 @@
                         {
                             <form method="post" class="detail-form" id="add-to-cart-form">
                                 <input type="hidden" asp-for="ProductId" value="@Model.Product.Id" />
+                                <input type="hidden" id="priceS" value="@Model.Product.PriceS" />
+                                <input type="hidden" id="priceM" value="@Model.Product.PriceM" />
+                                <input type="hidden" id="priceL" value="@Model.Product.PriceL" />
+
+                                <!-- Size Selection -->
+                                <div class="detail-form__group">
+                                    <label class="detail-form__label">Chọn size</label>
+                                    <div class="detail-pill-group">
+                                        <label class="pill-option">
+                                            <input type="radio" name="Size" value="S" data-price="@Model.Product.PriceS" />
+                                            <span><i class="fas fa-cup"></i> Size S - @Model.Product.PriceS.ToString("N0")đ</span>
+                                        </label>
+                                        <label class="pill-option">
+                                            <input type="radio" name="Size" value="M" data-price="@Model.Product.PriceM" checked />
+                                            <span><i class="fas fa-cup"></i> Size M - @Model.Product.PriceM.ToString("N0")đ</span>
+                                        </label>
+                                        <label class="pill-option">
+                                            <input type="radio" name="Size" value="L" data-price="@Model.Product.PriceL" />
+                                            <span><i class="fas fa-cup"></i> Size L - @Model.Product.PriceL.ToString("N0")đ</span>
+                                        </label>
+                                    </div>
+                                </div>
 
                                 @if (Model.AvailableToppings.Any())
                                 {
@@ -123,10 +145,14 @@
                                         <div class="detail-pill-group">
                                             @foreach (var topping in Model.AvailableToppings)
                                             {
-                                                var isChecked = Model.SelectedToppings.Contains(topping, StringComparer.OrdinalIgnoreCase);
+                                                var isChecked = Model.SelectedToppings.Contains(topping.ToppingName, StringComparer.OrdinalIgnoreCase);
                                                 <label class="pill-option">
-                                                    <input type="checkbox" name="SelectedToppings" value="@topping" @(isChecked ? "checked" : string.Empty) />
-                                                    <span><i class="fas fa-star"></i>@topping</span>
+                                                    <input type="checkbox" 
+                                                           name="SelectedToppings" 
+                                                           value="@topping.ToppingName" 
+                                                           data-price="@topping.ToppingPrice"
+                                                           @(isChecked ? "checked" : string.Empty) />
+                                                    <span><i class="fas fa-star"></i> @topping.ToppingName (+@topping.ToppingPrice.ToString("N0")đ)</span>
                                                 </label>
                                             }
                                         </div>
@@ -148,6 +174,28 @@
                                             <button type="button" class="quantity-btn" data-quantity-increase><i class="fas fa-plus"></i></button>
                                         </div>
                                         <small class="form-hint">Còn @Model.Product.StockQuantity ly tại quầy.</small>
+                                    </div>
+                                </div>
+
+                                <!-- Price Summary -->
+                                <div class="detail-form__group">
+                                    <div class="price-summary">
+                                        <div class="price-row">
+                                            <span>Giá cơ bản:</span>
+                                            <strong id="basePrice">@Model.Product.PriceM.ToString("N0")đ</strong>
+                                        </div>
+                                        <div class="price-row">
+                                            <span>Topping:</span>
+                                            <strong id="toppingPrice">0đ</strong>
+                                        </div>
+                                        <div class="price-row">
+                                            <span>Số lượng:</span>
+                                            <strong id="quantityDisplay">1</strong>
+                                        </div>
+                                        <div class="price-row price-total">
+                                            <span>Tổng cộng:</span>
+                                            <strong id="totalPrice">@Model.Product.PriceM.ToString("N0")đ</strong>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -195,6 +243,14 @@
             const decreaseBtn = form.querySelector('[data-quantity-decrease]');
             const increaseBtn = form.querySelector('[data-quantity-increase]');
 
+            // Price calculation elements
+            const sizeRadios = form.querySelectorAll('input[name="Size"]');
+            const toppingCheckboxes = form.querySelectorAll('input[name="SelectedToppings"]');
+            const basePriceEl = document.getElementById('basePrice');
+            const toppingPriceEl = document.getElementById('toppingPrice');
+            const quantityDisplayEl = document.getElementById('quantityDisplay');
+            const totalPriceEl = document.getElementById('totalPrice');
+
             const clampQuantity = () => {
                 if (!quantityInput) return;
                 const min = parseInt(quantityInput.getAttribute('min') || '1', 10);
@@ -207,6 +263,36 @@
 
                 value = Math.max(min, Math.min(max, value));
                 quantityInput.value = String(value);
+                updatePrice();
+            };
+
+            const updatePrice = () => {
+                // Get selected size price
+                let basePrice = 0;
+                const selectedSize = form.querySelector('input[name="Size"]:checked');
+                if (selectedSize) {
+                    basePrice = parseFloat(selectedSize.getAttribute('data-price')) || 0;
+                }
+
+                // Calculate topping price
+                let toppingPrice = 0;
+                toppingCheckboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        toppingPrice += parseFloat(checkbox.getAttribute('data-price')) || 0;
+                    }
+                });
+
+                // Get quantity
+                const quantity = parseInt(quantityInput?.value || '1', 10);
+
+                // Calculate total
+                const total = (basePrice + toppingPrice) * quantity;
+
+                // Update display
+                if (basePriceEl) basePriceEl.textContent = basePrice.toLocaleString('vi-VN') + 'đ';
+                if (toppingPriceEl) toppingPriceEl.textContent = toppingPrice.toLocaleString('vi-VN') + 'đ';
+                if (quantityDisplayEl) quantityDisplayEl.textContent = quantity;
+                if (totalPriceEl) totalPriceEl.textContent = total.toLocaleString('vi-VN') + 'đ';
             };
 
             decreaseBtn?.addEventListener('click', () => {
@@ -222,6 +308,18 @@
             });
 
             quantityInput?.addEventListener('change', clampQuantity);
+
+            // Add event listeners for price calculation
+            sizeRadios.forEach(radio => {
+                radio.addEventListener('change', updatePrice);
+            });
+
+            toppingCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updatePrice);
+            });
+
+            // Initial price calculation
+            updatePrice();
         })();
     </script>
 }
