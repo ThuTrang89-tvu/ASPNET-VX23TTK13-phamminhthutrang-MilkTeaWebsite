@@ -5,10 +5,15 @@ namespace MilkTeaWebsite.Entity.Entity
         public int OrderId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
-        public decimal TotalPrice { get; set; }
-        public string? Size { get; set; }
-        public string? Topping { get; set; }
+        
+        // Pricing breakdown
+        public string? Size { get; set; } // S, M, L
+        public decimal BasePrice { get; set; } // Price for selected size
+        public string? SelectedToppings { get; set; } // Comma-separated topping names
+        public decimal ToppingPrice { get; set; } // Total topping price per item
+        public decimal UnitPrice { get; set; } // BasePrice + ToppingPrice
+        public decimal TotalPrice { get; set; } // UnitPrice * Quantity
+        
         public string? Note { get; set; }
         
         // Navigation properties
