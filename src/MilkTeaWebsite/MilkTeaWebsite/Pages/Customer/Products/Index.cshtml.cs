@@ -19,24 +19,77 @@ namespace MilkTeaWebsite.Pages.Customer.Products
         public IEnumerable<Product> Products { get; set; } = new List<Product>();
         public IEnumerable<Category> Categories { get; set; } = new List<Category>();
         public int? SelectedCategoryId { get; set; }
+        public string? SearchKeyword { get; set; }
+        public decimal? MinPrice { get; set; }
+        public decimal? MaxPrice { get; set; }
+        public List<string>? SelectedSizes { get; set; }
+        public string? SortBy { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? categoryId)
+        public async Task<IActionResult> OnGetAsync(int? categoryId, string? searchKeyword, 
+            decimal? minPrice, decimal? maxPrice, List<string>? sizes, string? sortBy)
         {
             try
             {
                 SelectedCategoryId = categoryId;
+                SearchKeyword = searchKeyword;
+                MinPrice = minPrice;
+                MaxPrice = maxPrice;
+                SelectedSizes = sizes;
+                SortBy = sortBy;
 
+                // Get all available products
+                IEnumerable<Product> products;
                 if (categoryId.HasValue)
                 {
-                    Products = await _productService.GetProductsByCategoryAsync(categoryId.Value);
+                    products = await _productService.GetProductsByCategoryAsync(categoryId.Value);
                 }
                 else
                 {
-                    Products = await _productService.GetAvailableProductsAsync();
+                    products = await _productService.GetAvailableProductsAsync();
                 }
 
-                // Get all categories for filter (you'll need to add this to IProductService)
-                // For now, we'll extract unique categories from products
+                // Apply search filter
+                if (!string.IsNullOrEmpty(searchKeyword))
+                {
+                    products = products.Where(p => 
+                        p.ProductName.Contains(searchKeyword, StringComparison.OrdinalIgnoreCase) ||
+                        (p.Description != null && p.Description.Contains(searchKeyword, StringComparison.OrdinalIgnoreCase))
+                    );
+                }
+
+                // Apply price filter
+                if (minPrice.HasValue)
+                {
+                    products = products.Where(p => p.Price >= minPrice.Value);
+                }
+                if (maxPrice.HasValue)
+                {
+                    products = products.Where(p => p.Price <= maxPrice.Value);
+                }
+
+                // Apply size filter
+                if (sizes != null && sizes.Any())
+                {
+                    products = products.Where(p => 
+                        !string.IsNullOrEmpty(p.Size) && 
+                        sizes.Any(s => p.Size.Contains(s, StringComparison.OrdinalIgnoreCase))
+                    );
+                }
+
+                // Apply sorting
+                products = sortBy switch
+                {
+                    "newest" => products.OrderByDescending(p => p.CreatedAt),
+                    "price-asc" => products.OrderBy(p => p.Price),
+                    "price-desc" => products.OrderByDescending(p => p.Price),
+                    "name-asc" => products.OrderBy(p => p.ProductName),
+                    "name-desc" => products.OrderByDescending(p => p.ProductName),
+                    _ => products.OrderBy(p => p.Id)
+                };
+
+                Products = products.ToList();
+
+                // Get all categories for filter
                 Categories = Products.Select(p => p.Category).Distinct().ToList();
 
                 return Page();
