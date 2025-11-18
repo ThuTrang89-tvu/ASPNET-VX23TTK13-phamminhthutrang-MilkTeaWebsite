@@ -8,89 +8,142 @@ namespace MilkTeaWebsite.Pages.Customer.Products
     public class IndexModel : PageModel
     {
         private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
         private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(IProductService productService, ILogger<IndexModel> logger)
+        public IndexModel(IProductService productService, ICategoryService categoryService, ILogger<IndexModel> logger)
         {
             _productService = productService;
+            _categoryService = categoryService;
             _logger = logger;
         }
 
         public IEnumerable<Product> Products { get; set; } = new List<Product>();
         public IEnumerable<Category> Categories { get; set; } = new List<Category>();
-        public int? SelectedCategoryId { get; set; }
+        public IEnumerable<string> AvailableToppings { get; set; } = new List<string>();
+        public IList<int> SelectedCategoryIds { get; set; } = new List<int>();
+        public IList<string> SelectedToppings { get; set; } = new List<string>();
         public string? SearchKeyword { get; set; }
         public decimal? MinPrice { get; set; }
         public decimal? MaxPrice { get; set; }
-        public List<string>? SelectedSizes { get; set; }
         public string? SortBy { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? categoryId, string? searchKeyword, 
-            decimal? minPrice, decimal? maxPrice, List<string>? sizes, string? sortBy)
+        public async Task<IActionResult> OnGetAsync(
+            [FromQuery(Name = "categories")] List<int>? categoryIds,
+            int? categoryId,
+            string? searchKeyword,
+            decimal? minPrice,
+            decimal? maxPrice,
+            [FromQuery(Name = "toppings")] List<string>? toppings,
+            string? sortBy)
         {
             try
             {
-                SelectedCategoryId = categoryId;
+                var selectedCategoryIds = categoryIds ?? new List<int>();
+                if (categoryId.HasValue && !selectedCategoryIds.Contains(categoryId.Value))
+                {
+                    selectedCategoryIds.Add(categoryId.Value);
+                }
+
+                SelectedCategoryIds = selectedCategoryIds
+                    .Distinct()
+                    .ToList();
+
                 SearchKeyword = searchKeyword;
                 MinPrice = minPrice;
                 MaxPrice = maxPrice;
-                SelectedSizes = sizes;
                 SortBy = sortBy;
 
-                // Get all available products
-                IEnumerable<Product> products;
-                if (categoryId.HasValue)
+                if (toppings != null && toppings.Any())
                 {
-                    products = await _productService.GetProductsByCategoryAsync(categoryId.Value);
+                    SelectedToppings = toppings
+                        .Where(t => !string.IsNullOrWhiteSpace(t))
+                        .Select(t => t.Trim())
+                        .Distinct(StringComparer.OrdinalIgnoreCase)
+                        .ToList();
                 }
                 else
                 {
-                    products = await _productService.GetAvailableProductsAsync();
+                    SelectedToppings = new List<string>();
+                }
+
+                var allProducts = (await _productService.GetAvailableProductsAsync()).ToList();
+
+                Categories = (await _categoryService.GetAllCategoriesAsync())
+                    .OrderBy(c => c.DisplayOrder)
+                    .ThenBy(c => c.CategoryName)
+                    .ToList();
+
+                // Get all available topping IDs from products
+                var toppingIds = allProducts
+                    .Where(p => !string.IsNullOrWhiteSpace(p.AvailableToppingIds))
+                    .SelectMany(p => p.AvailableToppingIds!
+                        .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
+                    .Select(id => id.Trim())
+                    .Distinct()
+                    .OrderBy(id => id)
+                    .ToList();
+                
+                AvailableToppings = toppingIds;
+
+                IEnumerable<Product> filteredProducts = allProducts;
+
+                if (SelectedCategoryIds.Any())
+                {
+                    var categorySet = new HashSet<int>(SelectedCategoryIds);
+                    filteredProducts = filteredProducts.Where(p => categorySet.Contains(p.CategoryId));
                 }
 
                 // Apply search filter
                 if (!string.IsNullOrEmpty(searchKeyword))
                 {
-                    products = products.Where(p => 
+                    filteredProducts = filteredProducts.Where(p =>
                         p.ProductName.Contains(searchKeyword, StringComparison.OrdinalIgnoreCase) ||
                         (p.Description != null && p.Description.Contains(searchKeyword, StringComparison.OrdinalIgnoreCase))
                     );
                 }
 
-                // Apply price filter
+                // Apply price filter (using Medium size price as default)
                 if (minPrice.HasValue)
                 {
-                    products = products.Where(p => p.Price >= minPrice.Value);
+                    filteredProducts = filteredProducts.Where(p => p.PriceM >= minPrice.Value);
                 }
                 if (maxPrice.HasValue)
                 {
-                    products = products.Where(p => p.Price <= maxPrice.Value);
+                    filteredProducts = filteredProducts.Where(p => p.PriceM <= maxPrice.Value);
                 }
 
-                // Apply size filter
-                if (sizes != null && sizes.Any())
+                if (SelectedToppings.Any())
                 {
-                    products = products.Where(p => 
-                        !string.IsNullOrEmpty(p.Size) && 
-                        sizes.Any(s => p.Size.Contains(s, StringComparison.OrdinalIgnoreCase))
-                    );
+                    var toppingSet = new HashSet<string>(SelectedToppings, StringComparer.OrdinalIgnoreCase);
+                    filteredProducts = filteredProducts.Where(p =>
+                    {
+                        if (string.IsNullOrWhiteSpace(p.AvailableToppingIds))
+                        {
+                            return false;
+                        }
+
+                        var productToppingIds = p.AvailableToppingIds
+                            .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+                            .Select(id => id.Trim())
+                            .Where(id => !string.IsNullOrWhiteSpace(id));
+
+                        return productToppingIds.Any(id => toppingSet.Contains(id));
+                    });
                 }
 
-                // Apply sorting
-                products = sortBy switch
+                // Apply sorting (using Medium price for price sorting)
+                filteredProducts = sortBy switch
                 {
-                    "newest" => products.OrderByDescending(p => p.CreatedAt),
-                    "price-asc" => products.OrderBy(p => p.Price),
-                    "price-desc" => products.OrderByDescending(p => p.Price),
-                    "name-asc" => products.OrderBy(p => p.ProductName),
-                    "name-desc" => products.OrderByDescending(p => p.ProductName),
-                    _ => products.OrderBy(p => p.Id)
+                    "newest" => filteredProducts.OrderByDescending(p => p.CreatedAt),
+                    "price-asc" => filteredProducts.OrderBy(p => p.PriceM),
+                    "price-desc" => filteredProducts.OrderByDescending(p => p.PriceM),
+                    "name-asc" => filteredProducts.OrderBy(p => p.ProductName),
+                    "name-desc" => filteredProducts.OrderByDescending(p => p.ProductName),
+                    _ => filteredProducts.OrderBy(p => p.Id)
                 };
 
-                Products = products.ToList();
-
-                // Get all categories for filter
-                Categories = Products.Select(p => p.Category).Distinct().ToList();
+                Products = filteredProducts.ToList();
 
                 return Page();
             }

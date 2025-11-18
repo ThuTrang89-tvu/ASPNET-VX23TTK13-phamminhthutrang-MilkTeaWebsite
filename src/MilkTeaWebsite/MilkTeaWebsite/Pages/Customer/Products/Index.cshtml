@@ -1,171 +1,214 @@
 @page
+@using System
+@using System.Linq
 @model MilkTeaWebsite.Pages.Customer.Products.IndexModel
 @{
     ViewData["Title"] = "Sản phẩm";
     Layout = "~/Pages/Shared/_CustomerLayout.cshtml";
 }
 
-<div class="container mt-4">
-    <h2 class="mb-4">Sản phẩm của chúng tôi</h2>
-    
-    <!-- Search Bar -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <form method="get" class="d-flex gap-2">
-                <input type="text" name="searchKeyword" value="@Model.SearchKeyword" 
-                       class="form-control" placeholder="Tìm kiếm sản phẩm..." />
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-search"></i> Tìm kiếm
-                </button>
-                @if (!string.IsNullOrEmpty(Model.SearchKeyword))
-                {
-                    <a asp-page="/Customer/Products/Index" class="btn btn-outline-secondary">
-                        <i class="fas fa-times"></i> Xóa
-                    </a>
-                }
-            </form>
-        </div>
-    </div>
-
-    <div class="row">
-        <!-- Sidebar Filter -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="fas fa-filter"></i> Bộ lọc</h5>
+@section PageHero {
+    <div class="container-xl">
+        <div class="hero-banner">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-7">
+                    <h1>Trà sữa ngọt ngào mỗi ngày</h1>
+                    <p>Chọn món thức uống yêu thích, mix topping cá tính và nhận ưu đãi mới mỗi tuần ngay tại Milk Tea Studio.</p>
+                    <div class="hero-cta">
+                        <a href="#menu" class="btn btn-primary"><i class="fas fa-mug-hot me-2"></i>Khám phá menu</a>
+                        <span class="tag-pill">Giao nhanh 30 phút</span>
+                        <span class="tag-pill">Ưu đãi thành viên</span>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form method="get" id="filterForm">
-                        <input type="hidden" name="searchKeyword" value="@Model.SearchKeyword" />
-                        
-                        <!-- Category Filter -->
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Danh mục</label>
-                            <div class="list-group">
-                                <a asp-page="/Customer/Products/Index" 
-                                   asp-route-searchKeyword="@Model.SearchKeyword"
-                                   class="list-group-item list-group-item-action @(Model.SelectedCategoryId == null ? "active" : "")">
-                                    Tất cả
-                                </a>
-                                @foreach (var category in Model.Categories)
-                                {
-                                    <a asp-page="/Customer/Products/Index" 
-                                       asp-route-categoryId="@category.Id"
-                                       asp-route-searchKeyword="@Model.SearchKeyword"
-                                       class="list-group-item list-group-item-action @(Model.SelectedCategoryId == category.Id ? "active" : "")">
-                                        @category.CategoryName
-                                    </a>
-                                }
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <!-- Price Filter -->
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Khoảng giá</label>
-                            <div class="row g-2">
-                                <div class="col-6">
-                                    <input type="number" name="minPrice" value="@Model.MinPrice" 
-                                           class="form-control form-control-sm" placeholder="Từ" min="0" step="1000" />
-                                </div>
-                                <div class="col-6">
-                                    <input type="number" name="maxPrice" value="@Model.MaxPrice" 
-                                           class="form-control form-control-sm" placeholder="Đến" min="0" step="1000" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <!-- Size Filter -->
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Kích thước</label>
-                            <div class="form-check">
-                                <input type="checkbox" name="sizes" value="S" class="form-check-input" 
-                                       @(Model.SelectedSizes?.Contains("S") == true ? "checked" : "") />
-                                <label class="form-check-label">Size S</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" name="sizes" value="M" class="form-check-input"
-                                       @(Model.SelectedSizes?.Contains("M") == true ? "checked" : "") />
-                                <label class="form-check-label">Size M</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" name="sizes" value="L" class="form-check-input"
-                                       @(Model.SelectedSizes?.Contains("L") == true ? "checked" : "") />
-                                <label class="form-check-label">Size L</label>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <!-- Sort Filter -->
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Sắp xếp theo</label>
-                            <select name="sortBy" class="form-select form-select-sm">
-                                <option value="" selected="@(string.IsNullOrEmpty(Model.SortBy))">Mặc định</option>
-                                <option value="newest" selected="@(Model.SortBy == "newest")">Mới nhất</option>
-                                <option value="price-asc" selected="@(Model.SortBy == "price-asc")">Giá thấp đến cao</option>
-                                <option value="price-desc" selected="@(Model.SortBy == "price-desc")">Giá cao đến thấp</option>
-                                <option value="name-asc" selected="@(Model.SortBy == "name-asc")">Tên A-Z</option>
-                                <option value="name-desc" selected="@(Model.SortBy == "name-desc")">Tên Z-A</option>
-                            </select>
-                        </div>
-
-                        <input type="hidden" name="categoryId" value="@Model.SelectedCategoryId" />
-                        
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fas fa-check"></i> Áp dụng
-                            </button>
-                            <a asp-page="/Customer/Products/Index" class="btn btn-outline-secondary btn-sm">
-                                <i class="fas fa-redo"></i> Đặt lại
-                            </a>
-                        </div>
-                    </form>
+                <div class="col-lg-5 text-lg-end">
+                    <span class="badge-gradient">Freeship toàn bộ đơn từ 99.000đ</span>
                 </div>
             </div>
         </div>
+    </div>
+}
 
-        <!-- Products Grid -->
-        <div class="col-md-9">
+<div class="container-xl">
+    <div class="row g-4 align-items-start">
+        <div class="col-lg-3">
+            <form method="get" class="filter-panel glass-card" id="product-filter-form">
+                <div class="filter-panel__group">
+                    <span class="filter-panel__title">Tìm kiếm</span>
+                    <div class="search-control">
+                        <i class="fas fa-search"></i>
+                        <input type="text" name="searchKeyword" value="@Model.SearchKeyword" placeholder="Tìm món yêu thích..." />
+                    </div>
+                </div>
+
+                <div class="filter-panel__group">
+                    <span class="filter-panel__title">Danh mục</span>
+                    <div class="category-chips">
+                        @foreach (var category in Model.Categories)
+                        {
+                            var isChecked = Model.SelectedCategoryIds.Contains(category.Id);
+                            <label class="category-chip">
+                                <input type="checkbox" name="categories" value="@category.Id" @(isChecked ? "checked" : "") data-autosubmit />
+                                <span><i class="fas fa-tag"></i> @category.CategoryName</span>
+                            </label>
+                        }
+                    </div>
+                    <button type="button" class="btn btn-link p-0 category-reset" data-reset-categories>
+                        <i class="fas fa-rotate-left me-1"></i>Bỏ chọn tất cả
+                    </button>
+                </div>
+
+                <div class="filter-panel__group">
+                    <span class="filter-panel__title">Khoảng giá</span>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <input type="number" name="minPrice" value="@Model.MinPrice" class="form-control form-control-sm" placeholder="Từ" min="0" step="1000" />
+                        </div>
+                        <div class="col-6">
+                            <input type="number" name="maxPrice" value="@Model.MaxPrice" class="form-control form-control-sm" placeholder="Đến" min="0" step="1000" />
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.AvailableToppings.Any())
+                {
+                    <div class="filter-panel__group">
+                        <span class="filter-panel__title">Topping</span>
+                        <div class="category-chips">
+                            @foreach (var topping in Model.AvailableToppings)
+                            {
+                                var isChecked = Model.SelectedToppings.Contains(topping, StringComparer.OrdinalIgnoreCase);
+                                <label class="category-chip">
+                                    <input type="checkbox" name="toppings" value="@topping" @(isChecked ? "checked" : "") data-autosubmit />
+                                    <span><i class="fas fa-star"></i> @topping</span>
+                                </label>
+                            }
+                        </div>
+                        <button type="button" class="btn btn-link p-0 category-reset" data-reset-toppings>
+                            <i class="fas fa-eraser me-1"></i>Bỏ chọn topping
+                        </button>
+                    </div>
+                }
+
+                <div class="filter-panel__group">
+                    <span class="filter-panel__title">Sắp xếp</span>
+                    @{ var sortValue = Model.SortBy ?? string.Empty; }
+                    <select name="sortBy" class="form-select form-select-sm" data-autosubmit>
+                        @if (string.IsNullOrEmpty(sortValue))
+                        {
+                            <option value="" selected>Mặc định</option>
+                        }
+                        else
+                        {
+                            <option value="">Mặc định</option>
+                        }
+
+                        @if (string.Equals(sortValue, "newest", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <option value="newest" selected>Mới nhất</option>
+                        }
+                        else
+                        {
+                            <option value="newest">Mới nhất</option>
+                        }
+
+                        @if (string.Equals(sortValue, "price-asc", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <option value="price-asc" selected>Giá thấp đến cao</option>
+                        }
+                        else
+                        {
+                            <option value="price-asc">Giá thấp đến cao</option>
+                        }
+
+                        @if (string.Equals(sortValue, "price-desc", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <option value="price-desc" selected>Giá cao đến thấp</option>
+                        }
+                        else
+                        {
+                            <option value="price-desc">Giá cao đến thấp</option>
+                        }
+
+                        @if (string.Equals(sortValue, "name-asc", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <option value="name-asc" selected>Tên A-Z</option>
+                        }
+                        else
+                        {
+                            <option value="name-asc">Tên A-Z</option>
+                        }
+
+                        @if (string.Equals(sortValue, "name-desc", StringComparison.OrdinalIgnoreCase))
+                        {
+                            <option value="name-desc" selected>Tên Z-A</option>
+                        }
+                        else
+                        {
+                            <option value="name-desc">Tên Z-A</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="filter-panel__actions">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-sliders me-2"></i>Áp dụng</button>
+                    <a asp-page="/Customer/Products/Index" class="btn btn-outline-secondary"><i class="fas fa-rotate-left me-2"></i>Đặt lại</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-lg-9">
+            <div id="menu" class="section-heading">
+                <span>Signature menu</span>
+                <h2>Sản phẩm của chúng tôi</h2>
+            </div>
+
+            @{ var productCount = Model.Products?.Count() ?? 0; }
             @if (!string.IsNullOrEmpty(Model.SearchKeyword))
             {
-                <div class="alert alert-info">
-                    Kết quả tìm kiếm cho: <strong>"@Model.SearchKeyword"</strong> 
-                    (@Model.Products.Count() sản phẩm)
+                <div class="alert alert-soft d-flex align-items-center gap-2">
+                    <i class="fas fa-wand-magic-sparkles"></i>
+                    <span>Kết quả tìm kiếm cho <strong>"@Model.SearchKeyword"</strong> (@productCount sản phẩm)</span>
                 </div>
             }
 
             @if (Model.Products != null && Model.Products.Any())
             {
-                <div class="row">
+                <div class="row g-4">
                     @foreach (var product in Model.Products)
                     {
-                        <div class="col-md-4 col-sm-6 mb-4">
-                            <div class="card product-card h-100">
-                                <img src="@(string.IsNullOrEmpty(product.ImageUrl) ? "/images/no-image.jpg" : product.ImageUrl)" 
-                                     class="card-img-top" alt="@product.ProductName">
-                                <div class="card-body">
-                                    <h5 class="card-title">@product.ProductName</h5>
-                                    <p class="card-text text-muted small">@product.Description</p>
-                                    <p class="text-primary fw-bold">@product.Price.ToString("N0") đ</p>
-                                    @if (product.IsAvailable && product.StockQuantity > 0)
-                                    {
-                                        <div class="d-grid gap-2">
-                                            <a asp-page="/Customer/Products/Detail" asp-route-id="@product.Id" 
-                                               class="btn btn-primary btn-sm">
-                                                <i class="fas fa-eye"></i> Chi tiết
+                        <div class="col-md-6 col-xl-4">
+                            <div class="product-card">
+                                <div class="product-card__image">
+                                    <img src="@(string.IsNullOrEmpty(product.ImageUrl) ? "/images/no-image.jpg" : product.ImageUrl)" alt="@product.ProductName" />
+                                </div>
+                                <div class="product-card__body">
+                                    <div class="d-flex justify-content-between align-items-start gap-2">
+                                        <h5 class="product-card__title">@product.ProductName</h5>
+                                        <span class="price-tag"><i class="fas fa-coins"></i>@product.PriceM.ToString("N0") đ</span>
+                                    </div>
+                                    <p class="product-card__description">@product.Description</p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge-tag"><i class="fas fa-ruler-combined me-1"></i>S/M/L</span>
+                                        @if (!string.IsNullOrEmpty(product.AvailableToppingIds))
+                                        {
+                                            var toppingCount = product.AvailableToppingIds.Split(',', StringSplitOptions.RemoveEmptyEntries).Length;
+                                            <span class="badge-tag"><i class="fas fa-star me-1"></i>@toppingCount toppings</span>
+                                        }
+                                    </div>
+                                    <div class="product-card__footer">
+                                        @if (product.IsAvailable && product.StockQuantity > 0)
+                                        {
+                                            <a asp-page="/Customer/Products/Detail" asp-route-id="@product.Id" class="btn btn-primary w-100">
+                                                <i class="fas fa-mug-hot me-2"></i>Chi tiết
                                             </a>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <button class="btn btn-secondary btn-sm w-100" disabled>
-                                            Hết hàng
-                                        </button>
-                                    }
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-secondary w-100" disabled>
+                                                <i class="fas fa-circle-exclamation me-2"></i>Hết hàng
+                                            </button>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -174,10 +217,43 @@
             }
             else
             {
-                <div class="alert alert-info text-center">
-                    <i class="fas fa-info-circle"></i> Không có sản phẩm nào phù hợp.
+                <div class="empty-state">
+                    <i class="fas fa-magnifying-glass"></i>
+                    <p>Không có sản phẩm nào phù hợp với bộ lọc hiện tại. Hãy thử thay đổi điều kiện tìm kiếm.</p>
+                    <a asp-page="/Customer/Products/Index" class="btn btn-primary mt-3"><i class="fas fa-rotate-left me-2"></i>Đặt lại bộ lọc</a>
                 </div>
             }
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        (() => {
+            const form = document.getElementById('product-filter-form');
+            if (!form) return;
+
+            const submitForm = () => window.requestAnimationFrame(() => form.requestSubmit());
+
+            form.querySelectorAll('[data-autosubmit]').forEach(element => {
+                element.addEventListener('change', submitForm);
+            });
+
+            const resetCategories = form.querySelector('[data-reset-categories]');
+            if (resetCategories) {
+                resetCategories.addEventListener('click', () => {
+                    form.querySelectorAll('input[name="categories"]').forEach(input => { input.checked = false; });
+                    submitForm();
+                });
+            }
+
+            const resetToppings = form.querySelector('[data-reset-toppings]');
+            if (resetToppings) {
+                resetToppings.addEventListener('click', () => {
+                    form.querySelectorAll('input[name="toppings"]').forEach(input => { input.checked = false; });
+                    submitForm();
+                });
+            }
+        })();
+    </script>
+}
