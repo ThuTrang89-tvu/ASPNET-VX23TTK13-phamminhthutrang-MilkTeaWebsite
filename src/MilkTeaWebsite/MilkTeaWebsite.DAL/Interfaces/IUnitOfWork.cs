@@ -10,6 +10,7 @@ namespace MilkTeaWebsite.DAL.Interfaces
         IEmployeeRepository Employees { get; }
         ICategoryRepository Categories { get; }
         IProductRepository Products { get; }
+        IToppingRepository Toppings { get; }
         ICartRepository Carts { get; }
         ICartItemRepository CartItems { get; }
         IOrderRepository Orders { get; }

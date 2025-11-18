@@ -15,6 +15,7 @@ namespace MilkTeaWebsite.DAL.Implements
         public IEmployeeRepository Employees { get; private set; }
         public ICategoryRepository Categories { get; private set; }
         public IProductRepository Products { get; private set; }
+        public IToppingRepository Toppings { get; private set; }
         public ICartRepository Carts { get; private set; }
         public ICartItemRepository CartItems { get; private set; }
         public IOrderRepository Orders { get; private set; }
@@ -31,6 +32,7 @@ namespace MilkTeaWebsite.DAL.Implements
             Employees = new EmployeeRepository(_context);
             Categories = new CategoryRepository(_context);
             Products = new ProductRepository(_context);
+            Toppings = new ToppingRepository(_context);
             Carts = new CartRepository(_context);
             CartItems = new CartItemRepository(_context);
             Orders = new OrderRepository(_context);

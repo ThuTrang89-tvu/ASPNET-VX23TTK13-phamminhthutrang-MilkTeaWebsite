@@ -18,6 +18,7 @@ namespace MilkTeaWebsite.DAL.Context
         public DbSet<Employee> Employees { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<Topping> Toppings { get; set; } = null!;
         public DbSet<Cart> Carts { get; set; } = null!;
         public DbSet<CartItem> CartItems { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
@@ -100,15 +101,25 @@ namespace MilkTeaWebsite.DAL.Context
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.ProductName).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.Description).HasMaxLength(1000);
-                entity.Property(e => e.Price).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.PriceS).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.PriceM).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.PriceL).HasColumnType("decimal(18,2)");
                 entity.Property(e => e.ImageUrl).HasMaxLength(500);
-                entity.Property(e => e.Size).HasMaxLength(10);
-                entity.Property(e => e.Topping).HasMaxLength(500);
+                entity.Property(e => e.AvailableToppingIds).HasMaxLength(500);
                 
                 entity.HasOne(e => e.Category)
                     .WithMany(c => c.Products)
                     .HasForeignKey(e => e.CategoryId)
                     .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // Configure Topping
+            modelBuilder.Entity<Topping>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.ToppingName).IsRequired().HasMaxLength(100);
+                entity.Property(e => e.Description).HasMaxLength(500);
+                entity.Property(e => e.ToppingPrice).HasColumnType("decimal(18,2)");
             });
 
             // Configure Cart
@@ -126,9 +137,11 @@ namespace MilkTeaWebsite.DAL.Context
             modelBuilder.Entity<CartItem>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.UnitPrice).HasColumnType("decimal(18,2)");
                 entity.Property(e => e.Size).HasMaxLength(10);
-                entity.Property(e => e.Topping).HasMaxLength(500);
+                entity.Property(e => e.BasePrice).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.ToppingPrice).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.TotalPrice).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.SelectedToppings).HasMaxLength(500);
                 entity.Property(e => e.Note).HasMaxLength(500);
                 
                 entity.HasOne(e => e.Cart)
@@ -171,10 +184,12 @@ namespace MilkTeaWebsite.DAL.Context
             modelBuilder.Entity<OrderDetail>(entity =>
             {
                 entity.HasKey(e => e.Id);
+                entity.Property(e => e.Size).HasMaxLength(10);
+                entity.Property(e => e.BasePrice).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.ToppingPrice).HasColumnType("decimal(18,2)");
                 entity.Property(e => e.UnitPrice).HasColumnType("decimal(18,2)");
                 entity.Property(e => e.TotalPrice).HasColumnType("decimal(18,2)");
-                entity.Property(e => e.Size).HasMaxLength(10);
-                entity.Property(e => e.Topping).HasMaxLength(500);
+                entity.Property(e => e.SelectedToppings).HasMaxLength(500);
                 entity.Property(e => e.Note).HasMaxLength(500);
                 
                 entity.HasOne(e => e.Order)
