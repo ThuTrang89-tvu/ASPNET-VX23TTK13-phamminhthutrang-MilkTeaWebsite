@@ -42,15 +42,54 @@ namespace MilkTeaWebsite.BLL.Implements
             if (product == null || !product.IsAvailable)
                 throw new Exception("Product not available");
 
+            // Determine base price from size
+            size = size?.ToUpper() ?? "M"; // Default to M if not specified
+            decimal basePrice = size switch
+            {
+                "S" => product.PriceS,
+                "M" => product.PriceM,
+                "L" => product.PriceL,
+                _ => product.PriceM
+            };
+
+            // Calculate topping price
+            decimal toppingPrice = 0;
+            if (!string.IsNullOrWhiteSpace(topping))
+            {
+                var toppingNames = topping.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(t => t.Trim())
+                    .Where(t => !string.IsNullOrWhiteSpace(t))
+                    .ToList();
+
+                if (toppingNames.Any())
+                {
+                    var allToppings = await _unitOfWork.Toppings.GetAllAsync();
+                    foreach (var toppingName in toppingNames)
+                    {
+                        var toppingEntity = allToppings.FirstOrDefault(t => 
+                            t.ToppingName.Equals(toppingName, StringComparison.OrdinalIgnoreCase) && 
+                            t.IsAvailable);
+                        if (toppingEntity != null)
+                        {
+                            toppingPrice += toppingEntity.ToppingPrice;
+                        }
+                    }
+                }
+            }
+
+            // Calculate total price
+            decimal totalPrice = (basePrice + toppingPrice) * quantity;
+
             // Check if same item exists in cart
             var existingItem = cart.CartItems.FirstOrDefault(ci => 
                 ci.ProductId == productId && 
                 ci.Size == size && 
-                ci.Topping == topping);
+                ci.SelectedToppings == topping);
 
             if (existingItem != null)
             {
                 existingItem.Quantity += quantity;
+                existingItem.TotalPrice = (existingItem.BasePrice + existingItem.ToppingPrice) * existingItem.Quantity;
                 existingItem.UpdatedAt = DateTime.UtcNow;
                 _unitOfWork.CartItems.Update(existingItem);
             }
@@ -61,9 +100,11 @@ namespace MilkTeaWebsite.BLL.Implements
                     CartId = cart.Id,
                     ProductId = productId,
                     Quantity = quantity,
-                    UnitPrice = product.Price,
                     Size = size,
-                    Topping = topping,
+                    BasePrice = basePrice,
+                    ToppingPrice = toppingPrice,
+                    TotalPrice = totalPrice,
+                    SelectedToppings = topping,
                     Note = note,
                     CreatedAt = DateTime.UtcNow
                 };
@@ -118,7 +159,7 @@ namespace MilkTeaWebsite.BLL.Implements
         public async Task<decimal> GetCartTotalAsync(int cartId)
         {
             var cartItems = await _unitOfWork.CartItems.GetCartItemsByCartIdAsync(cartId);
-            return cartItems.Sum(ci => ci.UnitPrice * ci.Quantity);
+            return cartItems.Sum(ci => ci.TotalPrice);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace MilkTeaWebsite.BLL.Implements
                 throw new Exception("Cart is empty");
 
             // Calculate totals
-            decimal totalAmount = cart.CartItems.Sum(ci => ci.UnitPrice * ci.Quantity);
+            decimal totalAmount = cart.CartItems.Sum(ci => ci.TotalPrice);
 
             // Create order
             var order = new Order
@@ -50,15 +50,18 @@ namespace MilkTeaWebsite.BLL.Implements
             // Create order details from cart items
             foreach (var cartItem in cart.CartItems)
             {
+                var unitPrice = cartItem.BasePrice + cartItem.ToppingPrice;
                 var orderDetail = new OrderDetail
                 {
                     OrderId = order.Id,
                     ProductId = cartItem.ProductId,
                     Quantity = cartItem.Quantity,
-                    UnitPrice = cartItem.UnitPrice,
-                    TotalPrice = cartItem.UnitPrice * cartItem.Quantity,
                     Size = cartItem.Size,
-                    Topping = cartItem.Topping,
+                    BasePrice = cartItem.BasePrice,
+                    ToppingPrice = cartItem.ToppingPrice,
+                    UnitPrice = unitPrice,
+                    TotalPrice = cartItem.TotalPrice,
+                    SelectedToppings = cartItem.SelectedToppings,
                     Note = cartItem.Note,
                     CreatedAt = DateTime.UtcNow
                 };
