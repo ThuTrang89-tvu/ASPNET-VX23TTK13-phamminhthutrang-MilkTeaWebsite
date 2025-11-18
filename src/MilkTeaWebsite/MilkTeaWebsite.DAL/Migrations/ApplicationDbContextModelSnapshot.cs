@@ -60,6 +60,9 @@ namespace MilkTeaWebsite.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("BasePrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("CartId")
                         .HasColumnType("integer");
 
@@ -79,15 +82,18 @@ namespace MilkTeaWebsite.DAL.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
+                    b.Property<string>("SelectedToppings")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
                     b.Property<string>("Size")
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)");
 
-                    b.Property<string>("Topping")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                    b.Property<decimal>("ToppingPrice")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("UnitPrice")
+                    b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -388,6 +394,9 @@ namespace MilkTeaWebsite.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("BasePrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -407,13 +416,16 @@ namespace MilkTeaWebsite.DAL.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
+                    b.Property<string>("SelectedToppings")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
                     b.Property<string>("Size")
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)");
 
-                    b.Property<string>("Topping")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                    b.Property<decimal>("ToppingPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -493,6 +505,10 @@ namespace MilkTeaWebsite.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AvailableToppingIds")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("integer");
 
@@ -513,7 +529,13 @@ namespace MilkTeaWebsite.DAL.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal>("PriceL")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PriceM")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PriceS")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ProductName")
@@ -521,16 +543,8 @@ namespace MilkTeaWebsite.DAL.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<string>("Size")
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
-
                     b.Property<int>("StockQuantity")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Topping")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -545,219 +559,240 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 1,
+                            AvailableToppingIds = "1,2,3,4,6",
                             CategoryId = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa được pha chế theo công thức truyền thống, hương vị đậm đà",
                             ImageUrl = "/images/products/tra-sua-truyen-thong.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 35000m,
+                            PriceL = 40000m,
+                            PriceM = 35000m,
+                            PriceS = 30000m,
                             ProductName = "Trà Sữa Truyền Thống",
-                            Size = "M, L",
-                            StockQuantity = 100,
-                            Topping = "Trân châu, Thạch, Pudding"
+                            StockQuantity = 100
                         },
                         new
                         {
                             Id = 2,
+                            AvailableToppingIds = "1,2,3,6,7",
                             CategoryId = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa pha với socola nguyên chất, béo ngậy",
                             ImageUrl = "/images/products/tra-sua-socola.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 40000m,
+                            PriceL = 45000m,
+                            PriceM = 40000m,
+                            PriceS = 35000m,
                             ProductName = "Trà Sữa Socola",
-                            Size = "M, L",
-                            StockQuantity = 80,
-                            Topping = "Trân châu, Thạch, Pudding"
+                            StockQuantity = 80
                         },
                         new
                         {
                             Id = 3,
+                            AvailableToppingIds = "1,2,3,6,7",
                             CategoryId = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa matcha Nhật Bản thơm ngon, đậm vị trà xanh",
                             ImageUrl = "/images/products/tra-sua-matcha.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 45000m,
+                            PriceL = 50000m,
+                            PriceM = 45000m,
+                            PriceS = 40000m,
                             ProductName = "Trà Sữa Matcha",
-                            Size = "M, L",
-                            StockQuantity = 90,
-                            Topping = "Trân châu, Thạch, Pudding"
+                            StockQuantity = 90
                         },
                         new
                         {
                             Id = 4,
+                            AvailableToppingIds = "1,2,4,6,8",
                             CategoryId = 2,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa kết hợp với dâu tây tươi ngon",
                             ImageUrl = "/images/products/tra-sua-dau-tay.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 42000m,
+                            PriceL = 47000m,
+                            PriceM = 42000m,
+                            PriceS = 38000m,
                             ProductName = "Trà Sữa Dâu Tây",
-                            Size = "M, L",
-                            StockQuantity = 75,
-                            Topping = "Trân châu, Thạch dâu, Pudding"
+                            StockQuantity = 75
                         },
                         new
                         {
                             Id = 5,
+                            AvailableToppingIds = "1,2,4,8",
                             CategoryId = 2,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa xoài thơm ngon, vị ngọt dịu",
                             ImageUrl = "/images/products/tra-sua-xoai.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 40000m,
+                            PriceL = 45000m,
+                            PriceM = 40000m,
+                            PriceS = 36000m,
                             ProductName = "Trà Sữa Xoài",
-                            Size = "M, L",
-                            StockQuantity = 85,
-                            Topping = "Trân châu, Thạch xoài, Pudding"
+                            StockQuantity = 85
                         },
                         new
                         {
                             Id = 6,
+                            AvailableToppingIds = "1,2,4,8",
                             CategoryId = 2,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa đào ngọt thanh, tươi mát",
                             ImageUrl = "/images/products/tra-sua-dao.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 42000m,
+                            PriceL = 47000m,
+                            PriceM = 42000m,
+                            PriceS = 38000m,
                             ProductName = "Trà Sữa Đào",
-                            Size = "M, L",
-                            StockQuantity = 70,
-                            Topping = "Trân châu, Thạch đào, Pudding"
+                            StockQuantity = 70
                         },
                         new
                         {
                             Id = 7,
+                            AvailableToppingIds = "4,5,8",
                             CategoryId = 3,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà đào cam sả thơm ngon, giải nhiệt",
                             ImageUrl = "/images/products/tra-dao-cam-sa.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 38000m,
+                            PriceL = 43000m,
+                            PriceM = 38000m,
+                            PriceS = 33000m,
                             ProductName = "Trà Đào Cam Sả",
-                            Size = "M, L",
-                            StockQuantity = 95,
-                            Topping = "Thạch, Trái cây"
+                            StockQuantity = 95
                         },
                         new
                         {
                             Id = 8,
+                            AvailableToppingIds = "4,5,8",
                             CategoryId = 3,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà chanh leo chua ngọt, thanh mát",
                             ImageUrl = "/images/products/tra-chanh-leo.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 35000m,
+                            PriceL = 40000m,
+                            PriceM = 35000m,
+                            PriceS = 30000m,
                             ProductName = "Trà Chanh Leo",
-                            Size = "M, L",
-                            StockQuantity = 100,
-                            Topping = "Thạch, Trái cây"
+                            StockQuantity = 100
                         },
                         new
                         {
                             Id = 9,
+                            AvailableToppingIds = "4,5,8",
                             CategoryId = 3,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà vải thơm ngon, ngọt dịu",
                             ImageUrl = "/images/products/tra-vai.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 36000m,
+                            PriceL = 41000m,
+                            PriceM = 36000m,
+                            PriceS = 31000m,
                             ProductName = "Trà Vải",
-                            Size = "M, L",
-                            StockQuantity = 88,
-                            Topping = "Thạch vải, Trái cây"
+                            StockQuantity = 88
                         },
                         new
                         {
                             Id = 10,
+                            AvailableToppingIds = "",
                             CategoryId = 4,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Cà phê sữa đá truyền thống Việt Nam",
                             ImageUrl = "/images/products/ca-phe-sua-da.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 30000m,
+                            PriceL = 35000m,
+                            PriceM = 30000m,
+                            PriceS = 25000m,
                             ProductName = "Cà Phê Sữa Đá",
-                            Size = "M, L",
-                            StockQuantity = 120,
-                            Topping = "Shot thêm"
+                            StockQuantity = 120
                         },
                         new
                         {
                             Id = 11,
+                            AvailableToppingIds = "",
                             CategoryId = 4,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Cà phê sữa nhẹ nhàng, ngọt dịu",
                             ImageUrl = "/images/products/bac-xiu.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 32000m,
+                            PriceL = 37000m,
+                            PriceM = 32000m,
+                            PriceS = 27000m,
                             ProductName = "Bạc Xỉu",
-                            Size = "M, L",
-                            StockQuantity = 110,
-                            Topping = "Shot thêm"
+                            StockQuantity = 110
                         },
                         new
                         {
                             Id = 12,
+                            AvailableToppingIds = "",
                             CategoryId = 4,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Cà phê Cappuccino thơm ngon kiểu Ý",
                             ImageUrl = "/images/products/cappuccino.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 45000m,
+                            PriceL = 50000m,
+                            PriceM = 45000m,
+                            PriceS = 40000m,
                             ProductName = "Cappuccino",
-                            Size = "M, L",
-                            StockQuantity = 65,
-                            Topping = "Shot thêm"
+                            StockQuantity = 65
                         },
                         new
                         {
                             Id = 13,
+                            AvailableToppingIds = "",
                             CategoryId = 5,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Bánh flan mềm mịn, ngọt dịu",
                             ImageUrl = "/images/products/banh-flan.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 15000m,
+                            PriceL = 15000m,
+                            PriceM = 15000m,
+                            PriceS = 15000m,
                             ProductName = "Bánh Flan",
                             StockQuantity = 50
                         },
                         new
                         {
                             Id = 14,
+                            AvailableToppingIds = "",
                             CategoryId = 5,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Bánh bông lan phô mai trứng muối thơm ngon",
                             ImageUrl = "/images/products/banh-bong-lan.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 25000m,
+                            PriceL = 25000m,
+                            PriceM = 25000m,
+                            PriceS = 25000m,
                             ProductName = "Bánh Bông Lan Trứng Muối",
                             StockQuantity = 40
                         },
                         new
                         {
                             Id = 15,
+                            AvailableToppingIds = "",
                             CategoryId = 5,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Khoai lang kén giòn tan, thơm ngon",
                             ImageUrl = "/images/products/khoai-lang-ken.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
-                            Price = 20000m,
+                            PriceL = 20000m,
+                            PriceM = 20000m,
+                            PriceS = 20000m,
                             ProductName = "Khoai Lang Kén",
                             StockQuantity = 60
                         });
@@ -819,6 +854,125 @@ namespace MilkTeaWebsite.DAL.Migrations
                             Description = "Customer",
                             IsDeleted = false,
                             RoleName = "Customer"
+                        });
+                });
+
+            modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.Topping", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("ToppingName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<decimal>("ToppingPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Toppings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Trân châu đen dai dai, ngọt ngọt",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            ToppingName = "Trân châu đen",
+                            ToppingPrice = 5000m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Trân châu trắng mềm mịn",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            ToppingName = "Trân châu trắng",
+                            ToppingPrice = 5000m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Thạch rau câu nhiều màu sắc",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            ToppingName = "Thạch rau câu",
+                            ToppingPrice = 4000m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Pudding trứng mềm mịn",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            ToppingName = "Pudding",
+                            ToppingPrice = 6000m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Thạch dừa thơm ngon",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            ToppingName = "Thạch dừa",
+                            ToppingPrice = 4000m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Kem cheese béo ngậy",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            ToppingName = "Kem cheese",
+                            ToppingPrice = 8000m
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Sốt socola đậm đà",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            ToppingName = "Sốt socola",
+                            ToppingPrice = 7000m
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Trái cây tươi ngon theo mùa",
+                            IsAvailable = true,
+                            IsDeleted = false,
+                            ToppingName = "Trái cây tươi",
+                            ToppingPrice = 10000m
                         });
                 });
 
