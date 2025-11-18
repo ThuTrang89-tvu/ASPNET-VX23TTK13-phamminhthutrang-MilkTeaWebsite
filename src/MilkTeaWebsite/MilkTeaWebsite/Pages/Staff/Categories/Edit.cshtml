@@ -1,0 +1,82 @@
+@page
+@model MilkTeaWebsite.Pages.Staff.Categories.EditModel
+@{
+    ViewData["Title"] = "Chỉnh sửa danh mục";
+    Layout = "~/Pages/Shared/_StaffLayout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0"><i class="fas fa-edit"></i> Chỉnh sửa danh mục</h4>
+            </div>
+            <div class="card-body">
+                @if (Model.Category != null)
+                {
+                    <form method="post">
+                        <input type="hidden" asp-for="CategoryId" />
+                        
+                        <div class="mb-3">
+                            <label asp-for="Input.CategoryName" class="form-label">Tên danh mục *</label>
+                            <input asp-for="Input.CategoryName" class="form-control" />
+                            <span asp-validation-for="Input.CategoryName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Description" class="form-label">Mô tả</label>
+                            <textarea asp-for="Input.Description" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Input.Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.ImageUrl" class="form-label">URL hình ảnh</label>
+                            <input asp-for="Input.ImageUrl" class="form-control" />
+                            <span asp-validation-for="Input.ImageUrl" class="text-danger"></span>
+                            @if (!string.IsNullOrEmpty(Model.Input.ImageUrl))
+                            {
+                                <div class="mt-2">
+                                    <img src="@Model.Input.ImageUrl" alt="Preview" class="img-thumbnail" style="max-width: 200px;" />
+                                </div>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.DisplayOrder" class="form-label">Thứ tự hiển thị</label>
+                            <input asp-for="Input.DisplayOrder" type="number" class="form-control" />
+                            <span asp-validation-for="Input.DisplayOrder" class="text-danger"></span>
+                            <small class="text-muted">Số thứ tự để sắp xếp danh mục (0 = đầu tiên)</small>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> 
+                            Danh mục này hiện có <strong>@Model.Category.Products.Count sản phẩm</strong>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a asp-page="/Staff/Categories/Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Quay lại
+                            </a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-save"></i> Cập nhật
+                            </button>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle"></i> Không tìm thấy danh mục
+                    </div>
+                    <a asp-page="/Staff/Categories/Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Quay lại
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
