@@ -35,9 +35,17 @@ namespace MilkTeaWebsite.Pages.Staff.Products
             [StringLength(1000, ErrorMessage = "Mô tả không được vượt quá 1000 ký tự")]
             public string? Description { get; set; }
 
-            [Required(ErrorMessage = "Giá là bắt buộc")]
+            [Required(ErrorMessage = "Giá size S là bắt buộc")]
             [Range(0, double.MaxValue, ErrorMessage = "Giá phải là số dương")]
-            public decimal Price { get; set; }
+            public decimal PriceS { get; set; }
+
+            [Required(ErrorMessage = "Giá size M là bắt buộc")]
+            [Range(0, double.MaxValue, ErrorMessage = "Giá phải là số dương")]
+            public decimal PriceM { get; set; }
+
+            [Required(ErrorMessage = "Giá size L là bắt buộc")]
+            [Range(0, double.MaxValue, ErrorMessage = "Giá phải là số dương")]
+            public decimal PriceL { get; set; }
 
             [Required(ErrorMessage = "Danh mục là bắt buộc")]
             public int CategoryId { get; set; }
@@ -50,8 +58,7 @@ namespace MilkTeaWebsite.Pages.Staff.Products
 
             public bool IsAvailable { get; set; } = true;
 
-            public string? Size { get; set; }
-            public string? Topping { get; set; }
+            public string? AvailableToppingIds { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -79,13 +86,14 @@ namespace MilkTeaWebsite.Pages.Staff.Products
                 {
                     ProductName = Input.ProductName,
                     Description = Input.Description,
-                    Price = Input.Price,
+                    PriceS = Input.PriceS,
+                    PriceM = Input.PriceM,
+                    PriceL = Input.PriceL,
                     CategoryId = Input.CategoryId,
                     ImageUrl = Input.ImageUrl,
                     StockQuantity = Input.StockQuantity,
                     IsAvailable = Input.IsAvailable,
-                    Size = Input.Size,
-                    Topping = Input.Topping
+                    AvailableToppingIds = Input.AvailableToppingIds
                 };
 
                 await _productService.CreateProductAsync(product);

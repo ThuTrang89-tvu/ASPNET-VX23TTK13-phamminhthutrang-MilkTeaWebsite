@@ -39,9 +39,17 @@ namespace MilkTeaWebsite.Pages.Staff.Products
             [StringLength(1000, ErrorMessage = "Mô tả không được vượt quá 1000 ký tự")]
             public string? Description { get; set; }
 
-            [Required(ErrorMessage = "Giá là bắt buộc")]
+            [Required(ErrorMessage = "Giá size S là bắt buộc")]
             [Range(0, double.MaxValue, ErrorMessage = "Giá phải là số dương")]
-            public decimal Price { get; set; }
+            public decimal PriceS { get; set; }
+
+            [Required(ErrorMessage = "Giá size M là bắt buộc")]
+            [Range(0, double.MaxValue, ErrorMessage = "Giá phải là số dương")]
+            public decimal PriceM { get; set; }
+
+            [Required(ErrorMessage = "Giá size L là bắt buộc")]
+            [Range(0, double.MaxValue, ErrorMessage = "Giá phải là số dương")]
+            public decimal PriceL { get; set; }
 
             [Required(ErrorMessage = "Danh mục là bắt buộc")]
             public int CategoryId { get; set; }
@@ -54,8 +62,7 @@ namespace MilkTeaWebsite.Pages.Staff.Products
 
             public bool IsAvailable { get; set; } = true;
 
-            public string? Size { get; set; }
-            public string? Topping { get; set; }
+            public string? AvailableToppingIds { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync(int id)
@@ -78,13 +85,14 @@ namespace MilkTeaWebsite.Pages.Staff.Products
             {
                 ProductName = Product.ProductName,
                 Description = Product.Description,
-                Price = Product.Price,
+                PriceS = Product.PriceS,
+                PriceM = Product.PriceM,
+                PriceL = Product.PriceL,
                 CategoryId = Product.CategoryId,
                 ImageUrl = Product.ImageUrl,
                 StockQuantity = Product.StockQuantity,
                 IsAvailable = Product.IsAvailable,
-                Size = Product.Size,
-                Topping = Product.Topping
+                AvailableToppingIds = Product.AvailableToppingIds
             };
 
             return Page();
@@ -110,13 +118,14 @@ namespace MilkTeaWebsite.Pages.Staff.Products
 
                 product.ProductName = Input.ProductName;
                 product.Description = Input.Description;
-                product.Price = Input.Price;
+                product.PriceS = Input.PriceS;
+                product.PriceM = Input.PriceM;
+                product.PriceL = Input.PriceL;
                 product.CategoryId = Input.CategoryId;
                 product.ImageUrl = Input.ImageUrl;
                 product.StockQuantity = Input.StockQuantity;
                 product.IsAvailable = Input.IsAvailable;
-                product.Size = Input.Size;
-                product.Topping = Input.Topping;
+                product.AvailableToppingIds = Input.AvailableToppingIds;
 
                 await _productService.UpdateProductAsync(product);
 

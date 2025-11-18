@@ -42,11 +42,23 @@
 
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <label asp-for="Input.Price" class="form-label">Giá (VNĐ) *</label>
-                            <input asp-for="Input.Price" type="number" step="1000" class="form-control" placeholder="35000" />
-                            <span asp-validation-for="Input.Price" class="text-danger"></span>
+                            <label asp-for="Input.PriceS" class="form-label">Giá Size S (VNĐ) *</label>
+                            <input asp-for="Input.PriceS" type="number" step="1000" class="form-control" placeholder="30000" />
+                            <span asp-validation-for="Input.PriceS" class="text-danger"></span>
                         </div>
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Input.PriceM" class="form-label">Giá Size M (VNĐ) *</label>
+                            <input asp-for="Input.PriceM" type="number" step="1000" class="form-control" placeholder="35000" />
+                            <span asp-validation-for="Input.PriceM" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Input.PriceL" class="form-label">Giá Size L (VNĐ) *</label>
+                            <input asp-for="Input.PriceL" type="number" step="1000" class="form-control" placeholder="40000" />
+                            <span asp-validation-for="Input.PriceL" class="text-danger"></span>
+                        </div>
+                    </div>
 
+                    <div class="row">
                         <div class="col-md-4 mb-3">
                             <label asp-for="Input.StockQuantity" class="form-label">Số lượng tồn kho *</label>
                             <input asp-for="Input.StockQuantity" type="number" class="form-control" placeholder="100" />
@@ -60,6 +72,13 @@
                                 <option value="false">Ngừng bán</option>
                             </select>
                         </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Input.AvailableToppingIds" class="form-label">ID Topping có sẵn</label>
+                            <input asp-for="Input.AvailableToppingIds" class="form-control" placeholder="1,2,3" />
+                            <span asp-validation-for="Input.AvailableToppingIds" class="text-danger"></span>
+                            <small class="text-muted">ID topping cách nhau bởi dấu phẩy</small>
+                        </div>
                     </div>
 
                     <div class="mb-3">
@@ -67,22 +86,6 @@
                         <input asp-for="Input.ImageUrl" class="form-control" placeholder="https://example.com/image.jpg" />
                         <span asp-validation-for="Input.ImageUrl" class="text-danger"></span>
                         <small class="text-muted">Nhập đường dẫn URL của hình ảnh sản phẩm</small>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label asp-for="Input.Size" class="form-label">Size có sẵn</label>
-                            <input asp-for="Input.Size" class="form-control" placeholder="S, M, L" />
-                            <span asp-validation-for="Input.Size" class="text-danger"></span>
-                            <small class="text-muted">Nhập các size cách nhau bởi dấu phẩy</small>
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label asp-for="Input.Topping" class="form-label">Topping có sẵn</label>
-                            <input asp-for="Input.Topping" class="form-control" placeholder="Trân châu, Thạch phô mai, Pudding" />
-                            <span asp-validation-for="Input.Topping" class="text-danger"></span>
-                            <small class="text-muted">Nhập các topping cách nhau bởi dấu phẩy</small>
-                        </div>
                     </div>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">

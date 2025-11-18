@@ -51,7 +51,7 @@
                                     <small class="text-muted">@product.Description</small>
                                 </td>
                                 <td>@product.Category?.CategoryName</td>
-                                <td class="fw-bold text-primary">@product.Price.ToString("N0") đ</td>
+                                <td class="fw-bold text-primary">@product.PriceS.ToString("N0") - @product.PriceL.ToString("N0") đ</td>
                                 <td>
                                     @if (product.StockQuantity < 10)
                                     {
