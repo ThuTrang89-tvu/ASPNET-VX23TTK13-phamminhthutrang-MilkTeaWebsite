@@ -251,13 +251,6 @@ brew install git
 git --version
 ```
 
-#### Linux (Ubuntu/Debian):
-```bash
-sudo apt update
-sudo apt install git -y
-git --version
-```
-
 ### Bước 2: Cài đặt Docker và Docker Compose
 
 Docker sẽ chạy PostgreSQL database cho ứng dụng.
@@ -301,31 +294,6 @@ docker --version
 docker compose version
 ```
 
-#### Linux (Ubuntu/Debian):
-
-```bash
-# Cài đặt các gói cần thiết
-sudo apt update
-sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
-
-# Thêm GPG key của Docker
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-# Thêm Docker repository
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-# Cài Docker
-sudo apt update
-sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
-
-# Cho phép user hiện tại sử dụng Docker không cần sudo
-sudo usermod -aG docker $USER
-
-# Đăng xuất và đăng nhập lại, sau đó kiểm tra
-docker --version
-docker compose version
-```
-
 ### Bước 3: Cài đặt .NET SDK 9.0
 
 #### Windows:
@@ -347,26 +315,6 @@ brew install dotnet-sdk
 # Hoặc tải trực tiếp:
 # - Intel: https://dotnet.microsoft.com/download/dotnet/9.0
 # - Apple Silicon: Chọn ARM64
-
-# Kiểm tra
-dotnet --version
-```
-
-#### Linux (Ubuntu/Debian):
-
-```bash
-# Thêm Microsoft package repository
-wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-rm packages-microsoft-prod.deb
-
-# Cài .NET SDK
-sudo apt update
-sudo apt install dotnet-sdk-9.0 -y
-
-# Kiểm tra
-dotnet --version
-```
 
 ### Bước 4: Clone repository
 
