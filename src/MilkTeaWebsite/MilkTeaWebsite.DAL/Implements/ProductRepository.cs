@@ -18,6 +18,8 @@ namespace MilkTeaWebsite.DAL.Implements
         {
             return await _dbSet
                 .Include(p => p.Category)
+                .Include(p => p.ProductToppings)
+                    .ThenInclude(pt => pt.Topping)
                 .Where(p => p.CategoryId == categoryId && !p.IsDeleted)
                 .ToListAsync();
         }
@@ -26,6 +28,8 @@ namespace MilkTeaWebsite.DAL.Implements
         {
             return await _dbSet
                 .Include(p => p.Category)
+                .Include(p => p.ProductToppings)
+                    .ThenInclude(pt => pt.Topping)
                 .Where(p => p.IsAvailable && !p.IsDeleted)
                 .ToListAsync();
         }
@@ -34,6 +38,8 @@ namespace MilkTeaWebsite.DAL.Implements
         {
             return await _dbSet
                 .Include(p => p.Category)
+                .Include(p => p.ProductToppings)
+                    .ThenInclude(pt => pt.Topping)
                 .FirstOrDefaultAsync(p => p.Id == productId && !p.IsDeleted);
         }
     }

@@ -189,9 +189,9 @@
                                     <p class="product-card__description">@product.Description</p>
                                     <div class="d-flex flex-wrap gap-2">
                                         <span class="badge-tag"><i class="fas fa-ruler-combined me-1"></i>S/M/L</span>
-                                        @if (!string.IsNullOrEmpty(product.AvailableToppingIds))
+                                        @if (product.ProductToppings != null && product.ProductToppings.Any())
                                         {
-                                            var toppingCount = product.AvailableToppingIds.Split(',', StringSplitOptions.RemoveEmptyEntries).Length;
+                                            var toppingCount = product.ProductToppings.Count;
                                             <span class="badge-tag"><i class="fas fa-star me-1"></i>@toppingCount toppings</span>
                                         }
                                     </div>

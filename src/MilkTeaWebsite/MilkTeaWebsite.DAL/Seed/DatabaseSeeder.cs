@@ -270,7 +270,6 @@ namespace MilkTeaWebsite.DAL.Seed
                     ImageUrl = "/images/products/tra-sua-xoai.jpg",
                     StockQuantity = 85,
                     IsAvailable = true,
-                    AvailableToppingIds = "1,2,4,8",
                     CreatedAt = SeedDate
                 },
                 new Product
@@ -285,7 +284,6 @@ namespace MilkTeaWebsite.DAL.Seed
                     ImageUrl = "/images/products/tra-sua-dao.jpg",
                     StockQuantity = 70,
                     IsAvailable = true,
-                    AvailableToppingIds = "1,2,4,8",
                     CreatedAt = SeedDate
                 },
 
@@ -302,7 +300,6 @@ namespace MilkTeaWebsite.DAL.Seed
                     ImageUrl = "/images/products/tra-dao-cam-sa.jpg",
                     StockQuantity = 95,
                     IsAvailable = true,
-                    AvailableToppingIds = "4,5,8",
                     CreatedAt = SeedDate
                 },
                 new Product
@@ -317,7 +314,6 @@ namespace MilkTeaWebsite.DAL.Seed
                     ImageUrl = "/images/products/tra-chanh-leo.jpg",
                     StockQuantity = 100,
                     IsAvailable = true,
-                    AvailableToppingIds = "4,5,8",
                     CreatedAt = SeedDate
                 },
                 new Product
@@ -332,7 +328,6 @@ namespace MilkTeaWebsite.DAL.Seed
                     ImageUrl = "/images/products/tra-vai.jpg",
                     StockQuantity = 88,
                     IsAvailable = true,
-                    AvailableToppingIds = "4,5,8",
                     CreatedAt = SeedDate
                 },
 
@@ -349,7 +344,6 @@ namespace MilkTeaWebsite.DAL.Seed
                     ImageUrl = "/images/products/ca-phe-sua-da.jpg",
                     StockQuantity = 120,
                     IsAvailable = true,
-                    AvailableToppingIds = "",
                     CreatedAt = SeedDate
                 },
                 new Product
@@ -364,7 +358,6 @@ namespace MilkTeaWebsite.DAL.Seed
                     ImageUrl = "/images/products/bac-xiu.jpg",
                     StockQuantity = 110,
                     IsAvailable = true,
-                    AvailableToppingIds = "",
                     CreatedAt = SeedDate
                 },
                 new Product
@@ -379,7 +372,6 @@ namespace MilkTeaWebsite.DAL.Seed
                     ImageUrl = "/images/products/cappuccino.jpg",
                     StockQuantity = 65,
                     IsAvailable = true,
-                    AvailableToppingIds = "",
                     CreatedAt = SeedDate
                 },
 
@@ -396,7 +388,6 @@ namespace MilkTeaWebsite.DAL.Seed
                     ImageUrl = "/images/products/banh-flan.jpg",
                     StockQuantity = 50,
                     IsAvailable = true,
-                    AvailableToppingIds = "",
                     CreatedAt = SeedDate
                 },
                 new Product
@@ -411,7 +402,6 @@ namespace MilkTeaWebsite.DAL.Seed
                     ImageUrl = "/images/products/banh-bong-lan.jpg",
                     StockQuantity = 40,
                     IsAvailable = true,
-                    AvailableToppingIds = "",
                     CreatedAt = SeedDate
                 },
                 new Product
@@ -426,7 +416,6 @@ namespace MilkTeaWebsite.DAL.Seed
                     ImageUrl = "/images/products/khoai-lang-ken.jpg",
                     StockQuantity = 60,
                     IsAvailable = true,
-                    AvailableToppingIds = "",
                     CreatedAt = SeedDate
                 }
             );

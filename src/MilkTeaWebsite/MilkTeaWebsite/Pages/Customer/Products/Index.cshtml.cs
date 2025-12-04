@@ -76,10 +76,8 @@ namespace MilkTeaWebsite.Pages.Customer.Products
 
                 // Get all available topping IDs from products
                 var toppingIds = allProducts
-                    .Where(p => !string.IsNullOrWhiteSpace(p.AvailableToppingIds))
-                    .SelectMany(p => p.AvailableToppingIds!
-                        .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
-                    .Select(id => id.Trim())
+                    .Where(p => p.ProductToppings != null && p.ProductToppings.Any())
+                    .SelectMany(p => p.ProductToppings!.Select(pt => pt.ToppingId.ToString()))
                     .Distinct()
                     .OrderBy(id => id)
                     .ToList();
@@ -118,15 +116,13 @@ namespace MilkTeaWebsite.Pages.Customer.Products
                     var toppingSet = new HashSet<string>(SelectedToppings, StringComparer.OrdinalIgnoreCase);
                     filteredProducts = filteredProducts.Where(p =>
                     {
-                        if (string.IsNullOrWhiteSpace(p.AvailableToppingIds))
+                        if (p.ProductToppings == null || !p.ProductToppings.Any())
                         {
                             return false;
                         }
 
-                        var productToppingIds = p.AvailableToppingIds
-                            .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
-                            .Select(id => id.Trim())
-                            .Where(id => !string.IsNullOrWhiteSpace(id));
+                        var productToppingIds = p.ProductToppings
+                            .Select(pt => pt.ToppingId.ToString());
 
                         return productToppingIds.Any(id => toppingSet.Contains(id));
                     });
