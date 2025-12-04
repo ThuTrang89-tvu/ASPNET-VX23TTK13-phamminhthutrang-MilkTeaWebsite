@@ -17,12 +17,10 @@ namespace MilkTeaWebsite.Entity.Entity
         public int StockQuantity { get; set; } = 0;
         public bool IsAvailable { get; set; } = true;
         
-        // Available toppings for this product (comma-separated topping IDs or names)
-        public string? AvailableToppingIds { get; set; }
-        
         // Navigation properties
         public virtual Category Category { get; set; } = null!;
         public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
         public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+        public virtual ICollection<ProductTopping> ProductToppings { get; set; } = new List<ProductTopping>();
     }
 }
