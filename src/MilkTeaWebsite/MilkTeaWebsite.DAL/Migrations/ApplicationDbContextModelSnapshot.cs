@@ -505,10 +505,6 @@ namespace MilkTeaWebsite.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AvailableToppingIds")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("integer");
 
@@ -559,7 +555,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            AvailableToppingIds = "1,2,3,4,6",
                             CategoryId = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa được pha chế theo công thức truyền thống, hương vị đậm đà",
@@ -575,7 +570,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            AvailableToppingIds = "1,2,3,6,7",
                             CategoryId = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa pha với socola nguyên chất, béo ngậy",
@@ -591,7 +585,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            AvailableToppingIds = "1,2,3,6,7",
                             CategoryId = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa matcha Nhật Bản thơm ngon, đậm vị trà xanh",
@@ -607,7 +600,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 4,
-                            AvailableToppingIds = "1,2,4,6,8",
                             CategoryId = 2,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa kết hợp với dâu tây tươi ngon",
@@ -623,7 +615,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 5,
-                            AvailableToppingIds = "1,2,4,8",
                             CategoryId = 2,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa xoài thơm ngon, vị ngọt dịu",
@@ -639,7 +630,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 6,
-                            AvailableToppingIds = "1,2,4,8",
                             CategoryId = 2,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa đào ngọt thanh, tươi mát",
@@ -655,7 +645,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 7,
-                            AvailableToppingIds = "4,5,8",
                             CategoryId = 3,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà đào cam sả thơm ngon, giải nhiệt",
@@ -671,7 +660,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 8,
-                            AvailableToppingIds = "4,5,8",
                             CategoryId = 3,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà chanh leo chua ngọt, thanh mát",
@@ -687,7 +675,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 9,
-                            AvailableToppingIds = "4,5,8",
                             CategoryId = 3,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà vải thơm ngon, ngọt dịu",
@@ -703,7 +690,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 10,
-                            AvailableToppingIds = "",
                             CategoryId = 4,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Cà phê sữa đá truyền thống Việt Nam",
@@ -719,7 +705,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 11,
-                            AvailableToppingIds = "",
                             CategoryId = 4,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Cà phê sữa nhẹ nhàng, ngọt dịu",
@@ -735,7 +720,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 12,
-                            AvailableToppingIds = "",
                             CategoryId = 4,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Cà phê Cappuccino thơm ngon kiểu Ý",
@@ -751,7 +735,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 13,
-                            AvailableToppingIds = "",
                             CategoryId = 5,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Bánh flan mềm mịn, ngọt dịu",
@@ -767,7 +750,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 14,
-                            AvailableToppingIds = "",
                             CategoryId = 5,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Bánh bông lan phô mai trứng muối thơm ngon",
@@ -783,7 +765,6 @@ namespace MilkTeaWebsite.DAL.Migrations
                         new
                         {
                             Id = 15,
-                            AvailableToppingIds = "",
                             CategoryId = 5,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Khoai lang kén giòn tan, thơm ngon",
@@ -796,6 +777,21 @@ namespace MilkTeaWebsite.DAL.Migrations
                             ProductName = "Khoai Lang Kén",
                             StockQuantity = 60
                         });
+                });
+
+            modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.ProductTopping", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ToppingId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ProductId", "ToppingId");
+
+                    b.HasIndex("ToppingId");
+
+                    b.ToTable("ProductToppings");
                 });
 
             modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.Role", b =>
@@ -1166,6 +1162,25 @@ namespace MilkTeaWebsite.DAL.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.ProductTopping", b =>
+                {
+                    b.HasOne("MilkTeaWebsite.Entity.Entity.Product", "Product")
+                        .WithMany("ProductToppings")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MilkTeaWebsite.Entity.Entity.Topping", "Topping")
+                        .WithMany("ProductToppings")
+                        .HasForeignKey("ToppingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Topping");
+                });
+
             modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.User", b =>
                 {
                     b.HasOne("MilkTeaWebsite.Entity.Entity.Role", "Role")
@@ -1211,11 +1226,18 @@ namespace MilkTeaWebsite.DAL.Migrations
                     b.Navigation("CartItems");
 
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("ProductToppings");
                 });
 
             modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.Topping", b =>
+                {
+                    b.Navigation("ProductToppings");
                 });
 
             modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.User", b =>

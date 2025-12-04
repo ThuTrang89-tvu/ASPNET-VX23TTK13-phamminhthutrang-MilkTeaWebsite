@@ -61,8 +61,6 @@ namespace MilkTeaWebsite.Pages.Staff.Products
             public int StockQuantity { get; set; } = 0;
 
             public bool IsAvailable { get; set; } = true;
-
-            public string? AvailableToppingIds { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync(int id)
@@ -91,8 +89,7 @@ namespace MilkTeaWebsite.Pages.Staff.Products
                 CategoryId = Product.CategoryId,
                 ImageUrl = Product.ImageUrl,
                 StockQuantity = Product.StockQuantity,
-                IsAvailable = Product.IsAvailable,
-                AvailableToppingIds = Product.AvailableToppingIds
+                IsAvailable = Product.IsAvailable
             };
 
             return Page();
@@ -125,7 +122,6 @@ namespace MilkTeaWebsite.Pages.Staff.Products
                 product.ImageUrl = Input.ImageUrl;
                 product.StockQuantity = Input.StockQuantity;
                 product.IsAvailable = Input.IsAvailable;
-                product.AvailableToppingIds = Input.AvailableToppingIds;
 
                 await _productService.UpdateProductAsync(product);
 

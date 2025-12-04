@@ -57,8 +57,6 @@ namespace MilkTeaWebsite.Pages.Staff.Products
             public int StockQuantity { get; set; } = 0;
 
             public bool IsAvailable { get; set; } = true;
-
-            public string? AvailableToppingIds { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -92,8 +90,7 @@ namespace MilkTeaWebsite.Pages.Staff.Products
                     CategoryId = Input.CategoryId,
                     ImageUrl = Input.ImageUrl,
                     StockQuantity = Input.StockQuantity,
-                    IsAvailable = Input.IsAvailable,
-                    AvailableToppingIds = Input.AvailableToppingIds
+                    IsAvailable = Input.IsAvailable
                 };
 
                 await _productService.CreateProductAsync(product);
