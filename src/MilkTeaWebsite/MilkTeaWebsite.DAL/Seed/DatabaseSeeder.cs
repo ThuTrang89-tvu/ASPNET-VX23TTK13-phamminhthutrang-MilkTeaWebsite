@@ -212,7 +212,6 @@ namespace MilkTeaWebsite.DAL.Seed
                     ImageUrl = "/images/products/tra-sua-truyen-thong.jpg",
                     StockQuantity = 100,
                     IsAvailable = true,
-                    AvailableToppingIds = "1,2,3,4,6",
                     CreatedAt = SeedDate
                 },
                 new Product
@@ -227,7 +226,6 @@ namespace MilkTeaWebsite.DAL.Seed
                     ImageUrl = "/images/products/tra-sua-socola.jpg",
                     StockQuantity = 80,
                     IsAvailable = true,
-                    AvailableToppingIds = "1,2,3,6,7",
                     CreatedAt = SeedDate
                 },
                 new Product

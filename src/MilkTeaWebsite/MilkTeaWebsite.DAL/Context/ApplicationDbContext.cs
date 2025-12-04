@@ -19,6 +19,7 @@ namespace MilkTeaWebsite.DAL.Context
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Topping> Toppings { get; set; } = null!;
+        public DbSet<ProductTopping> ProductToppings { get; set; } = null!;
         public DbSet<Cart> Carts { get; set; } = null!;
         public DbSet<CartItem> CartItems { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
@@ -105,12 +106,27 @@ namespace MilkTeaWebsite.DAL.Context
                 entity.Property(e => e.PriceM).HasColumnType("decimal(18,2)");
                 entity.Property(e => e.PriceL).HasColumnType("decimal(18,2)");
                 entity.Property(e => e.ImageUrl).HasMaxLength(500);
-                entity.Property(e => e.AvailableToppingIds).HasMaxLength(500);
                 
                 entity.HasOne(e => e.Category)
                     .WithMany(c => c.Products)
                     .HasForeignKey(e => e.CategoryId)
                     .OnDelete(DeleteBehavior.Restrict);
+            });
+            
+            // Configure ProductTopping (many-to-many relationship)
+            modelBuilder.Entity<ProductTopping>(entity =>
+            {
+                entity.HasKey(pt => new { pt.ProductId, pt.ToppingId });
+                
+                entity.HasOne(pt => pt.Product)
+                    .WithMany(p => p.ProductToppings)
+                    .HasForeignKey(pt => pt.ProductId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                    
+                entity.HasOne(pt => pt.Topping)
+                    .WithMany(t => t.ProductToppings)
+                    .HasForeignKey(pt => pt.ToppingId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             // Configure Topping
