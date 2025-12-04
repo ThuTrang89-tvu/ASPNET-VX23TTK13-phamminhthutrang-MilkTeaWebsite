@@ -61,8 +61,8 @@ namespace MilkTeaWebsite.Pages.Customer.Products
                     return NotFound();
                 }
 
-                // Load available toppings from database
-                await LoadAvailableToppingsAsync(Product.AvailableToppingIds);
+                // Load available toppings from the ProductToppings navigation property
+                await LoadAvailableToppingsAsync();
 
                 return Page();
             }
@@ -111,7 +111,7 @@ namespace MilkTeaWebsite.Pages.Customer.Products
                     Quantity = 1;
                 }
 
-                await LoadAvailableToppingsAsync(Product.AvailableToppingIds);
+                await LoadAvailableToppingsAsync();
 
                 var selected = SelectedToppings
                     .Where(t => !string.IsNullOrWhiteSpace(t))
@@ -142,24 +142,18 @@ namespace MilkTeaWebsite.Pages.Customer.Products
             }
         }
 
-        private async Task LoadAvailableToppingsAsync(string? toppingIds)
+        private async Task LoadAvailableToppingsAsync()
         {
-            if (string.IsNullOrWhiteSpace(toppingIds))
+            if (Product == null || Product.ProductToppings == null || !Product.ProductToppings.Any())
             {
                 AvailableToppings = new List<Topping>();
                 return;
             }
 
-            var ids = toppingIds
-                .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
-                .Select(id => id.Trim())
-                .Where(id => !string.IsNullOrWhiteSpace(id) && int.TryParse(id, out _))
-                .Select(id => int.Parse(id))
-                .ToList();
-
-            var allToppings = await _unitOfWork.Toppings.GetAllAsync();
-            AvailableToppings = allToppings
-                .Where(t => ids.Contains(t.Id) && t.IsAvailable)
+            // Get toppings from the ProductToppings navigation property
+            AvailableToppings = Product.ProductToppings
+                .Where(pt => pt.Topping != null && pt.Topping.IsAvailable)
+                .Select(pt => pt.Topping)
                 .OrderBy(t => t.ToppingName)
                 .ToList();
         }
