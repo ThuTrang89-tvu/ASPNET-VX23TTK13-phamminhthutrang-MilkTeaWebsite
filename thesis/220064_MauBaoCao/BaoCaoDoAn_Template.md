@@ -2,11 +2,11 @@
 
 **TÊN ĐỀ TÀI:** Xây dựng Hệ thống Quản lý và Bán hàng Trực tuyến cho Cửa hàng Trà Sữa (MilkTeaWebsite)
 
-**Họ và tên sinh viên:** Phạm Minh Thư Trang  
-**Mã số sinh viên:** [Điền MSSV]  
-**Lớp:** [Điền lớp]  
+**Họ và tên sinh viên:** Phạm Minh Thu Trang  
+**Mã số sinh viên:** 470123172 
+**Lớp:** VX23TTK13
 **Khoa:** Công nghệ Thông tin  
-**Giảng viên hướng dẫn:** [Điền tên giảng viên]
+**Giảng viên hướng dẫn:** TS. Đoàn Phước Miền
 
 ---
 
@@ -1242,7 +1242,7 @@ _(Bảng test cases chi tiết)_
 
 **Ghi chú:** Đây là template báo cáo, các phần sẽ được bổ sung chi tiết trong quá trình viết theo kế hoạch Week 04.
 
-**Người thực hiện:** Phạm Minh Thư Trang
+**Người thực hiện:** Phạm Minh ThU Trang
 **Ngày tạo:** 23/11/2025
 
 ---
