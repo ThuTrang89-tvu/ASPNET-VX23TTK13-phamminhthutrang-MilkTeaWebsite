@@ -209,7 +209,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 35000,
                     PriceL = 40000,
                     CategoryId = 1,
-                    ImageUrl = "/images/products/tra-sua-truyen-thong.jpg",
+                    ImageUrl = "https://www.bartender.edu.vn/wp-content/uploads/2015/11/tra-sua-truyen-thong.jpg",
                     StockQuantity = 100,
                     IsAvailable = true,
                     CreatedAt = SeedDate
@@ -223,7 +223,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 40000,
                     PriceL = 45000,
                     CategoryId = 1,
-                    ImageUrl = "/images/products/tra-sua-socola.jpg",
+                    ImageUrl = "https://file.hstatic.net/200000868155/file/1926-post-cach-lam-tra-sua-socola-beo-thom-don-gian-tai-nha-1.jpg",
                     StockQuantity = 80,
                     IsAvailable = true,
                     CreatedAt = SeedDate
@@ -237,7 +237,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 45000,
                     PriceL = 50000,
                     CategoryId = 1,
-                    ImageUrl = "/images/products/tra-sua-matcha.jpg",
+                    ImageUrl = "https://product.hstatic.net/1000220639/product/tra-sua-luave-matcha-5_39ee13d0ab9b413186dbde4184d2dde9.jpg",
                     StockQuantity = 90,
                     IsAvailable = true,
                     CreatedAt = SeedDate
@@ -253,7 +253,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 42000,
                     PriceL = 47000,
                     CategoryId = 2,
-                    ImageUrl = "/images/products/tra-sua-dau-tay.jpg",
+                    ImageUrl = "https://cdn.nguyenkimmall.com/images/companies/_1/tin-tuc/kinh-nghiem-meo-hay/n%E1%BA%A5u%20%C4%83n/cach-lam-tra-sua-dau-5.jpg.jpg",
                     StockQuantity = 75,
                     IsAvailable = true,
                     CreatedAt = SeedDate
@@ -267,7 +267,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 40000,
                     PriceL = 45000,
                     CategoryId = 2,
-                    ImageUrl = "/images/products/tra-sua-xoai.jpg",
+                    ImageUrl = "https://lypham.vn/wp-content/uploads/2025/01/cach-lam-tra-sua-xoai.jpg",
                     StockQuantity = 85,
                     IsAvailable = true,
                     CreatedAt = SeedDate
@@ -281,7 +281,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 42000,
                     PriceL = 47000,
                     CategoryId = 2,
-                    ImageUrl = "/images/products/tra-sua-dao.jpg",
+                    ImageUrl = "https://cdn.tgdd.vn/Files/2021/08/07/1373678/huong-dan-cach-lam-tra-sua-dao-thom-ngon-mat-lanh-202201121043508846.jpg",
                     StockQuantity = 70,
                     IsAvailable = true,
                     CreatedAt = SeedDate
@@ -297,7 +297,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 38000,
                     PriceL = 43000,
                     CategoryId = 3,
-                    ImageUrl = "/images/products/tra-dao-cam-sa.jpg",
+                    ImageUrl = "https://lypham.vn/wp-content/uploads/2024/09/cach-lam-tra-dao-cam-sa.jpg",
                     StockQuantity = 95,
                     IsAvailable = true,
                     CreatedAt = SeedDate
@@ -311,7 +311,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 35000,
                     PriceL = 40000,
                     CategoryId = 3,
-                    ImageUrl = "/images/products/tra-chanh-leo.jpg",
+                    ImageUrl = "https://lypham.vn/wp-content/uploads/2024/10/chanh-day-mat-ong-truyen-thong.jpg",
                     StockQuantity = 100,
                     IsAvailable = true,
                     CreatedAt = SeedDate
@@ -325,7 +325,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 36000,
                     PriceL = 41000,
                     CategoryId = 3,
-                    ImageUrl = "/images/products/tra-vai.jpg",
+                    ImageUrl = "https://raumamix.com.vn/wp-content/uploads/2025/02/Tra-Lai-Vai-Luc-Ngan.png",
                     StockQuantity = 88,
                     IsAvailable = true,
                     CreatedAt = SeedDate
@@ -341,7 +341,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 30000,
                     PriceL = 35000,
                     CategoryId = 4,
-                    ImageUrl = "/images/products/ca-phe-sua-da.jpg",
+                    ImageUrl = "https://product.hstatic.net/200000914837/product/cafe_sua_da_ee2490f7d7dc47748ae88e323b31fa2b_eab075b7a57149fe80a152ade1b9cbc3_master.png",
                     StockQuantity = 120,
                     IsAvailable = true,
                     CreatedAt = SeedDate
@@ -355,7 +355,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 32000,
                     PriceL = 37000,
                     CategoryId = 4,
-                    ImageUrl = "/images/products/bac-xiu.jpg",
+                    ImageUrl = "https://cdn.tgdd.vn/2021/03/CookProduct/Bac-xiu-la-gi-nguon-goc-va-cach-lam-bac-xiu-thom-ngon-don-gian-tai-nha-0-1200x676.jpg",
                     StockQuantity = 110,
                     IsAvailable = true,
                     CreatedAt = SeedDate
@@ -369,7 +369,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 45000,
                     PriceL = 50000,
                     CategoryId = 4,
-                    ImageUrl = "/images/products/cappuccino.jpg",
+                    ImageUrl = "https://www.nescafe.com/nz/sites/default/files/2023-09/NESCAF%C3%89%20Cappuccino.jpg",
                     StockQuantity = 65,
                     IsAvailable = true,
                     CreatedAt = SeedDate
@@ -385,7 +385,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 15000,
                     PriceL = 15000,
                     CategoryId = 5,
-                    ImageUrl = "/images/products/banh-flan.jpg",
+                    ImageUrl = "https://superfoods.vn/wp-content/uploads/2023/08/banh-flan-1.jpg",
                     StockQuantity = 50,
                     IsAvailable = true,
                     CreatedAt = SeedDate
@@ -399,7 +399,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 25000,
                     PriceL = 25000,
                     CategoryId = 5,
-                    ImageUrl = "/images/products/banh-bong-lan.jpg",
+                    ImageUrl = "https://anhquanbakery.com/uploads/product/full_azt857am-1320-bong-lan-trung-muoi-12.jpg",
                     StockQuantity = 40,
                     IsAvailable = true,
                     CreatedAt = SeedDate
@@ -413,7 +413,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     PriceM = 20000,
                     PriceL = 20000,
                     CategoryId = 5,
-                    ImageUrl = "/images/products/khoai-lang-ken.jpg",
+                    ImageUrl = "https://cdn.tgdd.vn/2021/10/CookRecipe/Avatar/khoai-lang-ken-voi-me-den-thumbnail.jpg",
                     StockQuantity = 60,
                     IsAvailable = true,
                     CreatedAt = SeedDate
