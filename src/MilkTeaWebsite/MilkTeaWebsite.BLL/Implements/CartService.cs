@@ -128,6 +128,8 @@ namespace MilkTeaWebsite.BLL.Implements
             }
 
             cartItem.Quantity = quantity;
+            // CRITICAL: Recalculate TotalPrice when quantity changes
+            cartItem.TotalPrice = (cartItem.BasePrice + cartItem.ToppingPrice) * quantity;
             cartItem.UpdatedAt = DateTime.UtcNow;
             _unitOfWork.CartItems.Update(cartItem);
             await _unitOfWork.SaveChangesAsync();

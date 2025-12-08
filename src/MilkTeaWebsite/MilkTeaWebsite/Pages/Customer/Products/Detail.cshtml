@@ -141,7 +141,9 @@
                                 @if (Model.AvailableToppings.Any())
                                 {
                                     <div class="detail-form__group">
-                                        <label class="detail-form__label">Topping yêu thích</label>
+                                        <label class="detail-form__label">
+                                            <i class="fas fa-star text-warning"></i> Chọn topping yêu thích
+                                        </label>
                                         <div class="detail-pill-group">
                                             @foreach (var topping in Model.AvailableToppings)
                                             {
@@ -152,17 +154,26 @@
                                                            value="@topping.ToppingName" 
                                                            data-price="@topping.ToppingPrice"
                                                            @(isChecked ? "checked" : string.Empty) />
-                                                    <span><i class="fas fa-star"></i> @topping.ToppingName (+@topping.ToppingPrice.ToString("N0")đ)</span>
+                                                    <span><i class="fas fa-check-circle"></i> @topping.ToppingName (+@topping.ToppingPrice.ToString("N0")đ)</span>
                                                 </label>
                                             }
                                         </div>
-                                        <small class="form-hint">Bạn có thể chọn nhiều topping trong danh sách.</small>
+                                        <small class="form-hint">
+                                            <i class="fas fa-info-circle"></i> 
+                                            Chỉ cần <strong>tick chọn</strong> các topping bạn muốn ở trên. Không cần nhập text!
+                                        </small>
                                     </div>
                                 }
 
                                 <div class="detail-form__group">
-                                    <label class="detail-form__label" for="custom-topping">Thêm topping khác (tùy chọn)</label>
-                                    <input asp-for="CustomTopping" id="custom-topping" class="form-control detail-input" placeholder="Ví dụ: Thêm trân châu hoàng kim" />
+                                    <label class="detail-form__label" for="custom-topping">
+                                        <i class="fas fa-pencil-alt"></i> Topping tùy chỉnh 
+                                        <span class="badge bg-secondary">Không bắt buộc</span>
+                                    </label>
+                                    <input asp-for="CustomTopping" id="custom-topping" class="form-control detail-input" placeholder="Chỉ điền nếu bạn muốn thêm topping đặc biệt không có trong danh sách. Ví dụ: Trân châu hoàng kim" />
+                                    <small class="form-text text-muted">
+                                        <i class="fas fa-lightbulb"></i> Để trống nếu bạn chỉ chọn topping có sẵn ở trên
+                                    </small>
                                 </div>
 
                                 <div class="detail-form__grid">

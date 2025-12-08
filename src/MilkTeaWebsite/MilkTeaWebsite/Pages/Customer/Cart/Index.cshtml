@@ -56,9 +56,9 @@
                             <div class="col-md-2 text-end">
                                 <small class="text-muted">Tổng</small>
                                 <p class="cart-item-price mb-2">@item.TotalPrice.ToString("N0") đ</p>
-                                <form method="post" asp-page-handler="Remove" class="d-inline">
+                                <form method="post" asp-page-handler="Remove" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
                                     <input type="hidden" name="cartItemId" value="@item.Id" />
-                                    <button type="submit" class="cart-remove-btn">
+                                    <button type="submit" class="cart-remove-btn" title="Xóa sản phẩm">
                                         <i class="fas fa-trash"></i> Xóa
                                     </button>
                                 </form>
