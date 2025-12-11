@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using MilkTeaWebsite.DAL.Context;
 using MilkTeaWebsite.DAL.Interfaces;
 using MilkTeaWebsite.Entity.Entity;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MilkTeaWebsite.DAL.Implements
@@ -10,6 +12,17 @@ namespace MilkTeaWebsite.DAL.Implements
     {
         public UserRepository(ApplicationDbContext context) : base(context)
         {
+        }
+
+        public async Task<IEnumerable<User>> GetAllWithDetailsAsync()
+        {
+            return await _dbSet
+                .Include(u => u.Role)
+                .Include(u => u.Customer)
+                .Include(u => u.Employee)
+                .Where(u => !u.IsDeleted)
+                .OrderByDescending(u => u.CreatedAt)
+                .ToListAsync();
         }
 
         public async Task<User?> GetByUsernameAsync(string username)

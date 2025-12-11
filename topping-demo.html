@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Chức năng Chọn Topping</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #ffd5e6 100%);
+        padding: 40px 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .demo-container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .demo-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+      .section-title {
+        color: #ff69b4;
+        font-weight: bold;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid #ffd5e6;
+      }
+      .topping-checkbox {
+        background: #fff0f8;
+        border: 2px solid #ffc1e0;
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .topping-checkbox:hover {
+        background: #ffe8f5;
+        border-color: #ff69b4;
+        transform: translateX(5px);
+      }
+      .topping-checkbox input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+      .topping-checkbox.checked {
+        background: #ff69b4;
+        color: white;
+        border-color: #ff1493;
+      }
+      .custom-input {
+        border: 2px dashed #ffc1e0;
+        border-radius: 12px;
+        padding: 15px;
+        background: #fffbfd;
+      }
+      .custom-input:focus {
+        border-color: #ff69b4;
+        outline: none;
+        background: white;
+      }
+      .badge-optional {
+        background: #6c757d;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+      }
+      .info-box {
+        background: #e7f3ff;
+        border-left: 4px solid #0066cc;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 8px;
+      }
+      .success-box {
+        background: #d4edda;
+        border-left: 4px solid #28a745;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 8px;
+      }
+      .warning-box {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 8px;
+      }
+      .price-display {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 12px;
+        margin: 20px 0;
+      }
+      .btn-add-cart {
+        background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+        border: none;
+        padding: 15px 40px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 50px;
+        color: white;
+        transition: all 0.3s;
+      }
+      .btn-add-cart:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo-container">
+      <h1 class="text-center mb-5">
+        <i class="fas fa-mug-hot" style="color: #ff69b4"></i>
+        Demo Chức Năng Chọn Topping
+      </h1>
+
+      <!-- Explanation Card -->
+      <div class="demo-card">
+        <h3 class="section-title">
+          <i class="fas fa-info-circle"></i> Giải Thích
+        </h3>
+
+        <div class="info-box">
+          <h5>
+            <i class="fas fa-check-square"></i> Cách 1: Chọn Topping Có Sẵn
+            (CHECKBOX)
+          </h5>
+          <p class="mb-0">
+            <strong>Chỉ cần TICK CHỌN</strong> các checkbox bên dưới.
+            <span class="text-danger fw-bold">KHÔNG CẦN NHẬP TEXT GÌ CẢ!</span>
+          </p>
+        </div>
+
+        <div class="warning-box">
+          <h5>
+            <i class="fas fa-pencil-alt"></i> Cách 2: Topping Tùy Chỉnh (TEXT
+            INPUT)
+          </h5>
+          <p class="mb-0">
+            <strong>Chỉ dùng khi</strong> bạn muốn thêm topping đặc biệt không
+            có trong danh sách.
+            <span class="text-success fw-bold">CÓ THỂ ĐỂ TRỐNG!</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Demo Form -->
+      <div class="demo-card">
+        <h3 class="section-title">
+          <i class="fas fa-star text-warning"></i> Chọn Topping Yêu Thích
+        </h3>
+
+        <form id="toppingForm">
+          <!-- Checkboxes -->
+          <div class="mb-4">
+            <div
+              class="topping-checkbox"
+              onclick="toggleCheckbox(this, 'topping1')"
+            >
+              <label
+                class="d-flex align-items-center mb-0"
+                style="cursor: pointer"
+              >
+                <input
+                  type="checkbox"
+                  id="topping1"
+                  name="toppings[]"
+                  value="Trân châu đen"
+                  data-price="5000"
+                />
+                <span class="ms-3 flex-grow-1">
+                  <i class="fas fa-check-circle"></i>
+                  <strong>Trân châu đen</strong>
+                  <span class="text-muted">(+5,000đ)</span>
+                </span>
+              </label>
+            </div>
+
+            <div
+              class="topping-checkbox"
+              onclick="toggleCheckbox(this, 'topping2')"
+            >
+              <label
+                class="d-flex align-items-center mb-0"
+                style="cursor: pointer"
+              >
+                <input
+                  type="checkbox"
+                  id="topping2"
+                  name="toppings[]"
+                  value="Trân châu trắng"
+                  data-price="5000"
+                />
+                <span class="ms-3 flex-grow-1">
+                  <i class="fas fa-check-circle"></i>
+                  <strong>Trân châu trắng</strong>
+                  <span class="text-muted">(+5,000đ)</span>
+                </span>
+              </label>
+            </div>
+
+            <div
+              class="topping-checkbox"
+              onclick="toggleCheckbox(this, 'topping3')"
+            >
+              <label
+                class="d-flex align-items-center mb-0"
+                style="cursor: pointer"
+              >
+                <input
+                  type="checkbox"
+                  id="topping3"
+                  name="toppings[]"
+                  value="Thạch dừa"
+                  data-price="3000"
+                />
+                <span class="ms-3 flex-grow-1">
+                  <i class="fas fa-check-circle"></i>
+                  <strong>Thạch dừa</strong>
+                  <span class="text-muted">(+3,000đ)</span>
+                </span>
+              </label>
+            </div>
+
+            <div
+              class="topping-checkbox"
+              onclick="toggleCheckbox(this, 'topping4')"
+            >
+              <label
+                class="d-flex align-items-center mb-0"
+                style="cursor: pointer"
+              >
+                <input
+                  type="checkbox"
+                  id="topping4"
+                  name="toppings[]"
+                  value="Pudding"
+                  data-price="7000"
+                />
+                <span class="ms-3 flex-grow-1">
+                  <i class="fas fa-check-circle"></i>
+                  <strong>Pudding</strong>
+                  <span class="text-muted">(+7,000đ)</span>
+                </span>
+              </label>
+            </div>
+
+            <div
+              class="topping-checkbox"
+              onclick="toggleCheckbox(this, 'topping5')"
+            >
+              <label
+                class="d-flex align-items-center mb-0"
+                style="cursor: pointer"
+              >
+                <input
+                  type="checkbox"
+                  id="topping5"
+                  name="toppings[]"
+                  value="Thạch rau câu"
+                  data-price="4000"
+                />
+                <span class="ms-3 flex-grow-1">
+                  <i class="fas fa-check-circle"></i>
+                  <strong>Thạch rau câu</strong>
+                  <span class="text-muted">(+4,000đ)</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="success-box mb-4">
+            <i class="fas fa-lightbulb"></i>
+            <strong>Lưu ý:</strong> Chỉ cần
+            <span class="text-danger fw-bold">CLICK VÀO CHECKBOX</span> các
+            topping bạn muốn ở trên. Không cần nhập text!
+          </div>
+
+          <!-- Custom Input -->
+          <div class="mb-4">
+            <label for="customTopping" class="form-label">
+              <i class="fas fa-pencil-alt"></i>
+              <strong>Topping Tùy Chỉnh</strong>
+              <span class="badge-optional">Không bắt buộc</span>
+            </label>
+            <input
+              type="text"
+              id="customTopping"
+              class="form-control custom-input"
+              placeholder="Chỉ điền nếu bạn muốn thêm topping đặc biệt không có trong danh sách. Ví dụ: Trân châu hoàng kim"
+              onchange="updatePrice()"
+            />
+            <small class="text-muted mt-2 d-block">
+              <i class="fas fa-info-circle"></i>
+              Để trống nếu bạn chỉ chọn topping có sẵn ở trên
+            </small>
+          </div>
+
+          <!-- Price Display -->
+          <div class="price-display">
+            <div class="row">
+              <div class="col-md-6">
+                <h5>Topping đã chọn:</h5>
+                <ul id="selectedToppings" class="mb-0">
+                  <li class="text-muted"><em>Chưa chọn topping nào</em></li>
+                </ul>
+              </div>
+              <div class="col-md-6 text-end">
+                <h5>Tổng phí topping:</h5>
+                <h2 class="text-danger" id="totalPrice">0đ</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center mt-4">
+            <button
+              type="button"
+              class="btn btn-add-cart"
+              onclick="addToCart()"
+            >
+              <i class="fas fa-shopping-cart"></i>
+              Thêm Vào Giỏ Hàng
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Result Display -->
+      <div class="demo-card" id="resultCard" style="display: none">
+        <h3 class="section-title">
+          <i class="fas fa-check-circle text-success"></i> Kết Quả
+        </h3>
+        <div id="resultContent"></div>
+      </div>
+    </div>
+
+    <script>
+      function toggleCheckbox(element, checkboxId) {
+        const checkbox = document.getElementById(checkboxId);
+        checkbox.checked = !checkbox.checked;
+
+        if (checkbox.checked) {
+          element.classList.add("checked");
+        } else {
+          element.classList.remove("checked");
+        }
+
+        updatePrice();
+      }
+
+      function updatePrice() {
+        const checkboxes = document.querySelectorAll(
+          'input[name="toppings[]"]:checked'
+        );
+        const customTopping = document
+          .getElementById("customTopping")
+          .value.trim();
+
+        let total = 0;
+        let toppings = [];
+
+        checkboxes.forEach((cb) => {
+          total += parseInt(cb.getAttribute("data-price"));
+          toppings.push(cb.value);
+        });
+
+        if (customTopping) {
+          toppings.push(customTopping + " (tùy chỉnh)");
+        }
+
+        // Update display
+        const selectedList = document.getElementById("selectedToppings");
+        if (toppings.length === 0) {
+          selectedList.innerHTML =
+            '<li class="text-muted"><em>Chưa chọn topping nào</em></li>';
+        } else {
+          selectedList.innerHTML = toppings
+            .map(
+              (t) => `<li><i class="fas fa-check text-success"></i> ${t}</li>`
+            )
+            .join("");
+        }
+
+        document.getElementById("totalPrice").textContent =
+          total.toLocaleString("vi-VN") + "đ";
+      }
+
+      function addToCart() {
+        const checkboxes = document.querySelectorAll(
+          'input[name="toppings[]"]:checked'
+        );
+        const customTopping = document
+          .getElementById("customTopping")
+          .value.trim();
+
+        let toppings = [];
+        checkboxes.forEach((cb) => toppings.push(cb.value));
+        if (customTopping) toppings.push(customTopping);
+
+        const resultCard = document.getElementById("resultCard");
+        const resultContent = document.getElementById("resultContent");
+
+        if (toppings.length === 0) {
+          resultContent.innerHTML = `
+                    <div class="alert alert-info">
+                        <h5><i class="fas fa-info-circle"></i> Không có topping</h5>
+                        <p class="mb-0">Bạn đã thêm sản phẩm vào giỏ hàng mà không chọn topping nào.</p>
+                    </div>
+                `;
+        } else {
+          resultContent.innerHTML = `
+                    <div class="alert alert-success">
+                        <h5><i class="fas fa-check-circle"></i> Đã thêm vào giỏ hàng!</h5>
+                        <p><strong>Topping đã chọn:</strong></p>
+                        <ul>
+                            ${toppings.map((t) => `<li>${t}</li>`).join("")}
+                        </ul>
+                    </div>
+                `;
+        }
+
+        resultCard.style.display = "block";
+        resultCard.scrollIntoView({ behavior: "smooth" });
+      }
+    </script>
+  </body>
+</html>

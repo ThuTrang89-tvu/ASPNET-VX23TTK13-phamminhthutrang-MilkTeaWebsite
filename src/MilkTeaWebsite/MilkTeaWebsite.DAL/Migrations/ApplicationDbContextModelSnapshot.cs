@@ -792,6 +792,233 @@ namespace MilkTeaWebsite.DAL.Migrations
                     b.HasIndex("ToppingId");
 
                     b.ToTable("ProductToppings");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 1,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            ProductId = 1,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            ProductId = 1,
+                            ToppingId = 4
+                        },
+                        new
+                        {
+                            ProductId = 1,
+                            ToppingId = 5
+                        },
+                        new
+                        {
+                            ProductId = 1,
+                            ToppingId = 6
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            ToppingId = 4
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            ToppingId = 6
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            ToppingId = 7
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            ToppingId = 4
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            ToppingId = 5
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            ToppingId = 8
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            ToppingId = 5
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            ToppingId = 8
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            ToppingId = 8
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            ToppingId = 5
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            ToppingId = 8
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            ToppingId = 5
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            ToppingId = 8
+                        },
+                        new
+                        {
+                            ProductId = 10,
+                            ToppingId = 6
+                        },
+                        new
+                        {
+                            ProductId = 10,
+                            ToppingId = 7
+                        },
+                        new
+                        {
+                            ProductId = 11,
+                            ToppingId = 6
+                        },
+                        new
+                        {
+                            ProductId = 11,
+                            ToppingId = 7
+                        },
+                        new
+                        {
+                            ProductId = 12,
+                            ToppingId = 6
+                        },
+                        new
+                        {
+                            ProductId = 12,
+                            ToppingId = 7
+                        });
                 });
 
             modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.Role", b =>

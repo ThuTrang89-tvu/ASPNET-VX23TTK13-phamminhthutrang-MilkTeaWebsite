@@ -37,15 +37,9 @@ namespace MilkTeaWebsite.Pages.Customer.Cart
                 int customerId = int.Parse(customerIdClaim);
                 Cart = await _cartService.GetActiveCartAsync(customerId);
 
-                if (Cart?.Id != null && Cart.Id > 0)
+                if (Cart?.Id != null)
                 {
                     TotalAmount = await _cartService.GetCartTotalAsync(Cart.Id);
-                    _logger.LogInformation($"Cart loaded: CartId={Cart.Id}, Items={Cart.CartItems?.Count ?? 0}, Total={TotalAmount}");
-                }
-                else
-                {
-                    TotalAmount = 0;
-                    _logger.LogInformation("No active cart found");
                 }
 
                 return Page();
@@ -78,14 +72,12 @@ namespace MilkTeaWebsite.Pages.Customer.Cart
         {
             try
             {
-                _logger.LogInformation($"Attempting to remove cart item: {cartItemId}");
                 await _cartService.RemoveFromCartAsync(cartItemId);
                 TempData["Success"] = "Đã xóa sản phẩm khỏi giỏ hàng";
-                _logger.LogInformation($"Successfully removed cart item: {cartItemId}");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error removing cart item: {cartItemId}");
+                _logger.LogError(ex, "Error removing cart item");
                 TempData["Error"] = "Có lỗi xảy ra khi xóa sản phẩm";
             }
 

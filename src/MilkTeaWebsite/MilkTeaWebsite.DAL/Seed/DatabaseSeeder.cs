@@ -79,7 +79,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     Id = 1,
                     CategoryName = "Trà Sữa Truyền Thống",
                     Description = "Trà sữa được pha chế theo công thức truyền thống",
-                    ImageUrl = "/images/categories/tra-sua-truyen-thong.jpg",
+                    ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4qHQVMcxnHvYE5zEXI7tUpw_q-Oq5FMLZCg&s",
                     DisplayOrder = 1,
                     CreatedAt = SeedDate
                 },
@@ -88,7 +88,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     Id = 2,
                     CategoryName = "Trà Sữa Trái Cây",
                     Description = "Trà sữa kết hợp với các loại trái cây tươi ngon",
-                    ImageUrl = "/images/categories/tra-sua-trai-cay.jpg",
+                    ImageUrl = "https://monngonmoingay.com/wp-content/uploads/2024/01/tra-sua.jpg",
                     DisplayOrder = 2,
                     CreatedAt = SeedDate
                 },
@@ -97,7 +97,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     Id = 3,
                     CategoryName = "Trà Trái Cây",
                     Description = "Trà thanh mát với trái cây tươi",
-                    ImageUrl = "/images/categories/tra-trai-cay.jpg",
+                    ImageUrl = "https://i.ytimg.com/vi/l6jiHzm5P5c/maxresdefault.jpg",
                     DisplayOrder = 3,
                     CreatedAt = SeedDate
                 },
@@ -106,7 +106,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     Id = 4,
                     CategoryName = "Coffee",
                     Description = "Các loại cà phê đặc biệt",
-                    ImageUrl = "/images/categories/coffee.jpg",
+                    ImageUrl = "https://www.cubes-asia.com/storage/blogs/2024-12/ca-phe-nguyen-chat-la-gi-tac-dung-dac-diem.jpg",
                     DisplayOrder = 4,
                     CreatedAt = SeedDate
                 },
@@ -115,7 +115,7 @@ namespace MilkTeaWebsite.DAL.Seed
                     Id = 5,
                     CategoryName = "Đồ Ăn Vặt",
                     Description = "Các món ăn vặt ngon miệng",
-                    ImageUrl = "/images/categories/do-an-vat.jpg",
+                    ImageUrl = "https://saigonchutla.vn/wp-content/uploads/2023/09/an-vat-kon-tum-3-800x445-1.jpg",
                     DisplayOrder = 5,
                     CreatedAt = SeedDate
                 }
@@ -418,6 +418,78 @@ namespace MilkTeaWebsite.DAL.Seed
                     IsAvailable = true,
                     CreatedAt = SeedDate
                 }
+            );
+
+            // Seed ProductToppings - Link products with available toppings
+            modelBuilder.Entity<ProductTopping>().HasData(
+                // Trà Sữa Truyền Thống (Product 1) - All toppings
+                new ProductTopping { ProductId = 1, ToppingId = 1 },
+                new ProductTopping { ProductId = 1, ToppingId = 2 },
+                new ProductTopping { ProductId = 1, ToppingId = 3 },
+                new ProductTopping { ProductId = 1, ToppingId = 4 },
+                new ProductTopping { ProductId = 1, ToppingId = 5 },
+                new ProductTopping { ProductId = 1, ToppingId = 6 },
+                
+                // Trà Sữa Socola (Product 2)
+                new ProductTopping { ProductId = 2, ToppingId = 1 },
+                new ProductTopping { ProductId = 2, ToppingId = 2 },
+                new ProductTopping { ProductId = 2, ToppingId = 4 },
+                new ProductTopping { ProductId = 2, ToppingId = 6 },
+                new ProductTopping { ProductId = 2, ToppingId = 7 },
+                
+                // Trà Sữa Matcha (Product 3)
+                new ProductTopping { ProductId = 3, ToppingId = 1 },
+                new ProductTopping { ProductId = 3, ToppingId = 2 },
+                new ProductTopping { ProductId = 3, ToppingId = 3 },
+                new ProductTopping { ProductId = 3, ToppingId = 4 },
+                new ProductTopping { ProductId = 3, ToppingId = 5 },
+                
+                // Trà Sữa Dâu Tây (Product 4)
+                new ProductTopping { ProductId = 4, ToppingId = 1 },
+                new ProductTopping { ProductId = 4, ToppingId = 2 },
+                new ProductTopping { ProductId = 4, ToppingId = 3 },
+                new ProductTopping { ProductId = 4, ToppingId = 8 },
+                
+                // Trà Sữa Xoài (Product 5)
+                new ProductTopping { ProductId = 5, ToppingId = 1 },
+                new ProductTopping { ProductId = 5, ToppingId = 2 },
+                new ProductTopping { ProductId = 5, ToppingId = 5 },
+                new ProductTopping { ProductId = 5, ToppingId = 8 },
+                
+                // Trà Sữa Đào (Product 6)
+                new ProductTopping { ProductId = 6, ToppingId = 1 },
+                new ProductTopping { ProductId = 6, ToppingId = 2 },
+                new ProductTopping { ProductId = 6, ToppingId = 3 },
+                new ProductTopping { ProductId = 6, ToppingId = 8 },
+                
+                // Trà Đào Cam Sả (Product 7)
+                new ProductTopping { ProductId = 7, ToppingId = 1 },
+                new ProductTopping { ProductId = 7, ToppingId = 3 },
+                new ProductTopping { ProductId = 7, ToppingId = 5 },
+                new ProductTopping { ProductId = 7, ToppingId = 8 },
+                
+                // Trà Chanh Leo (Product 8)
+                new ProductTopping { ProductId = 8, ToppingId = 1 },
+                new ProductTopping { ProductId = 8, ToppingId = 3 },
+                new ProductTopping { ProductId = 8, ToppingId = 5 },
+                
+                // Trà Vải (Product 9)
+                new ProductTopping { ProductId = 9, ToppingId = 1 },
+                new ProductTopping { ProductId = 9, ToppingId = 2 },
+                new ProductTopping { ProductId = 9, ToppingId = 3 },
+                new ProductTopping { ProductId = 9, ToppingId = 8 },
+                
+                // Cà Phê Sữa Đá (Product 10)
+                new ProductTopping { ProductId = 10, ToppingId = 6 },
+                new ProductTopping { ProductId = 10, ToppingId = 7 },
+                
+                // Bạc Xỉu (Product 11)
+                new ProductTopping { ProductId = 11, ToppingId = 6 },
+                new ProductTopping { ProductId = 11, ToppingId = 7 },
+                
+                // Cappuccino (Product 12)
+                new ProductTopping { ProductId = 12, ToppingId = 6 },
+                new ProductTopping { ProductId = 12, ToppingId = 7 }
             );
         }
     }

@@ -52,26 +52,29 @@ namespace MilkTeaWebsite.BLL.Implements
                 _ => product.PriceM
             };
 
-            // Calculate topping price
+            // Calculate topping price (includes per-topping quantity)
             decimal toppingPrice = 0;
             if (!string.IsNullOrWhiteSpace(topping))
             {
-                var toppingNames = topping.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(t => t.Trim())
-                    .Where(t => !string.IsNullOrWhiteSpace(t))
+                var toppingSelections = topping
+                    .Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(t => ParseToppingSelection(t))
+                    .Where(t => t.HasValue)
+                    .Select(t => t!.Value)
                     .ToList();
 
-                if (toppingNames.Any())
+                if (toppingSelections.Any())
                 {
                     var allToppings = await _unitOfWork.Toppings.GetAllAsync();
-                    foreach (var toppingName in toppingNames)
+                    foreach (var selection in toppingSelections)
                     {
-                        var toppingEntity = allToppings.FirstOrDefault(t => 
-                            t.ToppingName.Equals(toppingName, StringComparison.OrdinalIgnoreCase) && 
+                        var toppingEntity = allToppings.FirstOrDefault(t =>
+                            t.ToppingName.Equals(selection.Name, StringComparison.OrdinalIgnoreCase) &&
                             t.IsAvailable);
+
                         if (toppingEntity != null)
                         {
-                            toppingPrice += toppingEntity.ToppingPrice;
+                            toppingPrice += toppingEntity.ToppingPrice * selection.Quantity;
                         }
                     }
                 }
@@ -128,9 +131,8 @@ namespace MilkTeaWebsite.BLL.Implements
             }
 
             cartItem.Quantity = quantity;
-            // CRITICAL: Recalculate TotalPrice when quantity changes
-            cartItem.TotalPrice = (cartItem.BasePrice + cartItem.ToppingPrice) * quantity;
             cartItem.UpdatedAt = DateTime.UtcNow;
+            cartItem.TotalPrice = (cartItem.BasePrice + cartItem.ToppingPrice) * cartItem.Quantity;
             _unitOfWork.CartItems.Update(cartItem);
             await _unitOfWork.SaveChangesAsync();
         }
@@ -162,6 +164,41 @@ namespace MilkTeaWebsite.BLL.Implements
         {
             var cartItems = await _unitOfWork.CartItems.GetCartItemsByCartIdAsync(cartId);
             return cartItems.Sum(ci => ci.TotalPrice);
+        }
+
+        private static (string Name, int Quantity)? ParseToppingSelection(string? rawValue)
+        {
+            if (string.IsNullOrWhiteSpace(rawValue))
+            {
+                return null;
+            }
+
+            var trimmed = rawValue.Trim();
+            if (trimmed.Length == 0)
+            {
+                return null;
+            }
+
+            var lastXIndex = trimmed.LastIndexOf('x');
+            var quantity = 1;
+            var name = trimmed;
+
+            if (lastXIndex > 0 && lastXIndex + 1 < trimmed.Length)
+            {
+                var quantityPart = trimmed[(lastXIndex + 1)..].Trim();
+                if (int.TryParse(quantityPart, out var parsedQty) && parsedQty > 0)
+                {
+                    quantity = parsedQty;
+                    name = trimmed[..lastXIndex].Trim();
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
+
+            return (name, quantity);
         }
     }
 }

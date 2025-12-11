@@ -16,15 +16,13 @@ namespace MilkTeaWebsite.DAL.Implements
 
         public async Task<Cart?> GetActiveCartByCustomerIdAsync(int customerId)
         {
-            var cart = await _dbSet
+            return await _dbSet
                 .Include(c => c.CartItems.Where(ci => !ci.IsDeleted))
                     .ThenInclude(ci => ci.Product)
                 .Where(c => c.CustomerId == customerId 
                     && !c.IsDeleted 
                     && (c.ExpiresAt == null || c.ExpiresAt > DateTime.UtcNow))
                 .FirstOrDefaultAsync();
-            
-            return cart;
         }
 
         public async Task<Cart?> GetCartWithItemsAsync(int cartId)

@@ -6,6 +6,7 @@ using MilkTeaWebsite.Entity.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace MilkTeaWebsite.Pages.Customer.Products
 {
@@ -40,15 +41,17 @@ namespace MilkTeaWebsite.Pages.Customer.Products
         public string Size { get; set; } = "M";
 
         [BindProperty]
-        public List<string> SelectedToppings { get; set; } = new();
-
-        [BindProperty]
-        public string? CustomTopping { get; set; }
-
-        [BindProperty]
         public string? Note { get; set; }
 
+        [BindProperty]
+        public string? ToppingSelectionPayload { get; set; }
+
         public IList<Topping> AvailableToppings { get; private set; } = new List<Topping>();
+
+        private static readonly JsonSerializerOptions _toppingPayloadOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
@@ -113,23 +116,9 @@ namespace MilkTeaWebsite.Pages.Customer.Products
 
                 await LoadAvailableToppingsAsync();
 
-                var selected = SelectedToppings
-                    .Where(t => !string.IsNullOrWhiteSpace(t))
-                    .Select(t => t.Trim())
-                    .ToList();
+                var toppingValue = BuildToppingSummary(ToppingSelectionPayload);
 
-                if (!string.IsNullOrWhiteSpace(CustomTopping))
-                {
-                    selected.Add(CustomTopping.Trim());
-                }
-
-                var toppingPayload = selected
-                    .Distinct(StringComparer.OrdinalIgnoreCase)
-                    .ToList();
-
-                var toppingValue = toppingPayload.Any() ? string.Join(", ", toppingPayload) : null;
-
-                await _cartService.AddToCartAsync(customerId, ProductId, Quantity, null, toppingValue, Note);
+                await _cartService.AddToCartAsync(customerId, ProductId, Quantity, Size, toppingValue, Note);
                 
                 TempData["Success"] = "Đã thêm sản phẩm vào giỏ hàng!";
                 return RedirectToPage("/Customer/Cart/Index");
@@ -156,6 +145,38 @@ namespace MilkTeaWebsite.Pages.Customer.Products
                 .Select(pt => pt.Topping)
                 .OrderBy(t => t.ToppingName)
                 .ToList();
+        }
+
+        private string? BuildToppingSummary(string? payload)
+        {
+            if (string.IsNullOrWhiteSpace(payload))
+            {
+                return null;
+            }
+
+            try
+            {
+                var selections = JsonSerializer.Deserialize<List<ToppingSelectionDto>>(payload, _toppingPayloadOptions) ?? new();
+
+                var formatted = selections
+                    .Where(s => !string.IsNullOrWhiteSpace(s.Name) && s.Quantity > 0)
+                    .Select(s => $"{s.Name.Trim()} x{s.Quantity}")
+                    .ToList();
+
+                return formatted.Any() ? string.Join(", ", formatted) : null;
+            }
+            catch (JsonException ex)
+            {
+                _logger.LogWarning(ex, "Invalid topping payload received");
+                return null;
+            }
+        }
+
+        private class ToppingSelectionDto
+        {
+            public string Name { get; set; } = string.Empty;
+            public int Quantity { get; set; }
+            public decimal Price { get; set; }
         }
     }
 }
