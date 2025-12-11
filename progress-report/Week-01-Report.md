@@ -1,120 +1,215 @@
-# 📊 BÁO CÁO TIẾN ĐỘ TUẦN 1
+# BÁO CÁO TUẦN 1# BÁO CÁO TUẦN 1
 
-**Thời gian:** 07/11/2025 - 11/11/2025  
-**Đề tài:** Website bán trà sữa trực tuyến - ASP.NET Core
+**Thời gian:** 07/11/2025 - 11/11/2025 **Thời gian:** 07/11/2025 - 11/11/2025
 
----
+**Dự án:** Website bán trà sữa - ASP.NET Core **Dự án:** Website bán trà sữa - ASP.NET Core
 
-## 🎯 Mục tiêu tuần 1
-
-- [x] Khởi tạo repository GitHub và cấu trúc 3 lớp
-- [x] Cài đặt thư viện (EF Core, PostgreSQL)
-- [x] Thiết kế và implement 12 Entity models
-- [x] Triển khai Repository Pattern (13 repositories)
-- [x] Xây dựng Business Logic Layer (5 services)
-- [x] Setup Docker PostgreSQL và Migration
-- [x] Cấu hình Dependency Injection
-- [x] Viết tài liệu dự án
+**Sinh viên:** Phạm Minh Thư Trang**Sinh viên:** Phạm Minh Thư Trang
 
 ---
 
-## ✅ Công việc đã hoàn thành
+## MỤC TIÊU## MỤC TIÊU
 
-### 1. Khởi tạo và cấu trúc dự án
+- Khởi tạo repository và cấu trúc 3 lớp- Khởi tạo repository và cấu trúc 3 lớp
 
-#### 1.1. Cấu trúc Solution (4 Projects)
-```
-MilkTeaWebsite.sln
+- Thiết kế Entity models và Database- Thiết kế Entity models và Database
+
+- Triển khai Repository Pattern- Triển khai Repository Pattern
+
+- Setup PostgreSQL với Docker- Setup PostgreSQL với Docker
+
+- Cấu hình Dependency Injection- Cấu hình Dependency Injection
+
+---
+
+## CÔNG VIỆC HOÀN THÀNH## ✅ Công việc đã hoàn thành
+
+### 1. Cấu trúc Solution (4 Projects)### 1. Khởi tạo và cấu trúc dự án
+
+- MilkTeaWebsite (Web Layer)
+
+- MilkTeaWebsite.BLL (Business Logic)#### 1.1. Cấu trúc Solution (4 Projects)
+
+- MilkTeaWebsite.DAL (Data Access)```
+
+- MilkTeaWebsite.Entity (Domain Models)MilkTeaWebsite.sln
+
 ├── MilkTeaWebsite (Web - Presentation Layer)
-├── MilkTeaWebsite.BLL (Business Logic Layer)
-├── MilkTeaWebsite.DAL (Data Access Layer)
-└── MilkTeaWebsite.Entity (Domain Models)
-```
+
+### 2. Công nghệ├── MilkTeaWebsite.BLL (Business Logic Layer)
+
+- .NET SDK 9.0├── MilkTeaWebsite.DAL (Data Access Layer)
+
+- Entity Framework Core 9.0.10└── MilkTeaWebsite.Entity (Domain Models)
+
+- PostgreSQL 16 + Docker```
+
+- Npgsql 9.0.4
 
 #### 1.2. Project References
-```
-MilkTeaWebsite
-  ├─→ MilkTeaWebsite.BLL
-  ├─→ MilkTeaWebsite.DAL
-  └─→ MilkTeaWebsite.Entity
 
-MilkTeaWebsite.BLL
-  ├─→ MilkTeaWebsite.DAL
-  └─→ MilkTeaWebsite.Entity
+### 3. Entity Models (12 entities)```
 
-MilkTeaWebsite.DAL
-  └─→ MilkTeaWebsite.Entity
-```
+- BaseEntity: Id, CreatedAt, UpdatedAt, IsDeletedMilkTeaWebsite
 
-### 2. Công nghệ sử dụng
+- User: Username, Email, PasswordHash, RoleId ├─→ MilkTeaWebsite.BLL
 
-- **.NET SDK**: 9.0
-- **Entity Framework Core**: 9.0.10
-- **Database**: PostgreSQL 16 (Npgsql 9.0.4)
-- **Container**: Docker Compose
+- Role: RoleName, Description ├─→ MilkTeaWebsite.DAL
 
-### 3. Entity Layer - Domain Models
+- Customer: UserId, FullName, PhoneNumber, Address └─→ MilkTeaWebsite.Entity
 
-#### 3.1. Các Entity đã implement (12 entities)
+- Employee: UserId, FullName, Position
 
-| STT | Entity | Mô tả | Thuộc tính chính |
-|-----|--------|-------|------------------|
-| 1 | **BaseEntity** | Base class cho tất cả entities | Id, CreatedAt, UpdatedAt, IsDeleted |
-| 2 | **User** | Tài khoản người dùng | Username, Email, PasswordHash, RoleId |
+- Category: CategoryName, DisplayOrderMilkTeaWebsite.BLL
+
+- Product: ProductName, CategoryId, Price ├─→ MilkTeaWebsite.DAL
+
+- Cart: CustomerId, ExpiresAt └─→ MilkTeaWebsite.Entity
+
+- CartItem: CartId, ProductId, Quantity, Size, Topping
+
+- Order: OrderNumber, CustomerId, OrderStatus, TotalAmountMilkTeaWebsite.DAL
+
+- OrderDetail: OrderId, ProductId, Quantity, UnitPrice └─→ MilkTeaWebsite.Entity
+
+- Payment: OrderId, PaymentMethod, PaymentStatus```
+
+### 4. Repository Pattern (13 Repositories)### 2. Công nghệ sử dụng
+
+- IGenericRepository<T> + GenericRepository<T>
+
+- UserRepository: GetByUsername, GetByEmail- **.NET SDK**: 9.0
+
+- ProductRepository: GetAvailableProducts, GetProductsByCategory- **Entity Framework Core**: 9.0.10
+
+- CartRepository: GetActiveCartByCustomerId, GetCartWithItems- **Database**: PostgreSQL 16 (Npgsql 9.0.4)
+
+- OrderRepository: GetOrdersByCustomerId, GetOrderWithDetails- **Container**: Docker Compose
+
+- PaymentRepository: GetPaymentByOrderId
+
+- IUnitOfWork: Quản lý transaction### 3. Entity Layer - Domain Models
+
+### 5. Business Logic Layer (5 Services)#### 3.1. Các Entity đã implement (12 entities)
+
+- AuthService: Login, Register, Password hashing
+
+- ProductService: CRUD, Filter, Soft delete| STT | Entity | Mô tả | Thuộc tính chính |
+
+- CartService: Add/Remove items, Calculate total|-----|--------|-------|------------------|
+
+- OrderService: Create, Update status, Cancel| 1 | **BaseEntity** | Base class cho tất cả entities | Id, CreatedAt, UpdatedAt, IsDeleted |
+
+- PaymentService: Create, Update status| 2 | **User** | Tài khoản người dùng | Username, Email, PasswordHash, RoleId |
+
 | 3 | **Role** | Vai trò (Admin, Employee, Customer) | RoleName, Description |
-| 4 | **Customer** | Thông tin khách hàng | UserId, FullName, PhoneNumber, Address |
-| 5 | **Employee** | Thông tin nhân viên | UserId, FullName, PhoneNumber, Position |
-| 6 | **Category** | Danh mục sản phẩm | CategoryName, Description, DisplayOrder |
-| 7 | **Product** | Sản phẩm | ProductName, CategoryId, Price, Description |
-| 8 | **Cart** | Giỏ hàng | CustomerId, ExpiresAt |
+
+### 6. Database| 4 | **Customer** | Thông tin khách hàng | UserId, FullName, PhoneNumber, Address |
+
+- Migration InitialCreate: 12 tables| 5 | **Employee** | Thông tin nhân viên | UserId, FullName, PhoneNumber, Position |
+
+- Seed data: 3 Roles (Admin, Employee, Customer), 4 Categories| 6 | **Category** | Danh mục sản phẩm | CategoryName, Description, DisplayOrder |
+
+- Docker Compose: PostgreSQL 16 Alpine| 7 | **Product** | Sản phẩm | ProductName, CategoryId, Price, Description |
+
+- Dependency Injection setup| 8 | **Cart** | Giỏ hàng | CustomerId, ExpiresAt |
+
 | 9 | **CartItem** | Chi tiết giỏ hàng | CartId, ProductId, Quantity, Size, Topping |
-| 10 | **Order** | Đơn hàng | OrderNumber, CustomerId, OrderStatus, TotalAmount |
-| 11 | **OrderDetail** | Chi tiết đơn hàng | OrderId, ProductId, Quantity, UnitPrice |
-| 12 | **Payment** | Thanh toán | OrderId, PaymentMethod, PaymentStatus, Amount |
+
+### 7. Documentation| 10 | **Order** | Đơn hàng | OrderNumber, CustomerId, OrderStatus, TotalAmount |
+
+- README.md, QUICKSTART.md| 11 | **OrderDetail** | Chi tiết đơn hàng | OrderId, ProductId, Quantity, UnitPrice |
+
+- Architecture documentation| 12 | **Payment** | Thanh toán | OrderId, PaymentMethod, PaymentStatus, Amount |
+
+- Setup guide
 
 ### 4. Data Access Layer (DAL)
 
+---
+
 #### 4.1. Repository Pattern (13 Repositories)
 
+## THỐNG KÊ
+
 **Interfaces:**
-```
-IGenericRepository<T>         - Base repository interface
-IUserRepository
-IRoleRepository
-ICustomerRepository
-IEmployeeRepository
-ICategoryRepository
-IProductRepository
-ICartRepository
+
+| Metric | Số lượng |```
+
+|--------|----------|IGenericRepository<T> - Base repository interface
+
+| Projects | 4 |IUserRepository
+
+| C# Files | 69 |IRoleRepository
+
+| Entities | 12 |ICustomerRepository
+
+| Repositories | 13 |IEmployeeRepository
+
+| Services | 5 |ICategoryRepository
+
+| Tables | 12 |IProductRepository
+
+| Migrations | 1 |ICartRepository
+
 ICartItemRepository
-IOrderRepository
+
+---IOrderRepository
+
 IOrderDetailRepository
-IPaymentRepository
-IUnitOfWork                   - Unit of Work pattern
-```
 
-**Implementations:**
-```
-GenericRepository<T>          - Base repository với CRUD cơ bản
-UserRepository                - Specialized queries: GetByUsername, GetByEmail
-RoleRepository
-CustomerRepository            - GetByUserId
-EmployeeRepository            - GetByUserId
-CategoryRepository
-ProductRepository             - GetAvailableProducts, GetProductsByCategory
-CartRepository                - GetActiveCartByCustomerId, GetCartWithItems
+## KẾT QUẢIPaymentRepository
+
+IUnitOfWork - Unit of Work pattern
+
+**Hoàn thành:**```
+
+- ✅ 3-Layer Architecture với Repository & Unit of Work Pattern
+
+- ✅ 12 Entity models với relationships**Implementations:**
+
+- ✅ PostgreSQL + Docker setup```
+
+- ✅ Clean code, maintainableGenericRepository<T> - Base repository với CRUD cơ bản
+
+UserRepository - Specialized queries: GetByUsername, GetByEmail
+
+**Chưa hoàn thành:**RoleRepository
+
+- Frontend UI (Razor Pages)CustomerRepository - GetByUserId
+
+- Authentication UIEmployeeRepository - GetByUserId
+
+- Error handling middlewareCategoryRepository
+
+ProductRepository - GetAvailableProducts, GetProductsByCategory
+
+---CartRepository - GetActiveCartByCustomerId, GetCartWithItems
+
 CartItemRepository
-OrderRepository               - GetOrdersByCustomerId, GetOrderWithDetails
-OrderDetailRepository         - GetOrderDetailsByOrderId
-PaymentRepository             - GetPaymentByOrderId
-UnitOfWork                    - Quản lý transaction và repositories
-```
 
-#### 4.2. Unit of Work Pattern
+## KẾ HOẠCH TUẦN 2OrderRepository - GetOrdersByCustomerId, GetOrderWithDetails
+
+OrderDetailRepository - GetOrderDetailsByOrderId
+
+- Presentation Layer: Home, Products listing, DetailsPaymentRepository - GetPaymentByOrderId
+
+- Authentication: Login/Register với Cookie AuthUnitOfWork - Quản lý transaction và repositories
+
+- Shopping Cart UI```
+
+- Product search & filter
+
+- Bootstrap 5 responsive design#### 4.2. Unit of Work Pattern
+
 ```csharp
-public interface IUnitOfWork : IDisposable
+
+---public interface IUnitOfWork : IDisposable
+
 {
-    IUserRepository Users { get; }
+
+**Tỷ lệ hoàn thành:** 100% Backend Infrastructure    IUserRepository Users { get; }
+
     IRoleRepository Roles { get; }
     ICustomerRepository Customers { get; }
     IEmployeeRepository Employees { get; }
@@ -125,7 +220,7 @@ public interface IUnitOfWork : IDisposable
     IOrderRepository Orders { get; }
     IOrderDetailRepository OrderDetails { get; }
     IPaymentRepository Payments { get; }
-    
+
     Task<int> SaveChangesAsync();
 }
 ```
@@ -157,19 +252,19 @@ public interface IUnitOfWork : IDisposable
 
 ## 📊 Thống kê Code
 
-| **Metric** | **Số lượng** |
-|------------|--------------|
-| **Total Projects** | 4 projects |
-| **Total C# Files** | 69 files |
-| **Entity Models** | 12 entities |
-| **Repository Interfaces** | 13 interfaces |
-| **Repository Implementations** | 13 classes |
-| **Service Interfaces** | 5 interfaces |
-| **Service Implementations** | 5 classes |
-| **Database Tables** | 12 tables |
-| **Migrations** | 1 migration |
-| **NuGet Packages** | 5 packages |
-| **Git Commits** | 8 commits |
+| **Metric**                     | **Số lượng**  |
+| ------------------------------ | ------------- |
+| **Total Projects**             | 4 projects    |
+| **Total C# Files**             | 69 files      |
+| **Entity Models**              | 12 entities   |
+| **Repository Interfaces**      | 13 interfaces |
+| **Repository Implementations** | 13 classes    |
+| **Service Interfaces**         | 5 interfaces  |
+| **Service Implementations**    | 5 classes     |
+| **Database Tables**            | 12 tables     |
+| **Migrations**                 | 1 migration   |
+| **NuGet Packages**             | 5 packages    |
+| **Git Commits**                | 8 commits     |
 
 ---
 
@@ -186,11 +281,13 @@ public interface IUnitOfWork : IDisposable
 ## 🚀 Kế hoạch tuần 2
 
 1. **Presentation Layer**
+
    - [ ] Layout chung, trang Home, Products listing
    - [ ] Product details page
    - [ ] Responsive design với Bootstrap
 
 2. **Authentication & Authorization**
+
    - [ ] Login/Register pages
    - [ ] Cookie Authentication
    - [ ] Role-based authorization
@@ -205,11 +302,13 @@ public interface IUnitOfWork : IDisposable
 ## 📝 Ghi chú
 
 **Điểm mạnh:**
+
 - ✅ Backend infrastructure hoàn chỉnh với clean architecture
 - ✅ Repository Pattern và Unit of Work được triển khai đúng
 - ✅ Code quality tốt, follow best practices
 
 **Cần hoàn thiện:**
+
 - ⚠️ Frontend UI (Razor Pages)
 - ⚠️ Authentication UI và Cookie Auth
 - ⚠️ Error Handling middleware
