@@ -153,7 +153,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa được pha chế theo công thức truyền thống",
                             DisplayOrder = 1,
-                            ImageUrl = "/images/categories/tra-sua-truyen-thong.jpg",
+                            ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4qHQVMcxnHvYE5zEXI7tUpw_q-Oq5FMLZCg&s",
                             IsDeleted = false
                         },
                         new
@@ -163,7 +163,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa kết hợp với các loại trái cây tươi ngon",
                             DisplayOrder = 2,
-                            ImageUrl = "/images/categories/tra-sua-trai-cay.jpg",
+                            ImageUrl = "https://monngonmoingay.com/wp-content/uploads/2024/01/tra-sua.jpg",
                             IsDeleted = false
                         },
                         new
@@ -173,7 +173,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà thanh mát với trái cây tươi",
                             DisplayOrder = 3,
-                            ImageUrl = "/images/categories/tra-trai-cay.jpg",
+                            ImageUrl = "https://i.ytimg.com/vi/l6jiHzm5P5c/maxresdefault.jpg",
                             IsDeleted = false
                         },
                         new
@@ -183,7 +183,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Các loại cà phê đặc biệt",
                             DisplayOrder = 4,
-                            ImageUrl = "/images/categories/coffee.jpg",
+                            ImageUrl = "https://www.cubes-asia.com/storage/blogs/2024-12/ca-phe-nguyen-chat-la-gi-tac-dung-dac-diem.jpg",
                             IsDeleted = false
                         },
                         new
@@ -193,7 +193,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Các món ăn vặt ngon miệng",
                             DisplayOrder = 5,
-                            ImageUrl = "/images/categories/do-an-vat.jpg",
+                            ImageUrl = "https://saigonchutla.vn/wp-content/uploads/2023/09/an-vat-kon-tum-3-800x445-1.jpg",
                             IsDeleted = false
                         });
                 });
