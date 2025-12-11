@@ -1,273 +1,244 @@
 # 🧋 MilkTea Website - Website Bán Trà Sữa Trực Tuyến
 
-## 📋 Giới thiệu
+## 📋 Mô Tả Dự Án
 
-Website bán trà sữa trực tuyến được xây dựng bằng **ASP.NET Core 9.0**, cho phép khách hàng đặt hàng online và quản trị viên quản lý sản phẩm, đơn hàng hiệu quả.
+Website bán trà sữa trực tuyến đầy đủ tính năng, cho phép:
 
-**Công nghệ:** ASP.NET Core 9.0 • PostgreSQL 16 • Docker • Entity Framework Core
+- **Khách hàng**: Xem sản phẩm, thêm vào giỏ hàng, tùy chỉnh topping, đặt hàng và thanh toán
+- **Nhân viên**: Quản lý đơn hàng, cập nhật trạng thái giao hàng
+- **Quản trị viên**: Quản lý sản phẩm, danh mục, người dùng, thống kê doanh thu
+
+**Công nghệ sử dụng:**
+
+- **Backend**: ASP.NET Core 9.0 với Razor Pages
+- **Database**: PostgreSQL 16 (Docker)
+- **ORM**: Entity Framework Core 9.0
+- **Authentication**: Cookie-based Authentication với BCrypt
+- **Architecture**: Repository Pattern + Unit of Work
+- **UI Framework**: Bootstrap 5
 
 **Thông tin đồ án:**
 
-- **Sinh viên:** Phạm Minh Thu Trang (MSSV: 470123172)
-- **Lớp:** VX23TTK13 - Lập trình Web ASP.NET
-- **Năm học:** 2024-2025
+- **Sinh viên**: Phạm Minh Thu Trang (MSSV: 470123172)
+- **Lớp**: VX23TTK13 - Lập trình Web ASP.NET
+- **Năm học**: 2024-2025
 
 ---
 
-## 🚀 Hướng Dẫn Cài Đặt và Chạy
+## � Yêu Cầu Hệ Thống
 
-### Bước 1️⃣: Cài Đặt Các Công Cụ Cần Thiết
+Trước khi bắt đầu, cần cài đặt các công cụ sau:
 
-#### 1.1. Cài đặt .NET SDK 9.0
+### ✅ Git
 
-**Windows:**
+- **Windows**: Tải từ [git-scm.com](https://git-scm.com/download/win)
+- **macOS**: `brew install git` hoặc tải từ [git-scm.com](https://git-scm.com/download/mac)
+- **Linux**: `sudo apt install git` hoặc `sudo yum install git`
 
-- Truy cập: https://dotnet.microsoft.com/download/dotnet/9.0
-- Tải **SDK 9.0** (không phải Runtime)
-- Chạy file cài đặt và làm theo hướng dẫn
-- Mở Command Prompt/PowerShell mới và kiểm tra:
+### ✅ .NET SDK 9.0+
 
-```bash
-dotnet --version
-```
+- **Tải từ**: [dotnet.microsoft.com/download/dotnet/9.0](https://dotnet.microsoft.com/download/dotnet/9.0)
+- **macOS với Homebrew**: `brew install dotnet-sdk`
+- **Kiểm tra**: `dotnet --version` (phải >= 9.0)
 
-**macOS:**
+### ✅ Docker Desktop
 
-```bash
-# Cài bằng Homebrew
-brew install dotnet-sdk
+- **Windows**: Tải từ [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
+  - Yêu cầu WSL 2: `wsl --install` trong PowerShell (Admin)
+- **macOS**: Tải từ [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
+- **Linux**: `sudo apt install docker.io docker-compose`
+- **Kiểm tra**: `docker --version` và `docker-compose --version`
 
-# Kiểm tra
-dotnet --version
-```
-
-#### 1.2. Cài đặt Docker Desktop
-
-Docker sẽ chạy PostgreSQL database.
-
-**Windows:**
-
-1. Bật WSL 2 (mở PowerShell với quyền Admin):
-   ```powershell
-   wsl --install
-   ```
-2. Khởi động lại máy
-3. Tải Docker Desktop: https://www.docker.com/products/docker-desktop/
-4. Cài đặt và khởi động Docker Desktop
-5. Đợi biểu tượng Docker ở system tray chuyển màu xanh
-
-**macOS:**
-
-1. Tải Docker Desktop:
-   - Intel Mac: https://desktop.docker.com/mac/main/amd64/Docker.dmg
-   - Apple Silicon (M1/M2/M3): https://desktop.docker.com/mac/main/arm64/Docker.dmg
-2. Kéo Docker.app vào thư mục Applications
-3. Mở Docker từ Applications
-
-**Kiểm tra:**
+### ✅ .NET EF Core Tools (để chạy migrations)
 
 ```bash
-docker --version
-docker compose version
+dotnet tool install --global dotnet-ef
 ```
 
-#### 1.3. Cài đặt Git
-
-**Windows:**
-
-- Tải từ: https://git-scm.com/download/win
-- Cài đặt với các tùy chọn mặc định
-
-**macOS:**
-
-```bash
-brew install git
-```
-
-**Kiểm tra:**
-
-```bash
-git --version
-```
+Kiểm tra: `dotnet ef --version`
 
 ---
 
-### Bước 2️⃣: Clone Dự Án Về Máy
+## 🚀 Hướng Dẫn Cài Đặt và Chạy (Từ Đầu)
 
-Mở Terminal (macOS/Linux) hoặc Command Prompt/PowerShell (Windows):
+### Bước 1: Clone Repository
 
 ```bash
-# Clone dự án từ GitHub
 git clone https://github.com/ThuTrang89-tvu/ASPNET-VX23TTK13-phamminhthutrang-MilkTeaWebsite.git
-
-# Vào thư mục dự án
 cd ASPNET-VX23TTK13-phamminhthutrang-MilkTeaWebsite
 ```
 
----
-
-### Bước 3️⃣: Khởi Động PostgreSQL Database
+### Bước 2: Khởi Động PostgreSQL Database
 
 ```bash
-# Vào thư mục docker
 cd docker
-
-# Khởi động PostgreSQL bằng Docker Compose
-docker compose up -d
-
-# Kiểm tra container đã chạy chưa
-docker compose ps
+docker-compose up -d
 ```
 
-**Kết quả mong đợi:**
-
-```
-NAME                 IMAGE               STATUS
-milktea_postgres     postgres:16-alpine  Up
-```
-
-**Thông tin database:**
-
-- Host: `localhost:5432`
-- Database: `MilkTeaDb`
-- Username: `milktea_user`
-- Password: `MilkTea@2025`
-
----
-
-### Bước 4️⃣: Cài Đặt Dependencies và Tạo Database
+Đợi 5-10 giây để PostgreSQL khởi động hoàn tất. Kiểm tra:
 
 ```bash
-# Quay về thư mục gốc
-cd ..
+docker ps
+```
 
-# Vào thư mục solution
-cd src/MilkTeaWebsite
+Bạn sẽ thấy container `milktea_postgres` đang chạy.
 
-# Restore các NuGet packages
-dotnet restore
+### Bước 3: Apply Migrations (Tạo Database Schema & Seed Data)
 
-# Vào thư mục project chính
-cd MilkTeaWebsite
-
-# Cài đặt EF Core Tools (nếu chưa có)
-dotnet tool install --global dotnet-ef
-
-# Tạo database và chạy migrations
-cd ../MilkTeaWebsite.DAL
+```bash
+cd ../src/MilkTeaWebsite/MilkTeaWebsite.DAL
 dotnet ef database update --startup-project ../MilkTeaWebsite
 ```
 
-**Giải thích:**
+Migration sẽ tự động:
 
-- `dotnet restore`: Tải các thư viện cần thiết
-- `dotnet-ef`: Công cụ để làm việc với database
-- `database update`: Tạo bảng và cấu trúc database
+- Tạo tất cả các bảng (Users, Products, Categories, Orders, Cart, Toppings, v.v.)
+- Seed dữ liệu mẫu (5 categories, 15 products, 6 toppings, 1 admin user)
 
----
-
-### Bước 5️⃣: Chạy Ứng Dụng Với HTTPS
+### Bước 4: Trust HTTPS Certificate (Chỉ chạy 1 lần)
 
 ```bash
-# Quay về thư mục project web
-cd ../MilkTeaWebsite
-
-# Tin cậy HTTPS certificate cho development (chỉ chạy 1 lần)
 dotnet dev-certs https --trust
+```
 
-# Chạy ứng dụng với HTTPS
+Nhấn **Yes** khi hệ thống hỏi.
+
+### Bước 5: Chạy Ứng Dụng
+
+```bash
+cd ../MilkTeaWebsite
 dotnet run --launch-profile https
 ```
-
-**Kết quả:**
-
-```
-info: Microsoft.Hosting.Lifetime[14]
-      Now listening on: https://localhost:7284
-info: Microsoft.Hosting.Lifetime[14]
-      Now listening on: http://localhost:5006
-info: Microsoft.Hosting.Lifetime[0]
-      Application started. Press Ctrl+C to shut down.
-```
-
----
-
-### Bước 6️⃣: Truy Cập Website
 
 Mở trình duyệt và truy cập:
 
-🔐 **HTTPS (Khuyến nghị):** https://localhost:7284
+- **HTTPS**: https://localhost:7284
+- **HTTP**: http://localhost:5006
 
-🌐 **HTTP:** http://localhost:5006
+### Bước 6: Đăng Nhập
 
-**Lưu ý:** Nếu trình duyệt báo cảnh báo certificate, chọn "Advanced" → "Proceed to localhost" (an toàn vì đây là development).
+**Tài khoản Admin mặc định:**
 
----
+- **Email**: admin@milktea.com
+- **Password**: Admin@123
 
-### Bước 7️⃣: Dừng Ứng Dụng
-
-**Dừng web app:**
-
-- Nhấn `Ctrl + C` trong terminal đang chạy
-
-**Dừng PostgreSQL:**
-
-```bash
-cd docker
-docker compose down
-```
-
-**Khởi động lại PostgreSQL (khi cần):**
-
-```bash
-cd docker
-docker compose up -d
-```
+**Tài khoản khác** (tạo trong seed data nếu có) hoặc đăng ký mới từ trang web.
 
 ---
 
-## 🎯 Tóm Tắt Các Lệnh Quan Trọng
+## 🛠️ Các Lệnh Hữu Ích
 
-### Chạy ứng dụng hàng ngày:
+### Dừng và Khởi Động Lại Database
 
 ```bash
-# 1. Khởi động PostgreSQL (nếu chưa chạy)
+# Dừng
 cd docker
-docker compose up -d
+docker-compose down
 
-# 2. Chạy web app với HTTPS
-cd ../src/MilkTeaWebsite/MilkTeaWebsite
-dotnet run --launch-profile https
+# Khởi động lại
+docker-compose up -d
 ```
 
-### Làm sạch và chạy lại từ đầu:
+### Reset Database (Xóa Toàn Bộ Data)
 
 ```bash
-# 1. Dừng và xóa PostgreSQL container + data
 cd docker
-docker compose down -v
+docker-compose down -v  # Xóa cả volumes
+docker-compose up -d    # Tạo lại container
 
-# 2. Khởi động lại PostgreSQL
-docker compose up -d
+# Apply migrations lại
+cd ../src/MilkTeaWebsite/MilkTeaWebsite.DAL
+```
 
-# 3. Clean project
-cd ../src/MilkTeaWebsite
-dotnet clean
+### Tạo Migration Mới
 
-# 4. Xóa migrations cũ (nếu có lỗi)
-cd MilkTeaWebsite.DAL
-rm -rf Migrations/*
-
-# 5. Tạo migration mới
-dotnet ef migrations add InitialCreate --startup-project ../MilkTeaWebsite
-
-# 6. Update database
+```bash
+cd src/MilkTeaWebsite/MilkTeaWebsite.DAL
+dotnet ef migrations add TenMigration --startup-project ../MilkTeaWebsite
 dotnet ef database update --startup-project ../MilkTeaWebsite
-
-# 7. Chạy app
-cd ../MilkTeaWebsite
-dotnet run --launch-profile https
 ```
+
+### Xem Dữ Liệu Trong Database
+
+```bash
+docker exec -it milktea_postgres psql -U milktea_user -d MilkTeaDb
+
+# Trong psql:
+\dt              # Xem danh sách bảng
+SELECT * FROM "Products";
+\q               # Thoát
+```
+
+---
+
+## 📂 Cấu Trúc Dự Án
+
+```
+ASPNET-VX23TTK13-phamminhthutrang-MilkTeaWebsite/
+├── docker/
+│   └── docker-compose.yml          # Cấu hình PostgreSQL
+├── src/
+│   └── MilkTeaWebsite/
+│       ├── MilkTeaWebsite/         # Web Application (Razor Pages)
+│       │   ├── Pages/              # Razor Pages UI
+│       │   │   ├── Customer/       # Trang khách hàng
+│       │   │   ├── Staff/          # Trang nhân viên
+│       │   │   └── Account/        # Đăng nhập/Đăng ký
+│       │   ├── wwwroot/            # Static files (CSS, JS, images)
+│       │   └── Program.cs          # Entry point
+│       ├── MilkTeaWebsite.BLL/     # Business Logic Layer
+│       │   ├── Interfaces/         # Service interfaces
+│       │   └── Implements/         # Service implementations
+│       ├── MilkTeaWebsite.DAL/     # Data Access Layer
+│       │   ├── Context/            # DbContext
+│       │   ├── Interfaces/         # Repository interfaces
+│       │   ├── Implements/         # Repository implementations
+│       │   ├── Migrations/         # EF Core Migrations
+│       │   └── Seed/               # Seed data
+│       └── MilkTeaWebsite.Entity/  # Entity Models
+│           └── Entity/             # Domain entities
+├── progress-report/                # Báo cáo tiến độ hàng tuần
+└── README.md
+```
+
+---
+
+## � Tính Năng Chính
+
+### Khách Hàng
+
+- ✅ Xem danh sách sản phẩm theo danh mục
+- ✅ Tìm kiếm sản phẩm
+- ✅ Xem chi tiết sản phẩm với topping
+- ✅ Thêm vào giỏ hàng (chọn size, số lượng, topping)
+- ✅ Quản lý giỏ hàng (cập nhật số lượng, xóa)
+- ✅ Thanh toán và đặt hàng
+- ✅ Xem lịch sử đơn hàng
+
+### Nhân Viên
+
+- ✅ Xem danh sách đơn hàng
+- ✅ Cập nhật trạng thái đơn hàng (Đang xử lý → Đang giao → Hoàn thành)
+- ✅ Xem chi tiết đơn hàng
+
+### Quản Trị Viên
+
+- ✅ Quản lý sản phẩm (CRUD)
+- ✅ Quản lý danh mục (CRUD)
+- ✅ Quản lý người dùng
+- ✅ Thống kê doanh thu
+
+---
+
+## 🔐 Tài Khoản Mặc Định
+
+Sau khi seed data, bạn có thể đăng nhập bằng:
+
+**Admin:**
+
+- Email: `admin@milktea.com`
+- Password: `Admin@123`
+- Quyền: Full access (quản lý sản phẩm, đơn hàng, người dùng)
 
 ---
 
@@ -275,27 +246,154 @@ dotnet run --launch-profile https
 
 ### ❌ Lỗi: "Port 5432 already in use"
 
-**Nguyên nhân:** PostgreSQL đang chạy trên máy
+**Nguyên nhân:** PostgreSQL đã chạy trên máy hoặc Docker container cũ còn tồn tại
 
 **Giải pháp:**
 
 ```bash
-# macOS/Linux: Giải phóng port
-lsof -i :5432
-kill -9 <PID>
+# Kiểm tra và dừng container cũ
+docker ps -a
+docker stop milktea_postgres
+docker rm milktea_postgres
 
-# Windows: Tìm và dừng process
-netstat -ano | findstr :5432
-taskkill /PID <PID> /F
+# Hoặc dừng PostgreSQL service trên máy
+# macOS:
+brew services stop postgresql
+
+# Windows: Mở Services và stop PostgreSQL
 ```
 
 ### ❌ Lỗi: "Docker daemon is not running"
 
-**Giải pháp:** Mở Docker Desktop và đợi khởi động hoàn tất
+**Giải pháp:** Mở **Docker Desktop** và đợi biểu tượng chuyển màu xanh (Ready)
 
 ### ❌ Lỗi: "Unable to connect to database"
 
 **Giải pháp:**
+
+```bash
+# 1. Kiểm tra container đang chạy
+docker ps
+
+# 2. Kiểm tra logs
+docker logs milktea_postgres
+
+# 3. Restart container
+cd docker
+docker-compose restart
+
+# 4. Đợi 5 giây rồi test connection
+docker exec milktea_postgres pg_isready -U milktea_user -d MilkTeaDb
+```
+
+### ❌ Lỗi: "Port 7284 already in use"
+
+**Nguyên nhân:** Có process khác đang dùng port hoặc app đang chạy
+
+**Giải pháp:**
+
+```bash
+# macOS/Linux: Tìm và kill process
+lsof -i :7284
+kill -9 <PID>
+
+# Windows:
+netstat -ano | findstr :7284
+taskkill /PID <PID> /F
+```
+
+### ❌ Lỗi: "Migration already applied"
+
+**Giải pháp:** Không cần làm gì, database đã được cập nhật rồi
+
+### ❌ Lỗi: "HTTPS certificate not trusted"
+
+**Giải pháp:**
+
+```bash
+# Trust lại certificate
+dotnet dev-certs https --clean
+dotnet dev-certs https --trust
+
+# Restart browser sau khi trust
+```
+
+---
+
+## 🧪 Test Ứng Dụng
+
+### 1. Test Đăng Nhập
+
+- Truy cập: https://localhost:7284/Account/Login
+- Đăng nhập với `admin@milktea.com` / `Admin@123`
+- Xác nhận redirect về trang chủ và hiển thị tên user
+
+### 2. Test Giỏ Hàng
+
+- Xem sản phẩm → Chọn size, topping → Thêm vào giỏ
+- Vào giỏ hàng → Thay đổi số lượng → Verify giá cập nhật
+- Xóa sản phẩm → Verify confirm dialog
+
+### 3. Test Đặt Hàng
+
+- Thêm sản phẩm vào giỏ → Thanh toán
+- Điền thông tin giao hàng → Đặt hàng
+- Kiểm tra order trong database:
+
+```bash
+docker exec -it milktea_postgres psql -U milktea_user -d MilkTeaDb -c "SELECT * FROM \"Orders\" ORDER BY \"Id\" DESC LIMIT 5;"
+```
+
+---
+
+## 📚 Tài Liệu Tham Khảo
+
+- [ASP.NET Core Documentation](https://learn.microsoft.com/en-us/aspnet/core/)
+- [Entity Framework Core](https://learn.microsoft.com/en-us/ef/core/)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [Docker Documentation](https://docs.docker.com/)
+- [Bootstrap 5](https://getbootstrap.com/docs/5.0/)
+
+---
+
+## 📝 Ghi Chú Quan Trọng
+
+⚠️ **Development Mode**: Ứng dụng đang chạy ở chế độ Development với:
+
+- Sensitive data logging enabled
+- HTTPS self-signed certificate
+- Không nên deploy production với config này
+
+🔒 **Security**:
+
+- Đổi password mặc định trong production
+- Cập nhật connection string trong `appsettings.json`
+- Enable HTTPS trong production
+
+💾 **Data Persistence**:
+
+- Dữ liệu lưu trong Docker volume `docker_postgres_data`
+- Chạy `docker-compose down -v` sẽ XÓA TOÀN BỘ dữ liệu
+- Backup định kỳ bằng `pg_dump` nếu cần
+
+---
+
+## 👥 Liên Hệ
+
+**Sinh viên thực hiện:** Phạm Minh Thu Trang  
+**MSSV:** 470123172  
+**Lớp:** VX23TTK13 - Lập trình Web ASP.NET  
+**Trường:** Trường Đại học Trà Vinh
+
+---
+
+## 📜 License
+
+Dự án này được phát triển cho mục đích học tập và nghiên cứu.
+
+---
+
+**🎉 Chúc bạn code vui vẻ!**
 
 ```bash
 # Kiểm tra PostgreSQL đang chạy
