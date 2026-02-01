@@ -2,7 +2,7 @@
 
 **Thời gian:** 02/12/2025 - 08/12/2025  
 **Dự án:** Website bán trà sữa - ASP.NET Core  
-**Sinh viên:** Phạm Minh Thư Trang
+**Sinh viên:** Phạm Minh Thu Trang
 
 ---
 

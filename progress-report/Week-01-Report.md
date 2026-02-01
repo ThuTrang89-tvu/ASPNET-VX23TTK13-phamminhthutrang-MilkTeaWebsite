@@ -1,14 +1,14 @@
-# BÁO CÁO TUẦN 1# BÁO CÁO TUẦN 1
+# BÁO CÁO TUẦN 1
 
-**Thời gian:** 07/11/2025 - 11/11/2025 **Thời gian:** 07/11/2025 - 11/11/2025
+**Thời gian:** 07/11/2025 - 11/11/2025 
 
-**Dự án:** Website bán trà sữa - ASP.NET Core **Dự án:** Website bán trà sữa - ASP.NET Core
+**Dự án:** Website bán trà sữa - ASP.NET Core
 
-**Sinh viên:** Phạm Minh Thư Trang**Sinh viên:** Phạm Minh Thư Trang
+**Sinh viên:** Phạm Minh Thu Trang
 
 ---
 
-## MỤC TIÊU## MỤC TIÊU
+## MỤC TIÊU
 
 - Khởi tạo repository và cấu trúc 3 lớp- Khởi tạo repository và cấu trúc 3 lớp
 
