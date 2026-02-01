@@ -2,17 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MilkTeaWebsite.DAL.Context;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace MilkTeaWebsite.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251205134059_InitialCreate")]
+    [Migration("20260128092216_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,32 +21,32 @@ namespace MilkTeaWebsite.DAL.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.10")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.Cart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("CustomerId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ExpiresAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -59,39 +59,39 @@ namespace MilkTeaWebsite.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("BasePrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("CartId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Note")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("SelectedToppings")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Size")
                         .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<decimal>("ToppingPrice")
                         .HasColumnType("decimal(18,2)");
@@ -100,7 +100,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -115,34 +115,34 @@ namespace MilkTeaWebsite.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("DisplayOrder")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -156,7 +156,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa được pha chế theo công thức truyền thống",
                             DisplayOrder = 1,
-                            ImageUrl = "/images/categories/tra-sua-truyen-thong.jpg",
+                            ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4qHQVMcxnHvYE5zEXI7tUpw_q-Oq5FMLZCg&s",
                             IsDeleted = false
                         },
                         new
@@ -166,7 +166,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa kết hợp với các loại trái cây tươi ngon",
                             DisplayOrder = 2,
-                            ImageUrl = "/images/categories/tra-sua-trai-cay.jpg",
+                            ImageUrl = "https://monngonmoingay.com/wp-content/uploads/2024/01/tra-sua.jpg",
                             IsDeleted = false
                         },
                         new
@@ -176,7 +176,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà thanh mát với trái cây tươi",
                             DisplayOrder = 3,
-                            ImageUrl = "/images/categories/tra-trai-cay.jpg",
+                            ImageUrl = "https://i.ytimg.com/vi/l6jiHzm5P5c/maxresdefault.jpg",
                             IsDeleted = false
                         },
                         new
@@ -186,7 +186,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Các loại cà phê đặc biệt",
                             DisplayOrder = 4,
-                            ImageUrl = "/images/categories/coffee.jpg",
+                            ImageUrl = "https://www.cubes-asia.com/storage/blogs/2024-12/ca-phe-nguyen-chat-la-gi-tac-dung-dac-diem.jpg",
                             IsDeleted = false
                         },
                         new
@@ -196,7 +196,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Các món ăn vặt ngon miệng",
                             DisplayOrder = 5,
-                            ImageUrl = "/images/categories/do-an-vat.jpg",
+                            ImageUrl = "https://saigonchutla.vn/wp-content/uploads/2023/09/an-vat-kon-tum-3-800x445-1.jpg",
                             IsDeleted = false
                         });
                 });
@@ -205,46 +205,46 @@ namespace MilkTeaWebsite.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("City")
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("District")
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<int?>("LoyaltyPoints")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("Ward")
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -258,38 +258,38 @@ namespace MilkTeaWebsite.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Department")
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Position")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -327,55 +327,55 @@ namespace MilkTeaWebsite.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("CustomerId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<decimal?>("DiscountAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("EmployeeId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<decimal>("FinalAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Note")
                         .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<DateTime>("OrderDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("OrderNumber")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("OrderStatus")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ShippingAddress")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -393,39 +393,39 @@ namespace MilkTeaWebsite.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("BasePrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Note")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("OrderId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("SelectedToppings")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Size")
                         .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<decimal>("ToppingPrice")
                         .HasColumnType("decimal(18,2)");
@@ -437,7 +437,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -452,45 +452,45 @@ namespace MilkTeaWebsite.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Note")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("OrderId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("PaymentDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("PaymentStatus")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("TransactionId")
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -504,29 +504,29 @@ namespace MilkTeaWebsite.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<bool>("IsAvailable")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("PriceL")
                         .HasColumnType("decimal(18,2)");
@@ -540,13 +540,13 @@ namespace MilkTeaWebsite.DAL.Migrations
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("StockQuantity")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -561,7 +561,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa được pha chế theo công thức truyền thống, hương vị đậm đà",
-                            ImageUrl = "/images/products/tra-sua-truyen-thong.jpg",
+                            ImageUrl = "https://www.bartender.edu.vn/wp-content/uploads/2015/11/tra-sua-truyen-thong.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 40000m,
@@ -576,7 +576,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa pha với socola nguyên chất, béo ngậy",
-                            ImageUrl = "/images/products/tra-sua-socola.jpg",
+                            ImageUrl = "https://file.hstatic.net/200000868155/file/1926-post-cach-lam-tra-sua-socola-beo-thom-don-gian-tai-nha-1.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 45000m,
@@ -591,7 +591,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa matcha Nhật Bản thơm ngon, đậm vị trà xanh",
-                            ImageUrl = "/images/products/tra-sua-matcha.jpg",
+                            ImageUrl = "https://product.hstatic.net/1000220639/product/tra-sua-luave-matcha-5_39ee13d0ab9b413186dbde4184d2dde9.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 50000m,
@@ -606,7 +606,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 2,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa kết hợp với dâu tây tươi ngon",
-                            ImageUrl = "/images/products/tra-sua-dau-tay.jpg",
+                            ImageUrl = "https://cdn.nguyenkimmall.com/images/companies/_1/tin-tuc/kinh-nghiem-meo-hay/n%E1%BA%A5u%20%C4%83n/cach-lam-tra-sua-dau-5.jpg.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 47000m,
@@ -621,7 +621,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 2,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa xoài thơm ngon, vị ngọt dịu",
-                            ImageUrl = "/images/products/tra-sua-xoai.jpg",
+                            ImageUrl = "https://lypham.vn/wp-content/uploads/2025/01/cach-lam-tra-sua-xoai.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 45000m,
@@ -636,7 +636,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 2,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà sữa đào ngọt thanh, tươi mát",
-                            ImageUrl = "/images/products/tra-sua-dao.jpg",
+                            ImageUrl = "https://cdn.tgdd.vn/Files/2021/08/07/1373678/huong-dan-cach-lam-tra-sua-dao-thom-ngon-mat-lanh-202201121043508846.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 47000m,
@@ -651,7 +651,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 3,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà đào cam sả thơm ngon, giải nhiệt",
-                            ImageUrl = "/images/products/tra-dao-cam-sa.jpg",
+                            ImageUrl = "https://lypham.vn/wp-content/uploads/2024/09/cach-lam-tra-dao-cam-sa.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 43000m,
@@ -666,7 +666,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 3,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà chanh leo chua ngọt, thanh mát",
-                            ImageUrl = "/images/products/tra-chanh-leo.jpg",
+                            ImageUrl = "https://lypham.vn/wp-content/uploads/2024/10/chanh-day-mat-ong-truyen-thong.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 40000m,
@@ -681,7 +681,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 3,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Trà vải thơm ngon, ngọt dịu",
-                            ImageUrl = "/images/products/tra-vai.jpg",
+                            ImageUrl = "https://raumamix.com.vn/wp-content/uploads/2025/02/Tra-Lai-Vai-Luc-Ngan.png",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 41000m,
@@ -696,7 +696,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 4,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Cà phê sữa đá truyền thống Việt Nam",
-                            ImageUrl = "/images/products/ca-phe-sua-da.jpg",
+                            ImageUrl = "https://product.hstatic.net/200000914837/product/cafe_sua_da_ee2490f7d7dc47748ae88e323b31fa2b_eab075b7a57149fe80a152ade1b9cbc3_master.png",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 35000m,
@@ -711,7 +711,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 4,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Cà phê sữa nhẹ nhàng, ngọt dịu",
-                            ImageUrl = "/images/products/bac-xiu.jpg",
+                            ImageUrl = "https://cdn.tgdd.vn/2021/03/CookProduct/Bac-xiu-la-gi-nguon-goc-va-cach-lam-bac-xiu-thom-ngon-don-gian-tai-nha-0-1200x676.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 37000m,
@@ -726,7 +726,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 4,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Cà phê Cappuccino thơm ngon kiểu Ý",
-                            ImageUrl = "/images/products/cappuccino.jpg",
+                            ImageUrl = "https://www.nescafe.com/nz/sites/default/files/2023-09/NESCAF%C3%89%20Cappuccino.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 50000m,
@@ -741,7 +741,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 5,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Bánh flan mềm mịn, ngọt dịu",
-                            ImageUrl = "/images/products/banh-flan.jpg",
+                            ImageUrl = "https://superfoods.vn/wp-content/uploads/2023/08/banh-flan-1.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 15000m,
@@ -756,7 +756,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 5,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Bánh bông lan phô mai trứng muối thơm ngon",
-                            ImageUrl = "/images/products/banh-bong-lan.jpg",
+                            ImageUrl = "https://anhquanbakery.com/uploads/product/full_azt857am-1320-bong-lan-trung-muoi-12.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 25000m,
@@ -771,7 +771,7 @@ namespace MilkTeaWebsite.DAL.Migrations
                             CategoryId = 5,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Khoai lang kén giòn tan, thơm ngon",
-                            ImageUrl = "/images/products/khoai-lang-ken.jpg",
+                            ImageUrl = "https://cdn.tgdd.vn/2021/10/CookRecipe/Avatar/khoai-lang-ken-voi-me-den-thumbnail.jpg",
                             IsAvailable = true,
                             IsDeleted = false,
                             PriceL = 20000m,
@@ -785,42 +785,269 @@ namespace MilkTeaWebsite.DAL.Migrations
             modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.ProductTopping", b =>
                 {
                     b.Property<int>("ProductId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("ToppingId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("ProductId", "ToppingId");
 
                     b.HasIndex("ToppingId");
 
                     b.ToTable("ProductToppings");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 1,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            ProductId = 1,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            ProductId = 1,
+                            ToppingId = 4
+                        },
+                        new
+                        {
+                            ProductId = 1,
+                            ToppingId = 5
+                        },
+                        new
+                        {
+                            ProductId = 1,
+                            ToppingId = 6
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            ToppingId = 4
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            ToppingId = 6
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            ToppingId = 7
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            ToppingId = 4
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            ToppingId = 5
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            ToppingId = 8
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            ToppingId = 5
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            ToppingId = 8
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            ToppingId = 8
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            ToppingId = 5
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            ToppingId = 8
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            ToppingId = 5
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            ToppingId = 8
+                        },
+                        new
+                        {
+                            ProductId = 10,
+                            ToppingId = 6
+                        },
+                        new
+                        {
+                            ProductId = 10,
+                            ToppingId = 7
+                        },
+                        new
+                        {
+                            ProductId = 11,
+                            ToppingId = 6
+                        },
+                        new
+                        {
+                            ProductId = 11,
+                            ToppingId = 7
+                        },
+                        new
+                        {
+                            ProductId = 12,
+                            ToppingId = 6
+                        },
+                        new
+                        {
+                            ProductId = 12,
+                            ToppingId = 7
+                        });
                 });
 
             modelBuilder.Entity("MilkTeaWebsite.Entity.Entity.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<string>("RoleName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -860,33 +1087,33 @@ namespace MilkTeaWebsite.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<bool>("IsAvailable")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<string>("ToppingName")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("ToppingPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -979,43 +1206,43 @@ namespace MilkTeaWebsite.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastLoginAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("RoleId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 

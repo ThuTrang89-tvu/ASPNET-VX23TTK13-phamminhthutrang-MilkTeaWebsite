@@ -33,18 +33,18 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// Configure DbContext with PostgreSQL
+// Configure DbContext with SQL Server
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseNpgsql(connectionString, npgsqlOptions =>
+    options.UseSqlServer(connectionString, sqlServerOptions =>
     {
-        npgsqlOptions.EnableRetryOnFailure(
+        sqlServerOptions.EnableRetryOnFailure(
             maxRetryCount: 5,
             maxRetryDelay: TimeSpan.FromSeconds(30),
-            errorCodesToAdd: null
+            errorNumbersToAdd: null
         );
-        npgsqlOptions.CommandTimeout(60);
+        sqlServerOptions.CommandTimeout(60);
     });
     
     // Enable sensitive data logging in development
